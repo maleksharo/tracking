@@ -60,38 +60,3 @@ class ApiResponse<T> extends Equatable {
   List<Object?> get props => [response];
 }
 
-//
-// @JsonSerializable(genericArgumentFactories: true, includeIfNull: true)
-// class ApiResponse<T> extends Equatable {
-//   @JsonKey(defaultValue: null)
-//   final T? data;
-//
-//   final ApiResponseMetaData metaData;
-//
-//   const ApiResponse({
-//     required this.data,
-//     required this.metaData,
-//   });
-//
-//   const ApiResponse.data({
-//     required this.data,
-//   }) : metaData = const ApiResponseMetaData(
-//           status: -1,
-//           key: "",
-//           message: "",
-//         );
-//
-//   factory ApiResponse.fromJson(
-//     Map<String, dynamic> json,
-//     T Function(Object? json) fromJsonT,
-//   ) =>
-//       _$ApiResponseFromJson(json, fromJsonT);
-//
-//   Map<String, dynamic> toJson(
-//     Object Function(T value) toJsonT,
-//   ) =>
-//       _$ApiResponseToJson(this, toJsonT);
-//
-//   @override
-//   List<Object?> get props => [data, metaData];
-// }

@@ -9,7 +9,7 @@ class SecondaryButton extends StatelessWidget {
     this.icon,
     this.text,
     this.isOutLine = false,
-    this.borderRadius = 58,
+    this.borderRadius = 8,
     this.width,
     this.height,
     this.textColor,

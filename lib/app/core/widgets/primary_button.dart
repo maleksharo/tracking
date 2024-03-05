@@ -10,7 +10,7 @@ class PrimaryButton extends StatelessWidget {
     this.icon,
     this.text,
     this.isLight = false,
-    this.borderRadius = 58,
+    this.borderRadius = 8,
     this.width,
     this.height,
     this.textColor,

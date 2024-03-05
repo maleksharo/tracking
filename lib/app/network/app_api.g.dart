@@ -49,6 +49,178 @@ class _AppServiceClient implements AppServiceClient {
     return value;
   }
 
+  @override
+  Future<Result<CarsDataModel>> getCarsData(
+      {required Params<NoParams> params}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(params.toJson((value) => value.toJson()));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Result<CarsDataModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/vehicles',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Result<CarsDataModel>.fromJson(
+      _result.data!,
+      (json) => CarsDataModel.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<Result<List<CompanyVehiclesModel>>> getCompanyVehicles(
+      {required Params<NoParams> params}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(params.toJson((value) => value.toJson()));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Result<List<CompanyVehiclesModel>>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/company/vehicle',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Result<List<CompanyVehiclesModel>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<CompanyVehiclesModel>((i) =>
+                  CompanyVehiclesModel.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<Result<RecordsVehicleRoutesModel>> getTripInfo({
+    required Params<TripParams> params,
+    required int tracCarDeviceId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(params.toJson((value) => value.toJson()));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Result<RecordsVehicleRoutesModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '${tracCarDeviceId}/vehicle-routes/',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Result<RecordsVehicleRoutesModel>.fromJson(
+      _result.data!,
+      (json) =>
+          RecordsVehicleRoutesModel.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<Result<RecordsCarLocationModel>> getCarLocation({
+    required Params<NoParams> params,
+    required int tracCarDeviceId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(params.toJson((value) => value.toJson()));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Result<RecordsCarLocationModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '${tracCarDeviceId}/last-route',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Result<RecordsCarLocationModel>.fromJson(
+      _result.data!,
+      (json) => RecordsCarLocationModel.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<Result<RecordsVehicleTripsModel>> getCarTripRoute({
+    required Params<TripParams> params,
+    required int tracCarDeviceId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(params.toJson((value) => value.toJson()));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Result<RecordsVehicleTripsModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '${tracCarDeviceId}/vehicle-routes/',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Result<RecordsVehicleTripsModel>.fromJson(
+      _result.data!,
+      (json) => RecordsVehicleTripsModel.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

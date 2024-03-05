@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'no_params.g.dart';
 
-@JsonSerializable(genericArgumentFactories: true, includeIfNull: true, fieldRename: FieldRename.snake)
+@JsonSerializable()
 class NoParams {
   const NoParams();
 

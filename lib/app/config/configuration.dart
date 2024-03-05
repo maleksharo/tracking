@@ -7,17 +7,17 @@ abstract class Configuration {
 @LazySingleton(as: Configuration, env: [Environment.dev])
 class DevConfiguration extends Configuration {
   @override
-  String get getBaseUrl => 'https://togetzr.com/api';
+  String get getBaseUrl => 'https://test.itieit.com/api';
 }
 
 @LazySingleton(as: Configuration, env: [Environment.test])
 class StagingConfiguration extends Configuration {
   @override
-  String get getBaseUrl => 'https://togetzr.com/api';
+  String get getBaseUrl => 'https://test.itieit.com/api';
 }
 
 @LazySingleton(as: Configuration, env: [Environment.prod])
 class ProductionConfiguration extends Configuration {
   @override
-  String get getBaseUrl => 'https://togetzr.com/api';
+  String get getBaseUrl => 'https://test.itieit.com/api';
 }

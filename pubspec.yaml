@@ -38,11 +38,15 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   dropdown_button2: ^2.3.9
   image_picker: ^1.0.7
-
+  getwidget: ^4.0.0
+  flutter_polyline_points: ^2.0.0
+  linked_scroll_controller: ^0.2.0
+  flutter_map: ^6.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  analyzer: ^6.4.1
   flutter_lints: ^3.0.1
   build_runner: ^2.4.8
   retrofit_generator: ^8.1.0
