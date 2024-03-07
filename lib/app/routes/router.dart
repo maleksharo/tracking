@@ -13,7 +13,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: SplashRoute.page, initial: true),
         AutoRoute(page: LoginRoute.page),
     /// Here auth guard will be run before joining the page
-        // AutoRoute(page: AllImportsRoute.page ,guards: [getIt<AuthGuard>()]),
-        // AutoRoute(page: ImportRoute.page),
+        AutoRoute(page: HomeRoute.page ,guards: [getIt<AuthGuard>()]),
       ];
 }

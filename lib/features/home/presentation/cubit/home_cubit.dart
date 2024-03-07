@@ -60,7 +60,7 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  Future<void> getCarsDataRoute({required int tracCarDeviceId, required TripParams tripParams}) async {
+  Future<void> getCarsData() async {
     emit(GetCarsDataLoadingState());
     (await getCarsDataUseCase.execute(Void)).fold(
       (l) {
@@ -72,7 +72,7 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  Future<void> getCompanyVehicles({required int tracCarDeviceId, required TripParams tripParams}) async {
+  Future<void> getCompanyVehicles() async {
     emit(GetCompanyVehiclesLoadingState());
     (await getCompanyVehiclesUseCase.execute(Void)).fold(
       (l) {

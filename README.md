@@ -55,3 +55,5 @@ rename setAppName --targets ios,android --value "Itieit Tracking"
 ```shell
 rename setBundleId --targets ios,android --value "com.itieit.tracking"
 ```
+test1@itieit.com
+P@ssw0rd

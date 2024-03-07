@@ -30,7 +30,7 @@ abstract class AppServiceClient {
   );
 
   @POST("/vehicles")
-  Future<Result<CarsDataModel>> getCarsData({
+  Future<Result<RecordsCarsDataModel>> getCarsData({
     @Body() required Params<NoParams> params,
   });
 

@@ -9,7 +9,7 @@ import 'package:tracking/features/home/presentation/trips_params.dart';
 
 
 abstract class HomeRepository {
-  Future<Either<ErrorEntity,CarsDataEntity>> getCarsData();
+  Future<Either<ErrorEntity,RecordsCarsDataEntity>> getCarsData();
 
   Future<Either<ErrorEntity,List<CompanyVehiclesEntity>>> getCompanyVehicles();
 

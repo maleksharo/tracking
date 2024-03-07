@@ -55,7 +55,7 @@ class HomeRepositoryImpl extends HomeRepository {
   }
 
   @override
-  Future<Either<ErrorEntity, CarsDataEntity>> getCarsData() async {
+  Future<Either<ErrorEntity, RecordsCarsDataEntity>> getCarsData() async {
     try {
       final response = await homeRemoteDataSource.getCarsData();
       if (response.result?.success == true) {

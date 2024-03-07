@@ -181,8 +181,7 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
         email: form.controllers[0].text,
         password: form.controllers[1].text,
       );
-      /// Todo navigate to home map page
-      // context.router.replace(const AllImportsRoute());
+      context.router.replace(const HomeRoute());
     }
   }
 

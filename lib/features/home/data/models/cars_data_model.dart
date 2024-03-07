@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:tracking/app/extensions.dart';
 import 'package:tracking/features/home/domain/entities/cars_data_entity.dart';
@@ -30,8 +32,8 @@ class CarsDataModel {
   final int? deviceId;
   final String? deviceName;
   final dynamic licensePlate;
-  final LocationModel? locationModel;
-  final DriverModel? driverModel;
+  final LocationModel? location;
+  final DriverModel? driverId;
   final String? status;
   final String? lastUpdate;
   final dynamic workingDaysFrom;
@@ -40,30 +42,32 @@ class CarsDataModel {
   final String? workTo;
   final String? breakBetFrom;
   final String? breakBetTo;
-  final String? breakDuration;
+  final int? breakDuration;
 
-  CarsDataModel(
-      {required this.deviceId,
-      required this.deviceName,
-      required this.licensePlate,
-      required this.locationModel,
-      required this.driverModel,
-      required this.status,
-      required this.lastUpdate,
-      required this.workingDaysFrom,
-      required this.workingDaysTo,
-      required this.workFrom,
-      required this.workTo,
-      required this.breakBetFrom,
-      required this.breakBetTo,
-      required this.breakDuration});
+  CarsDataModel({
+    required this.deviceId,
+    required this.deviceName,
+    required this.licensePlate,
+    required this.location,
+    required this.driverId,
+    required this.status,
+    required this.lastUpdate,
+    required this.workingDaysFrom,
+    required this.workingDaysTo,
+    required this.workFrom,
+    required this.workTo,
+    required this.breakBetFrom,
+    required this.breakBetTo,
+    required this.breakDuration,
+  });
 
-  CarsDataEntity toEntity() => CarsDataEntity(
-        deviceId: deviceId.orZero(),
+  CarsDataEntity toEntity() {
+    return CarsDataEntity(
+    deviceId: deviceId.orZero(),
         deviceName: deviceName.orEmpty(),
         licensePlate: licensePlate,
-        locationEntity: locationModel!.toEntity(),
-        driverEntity: driverModel!.toEntity(),
+        locationEntity: location!.toEntity(),
+        driverEntity: driverId!.toEntity(),
         status: status.orEmpty(),
         lastUpdate: lastUpdate.orEmpty(),
         workingDaysFrom: workingDaysFrom,
@@ -72,16 +76,17 @@ class CarsDataModel {
         workTo: workTo.orEmpty(),
         breakBetFrom: breakBetFrom.orEmpty(),
         breakBetTo: breakBetTo.orEmpty(),
-        breakDuration: breakDuration.orEmpty(),
+        breakDuration: breakDuration.orZero(),
       );
+  }
 
   factory CarsDataModel.fromEntity(CarsDataEntity carsDataEntity) {
     return CarsDataModel(
       deviceId: carsDataEntity.deviceId.orZero(),
       deviceName: carsDataEntity.deviceName.orEmpty(),
       licensePlate: carsDataEntity.licensePlate,
-      locationModel: LocationModel.fromEntity(carsDataEntity.locationEntity),
-      driverModel: DriverModel.fromEntity(carsDataEntity.driverEntity),
+      location: LocationModel.fromEntity(carsDataEntity.locationEntity),
+      driverId: DriverModel.fromEntity(carsDataEntity.driverEntity),
       status: carsDataEntity.status.orEmpty(),
       lastUpdate: carsDataEntity.lastUpdate.orEmpty(),
       workingDaysFrom: carsDataEntity.workingDaysFrom,
@@ -90,7 +95,7 @@ class CarsDataModel {
       workTo: carsDataEntity.workTo.orEmpty(),
       breakBetFrom: carsDataEntity.breakBetFrom.orEmpty(),
       breakBetTo: carsDataEntity.breakBetTo.orEmpty(),
-      breakDuration: carsDataEntity.breakDuration.orEmpty(),
+      breakDuration: carsDataEntity.breakDuration.orZero(),
     );
   }
 

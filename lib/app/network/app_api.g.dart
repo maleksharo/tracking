@@ -50,7 +50,7 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<Result<CarsDataModel>> getCarsData(
+  Future<Result<RecordsCarsDataModel>> getCarsData(
       {required Params<NoParams> params}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -58,7 +58,7 @@ class _AppServiceClient implements AppServiceClient {
     final _data = <String, dynamic>{};
     _data.addAll(params.toJson((value) => value.toJson()));
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Result<CarsDataModel>>(Options(
+        _setStreamType<Result<RecordsCarsDataModel>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -74,9 +74,9 @@ class _AppServiceClient implements AppServiceClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = Result<CarsDataModel>.fromJson(
+    final value = Result<RecordsCarsDataModel>.fromJson(
       _result.data!,
-      (json) => CarsDataModel.fromJson(json as Map<String, dynamic>),
+      (json) => RecordsCarsDataModel.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }

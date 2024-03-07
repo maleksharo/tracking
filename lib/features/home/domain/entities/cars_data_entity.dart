@@ -23,7 +23,7 @@ class CarsDataEntity extends Entity {
   final String workTo;
   final String breakBetFrom;
   final String breakBetTo;
-  final String breakDuration;
+  final int breakDuration;
 
   CarsDataEntity({
     required this.deviceId,

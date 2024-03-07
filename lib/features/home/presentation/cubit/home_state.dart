@@ -35,7 +35,7 @@ class GetCarTripRouteFailedState extends HomeState {
 
 ///
 class GetCarsDataSuccessState extends HomeState {
-  final CarsDataEntity carsDataEntity;
+  final RecordsCarsDataEntity carsDataEntity;
 
   GetCarsDataSuccessState({required this.carsDataEntity});
 }

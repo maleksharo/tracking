@@ -11,7 +11,7 @@ import 'package:tracking/features/home/data/models/vehicle_trips_model.dart';
 import 'package:tracking/features/home/presentation/trips_params.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<Result<CarsDataModel>> getCarsData();
+  Future<Result<RecordsCarsDataModel>> getCarsData();
 
   Future<Result<List<CompanyVehiclesModel>>> getCompanyVehicles();
 
@@ -51,7 +51,7 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   }
 
   @override
-  Future<Result<CarsDataModel>> getCarsData() async {
+  Future<Result<RecordsCarsDataModel>> getCarsData() async {
     return await client.getCarsData(params: const Params(params: NoParams()));
   }
 

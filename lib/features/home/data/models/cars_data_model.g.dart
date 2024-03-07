@@ -25,13 +25,12 @@ CarsDataModel _$CarsDataModelFromJson(Map<String, dynamic> json) =>
       deviceId: json['device_id'] as int?,
       deviceName: json['device_name'] as String?,
       licensePlate: json['license_plate'],
-      locationModel: json['location_model'] == null
+      location: json['location'] == null
           ? null
-          : LocationModel.fromJson(
-              json['location_model'] as Map<String, dynamic>),
-      driverModel: json['driver_model'] == null
+          : LocationModel.fromJson(json['location'] as Map<String, dynamic>),
+      driverId: json['driver_id'] == null
           ? null
-          : DriverModel.fromJson(json['driver_model'] as Map<String, dynamic>),
+          : DriverModel.fromJson(json['driver_id'] as Map<String, dynamic>),
       status: json['status'] as String?,
       lastUpdate: json['last_update'] as String?,
       workingDaysFrom: json['working_days_from'],
@@ -40,7 +39,7 @@ CarsDataModel _$CarsDataModelFromJson(Map<String, dynamic> json) =>
       workTo: json['work_to'] as String?,
       breakBetFrom: json['break_bet_from'] as String?,
       breakBetTo: json['break_bet_to'] as String?,
-      breakDuration: json['break_duration'] as String?,
+      breakDuration: json['break_duration'] as int?,
     );
 
 Map<String, dynamic> _$CarsDataModelToJson(CarsDataModel instance) =>
@@ -48,8 +47,8 @@ Map<String, dynamic> _$CarsDataModelToJson(CarsDataModel instance) =>
       'device_id': instance.deviceId,
       'device_name': instance.deviceName,
       'license_plate': instance.licensePlate,
-      'location_model': instance.locationModel,
-      'driver_model': instance.driverModel,
+      'location': instance.location,
+      'driver_id': instance.driverId,
       'status': instance.status,
       'last_update': instance.lastUpdate,
       'working_days_from': instance.workingDaysFrom,

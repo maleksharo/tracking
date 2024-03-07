@@ -37,8 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
         return Future.delayed(const Duration(seconds: 1));
       },
     ).whenComplete(() {
-      /// Todo navigate to map page
-      context.router.replace(const LoginRoute());
+      context.router.replace(const HomeRoute());
     });
   }
 
