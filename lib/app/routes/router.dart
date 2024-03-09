@@ -12,7 +12,8 @@ class AppRouter extends $AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(page: SplashRoute.page, initial: true),
         AutoRoute(page: LoginRoute.page),
-    /// Here auth guard will be run before joining the page
-        AutoRoute(page: HomeRoute.page ,guards: [getIt<AuthGuard>()]),
+        AutoRoute(page: HomeRoute.page, guards: [getIt<AuthGuard>()]),
+        AutoRoute(page: VehiclesRoute.page),
+        AutoRoute(page: SettingsRoute.page),
       ];
 }

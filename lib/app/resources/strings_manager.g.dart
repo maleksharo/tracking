@@ -35,18 +35,22 @@ abstract class  LocaleKeys {
   static const register = 'register';
   static const forgetPassword = 'forgetPassword';
   static const canNotOpenBrowser = 'canNotOpenBrowser';
-  static const allImports = 'allImports';
   static const selectDate = 'selectDate';
-  static const addRow = 'addRow';
-  static const save = 'save';
-  static const addImage = 'addImage';
-  static const selectImageSource = 'selectImageSource';
-  static const camera = 'camera';
-  static const gallery = 'gallery';
-  static const deleteImage = 'deleteImage';
-  static const notSaved = 'notSaved';
   static const askingToLogout = 'askingToLogout';
   static const search = 'search';
   static const all = 'all';
+  static const carInfo = 'carInfo';
+  static const driverName = 'driverName';
+  static const lastUpdate = 'lastUpdate';
+  static const status = 'status';
+  static const deviceName = 'deviceName';
+  static const breakDuration = 'breakDuration';
+  static const workFrom = 'workFrom';
+  static const workTo = 'workTo';
+  static const reports = 'reports';
+  static const setting = 'setting';
+  static const logout = 'logout';
+  static const vehicles = 'vehicles';
+  static const home = 'home';
 
 }

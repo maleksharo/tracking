@@ -36,16 +36,32 @@ class GetCarTripRouteFailedState extends HomeState {
 ///
 class GetCarsDataSuccessState extends HomeState {
   final RecordsCarsDataEntity carsDataEntity;
+  final bool firstTime;
+  final bool homeSource;
 
-  GetCarsDataSuccessState({required this.carsDataEntity});
+  GetCarsDataSuccessState({
+    required this.homeSource,
+    required this.carsDataEntity,
+    required this.firstTime,
+  });
 }
 
-class GetCarsDataLoadingState extends HomeState {}
+class GetCarsDataLoadingState extends HomeState {
+  final bool firstTime;
+
+  GetCarsDataLoadingState({required this.firstTime});
+}
 
 class GetCarsDataFailedState extends HomeState {
   final String message;
 
   GetCarsDataFailedState({required this.message});
+}
+
+class MoveToCarLocation extends HomeState {
+  final LatLng latLng;
+
+  MoveToCarLocation({required this.latLng});
 }
 
 ///

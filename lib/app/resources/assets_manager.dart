@@ -6,6 +6,15 @@ const String iconPath = "assets/icons/";
 class ImageManager {
   static const String splashLogo = "${imagePath}splash_logo.png";
   static const String appLogo = "${imagePath}logo.png";
+  /// Map markers images
+  static const String blueCar = "${imagePath}blue_car.png";
+  static const String greenCar = "${imagePath}green_car.png";
+  static const String greyCar = "${imagePath}grey_car.png";
+  static const String redCar = "${imagePath}red_car.png";
+  static const String greenFlag = "${imagePath}green_flag.png";
+  static const String redFlag = "${imagePath}red_flag.png";
+  static const String placeHolder = "${imagePath}placeholder.png";
+  static const String purpleCar = "${imagePath}purple_car.png";
 }
 
 class SvgManager {

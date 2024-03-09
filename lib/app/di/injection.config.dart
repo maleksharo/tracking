@@ -54,9 +54,9 @@ import 'package:tracking/features/home/domain/usecases/get_trip_info_usecase.dar
 import 'package:tracking/features/home/presentation/cubit/home_cubit.dart'
     as _i26;
 
-const String _dev = 'dev';
 const String _test = 'test';
 const String _prod = 'prod';
+const String _dev = 'dev';
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -76,12 +76,12 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i6.AuthInterceptor>(
         () => _i6.AuthInterceptor(gh<_i3.AppPreferences>()));
     gh.lazySingleton<_i7.Configuration>(
-      () => _i7.ProductionConfiguration(),
-      registerFor: {_prod},
-    );
-    gh.lazySingleton<_i7.Configuration>(
       () => _i7.StagingConfiguration(),
       registerFor: {_test},
+    );
+    gh.lazySingleton<_i7.Configuration>(
+      () => _i7.ProductionConfiguration(),
+      registerFor: {_prod},
     );
     gh.lazySingleton<_i7.Configuration>(
       () => _i7.DevConfiguration(),
@@ -124,12 +124,13 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i24.GetTripInfoUseCase(gh<_i13.HomeRepository>()));
     gh.factory<_i25.GetUserInfoUseCase>(
         () => _i25.GetUserInfoUseCase(gh<_i16.LoginRepository>()));
-    gh.factory<_i26.HomeCubit>(() => _i26.HomeCubit(
+    gh.lazySingleton<_i26.HomeCubit>(() => _i26.HomeCubit(
           gh<_i20.GetCarLocationUseCase>(),
           gh<_i21.GetCarTripRouteUseCase>(),
           gh<_i22.GetCarsDataUseCase>(),
           gh<_i23.GetCompanyVehiclesUseCase>(),
           gh<_i24.GetTripInfoUseCase>(),
+          gh<_i3.AppPreferences>(),
         ));
     gh.factory<_i27.AuthCubit>(() => _i27.AuthCubit(
           getUserInfoUseCase: gh<_i25.GetUserInfoUseCase>(),

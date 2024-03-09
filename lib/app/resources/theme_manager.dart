@@ -134,10 +134,10 @@ ThemeData getApplicationTheme() {
       ),
     ),
     scaffoldBackgroundColor: ColorManager.offWhite,
-    iconTheme: IconThemeData(color: ColorManager.primary),
+    iconTheme: IconThemeData(color: ColorManager.white),
     iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
-          iconColor: MaterialStateProperty.all(ColorManager.primary),
+          iconColor: MaterialStateProperty.all(ColorManager.white),
         )),
     scrollbarTheme: const ScrollbarThemeData().copyWith(
       thumbColor: MaterialStateProperty.all(ColorManager.lightGrey),

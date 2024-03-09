@@ -58,8 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   height: _imageHeight,
                   child: Hero(tag: ImageManager.splashLogo, child: Image.asset(ImageManager.splashLogo)),
                 ),
-                // SizedBox(height: 32.h),
-                // Text(LocaleKeys.welcomeToTogether.tr(), style: Theme.of(context).textTheme.displayMedium),
+
               ],
             );
           },
