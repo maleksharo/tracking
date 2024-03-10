@@ -19,9 +19,9 @@ class HomeRepositoryImpl extends HomeRepository {
   HomeRepositoryImpl(this.homeRemoteDataSource);
 
   @override
-  Future<Either<ErrorEntity, RecordsCarLocationEntity>> getCarLocation({required int tracCarDeviceId}) async {
+  Future<Either<ErrorEntity, RecordsCarLocationEntity>> getVehicleLastOneHourRoute({required int tracCarDeviceId}) async {
     try {
-      final response = await homeRemoteDataSource.getCarLocation(tracCarDeviceId: tracCarDeviceId);
+      final response = await homeRemoteDataSource.getVehicleLastOneHourRoute(tracCarDeviceId: tracCarDeviceId);
       if (response.result?.success == true) {
         return Right(response.result!.response!.toEntity());
       } else {
@@ -35,13 +35,13 @@ class HomeRepositoryImpl extends HomeRepository {
   }
 
   @override
-  Future<Either<ErrorEntity, RecordsVehicleTripsEntity>> getCarTripRoute({
+  Future<Either<ErrorEntity, RecordsVehicleTripsEntity>> getVehicleTripsBetweenTwoTime({
     required int tracCarDeviceId,
     required TripParams tripParams,
   }) async {
     try {
       final response =
-          await homeRemoteDataSource.getCarTripRoute(tracCarDeviceId: tracCarDeviceId, tripParams: tripParams);
+          await homeRemoteDataSource.getVehicleTripsBetweenTwoTime(tracCarDeviceId: tracCarDeviceId, tripParams: tripParams);
       if (response.result?.success == true) {
         return Right(response.result!.response!.toEntity());
       } else {
@@ -55,9 +55,9 @@ class HomeRepositoryImpl extends HomeRepository {
   }
 
   @override
-  Future<Either<ErrorEntity, RecordsCarsDataEntity>> getCarsData() async {
+  Future<Either<ErrorEntity, RecordsCarsDataEntity>> getVehiclesData() async {
     try {
-      final response = await homeRemoteDataSource.getCarsData();
+      final response = await homeRemoteDataSource.getVehiclesData();
       if (response.result?.success == true) {
         return Right(response.result!.response!.toEntity());
       } else {
@@ -70,29 +70,15 @@ class HomeRepositoryImpl extends HomeRepository {
     }
   }
 
-  @override
-  Future<Either<ErrorEntity, List<CompanyVehiclesEntity>>> getCompanyVehicles() async {
-    try {
-      final response = await homeRemoteDataSource.getCompanyVehicles();
-      if (response.result?.success == true) {
-        return Right(response.result!.response!.map((e) => e.toEntity()).toList());
-      } else {
-        return Left(ErrorEntity(
-          errorMessage: response.result?.message,
-        ));
-      }
-    } on DioException catch (e) {
-      return Left(ErrorEntity.fromException(e.convertToAppException()));
-    }
-  }
+
 
   @override
-  Future<Either<ErrorEntity, RecordsVehicleRoutesEntity>> getTripInfo({
+  Future<Either<ErrorEntity, RecordsVehicleRoutesEntity>> getVehicleRoutesBetweenTwoTimes({
     required TripParams tripParams,
     required int tracCarDeviceId,
   }) async {
     try {
-      final response = await homeRemoteDataSource.getTripInfo(
+      final response = await homeRemoteDataSource.getVehicleRoutesBetweenTwoTimes(
         tracCarDeviceId: tracCarDeviceId,
         tripParams: tripParams,
       );

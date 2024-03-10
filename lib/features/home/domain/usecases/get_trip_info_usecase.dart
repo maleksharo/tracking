@@ -16,7 +16,7 @@ class GetTripInfoUseCase
 
   @override
   Future<Either<ErrorEntity, RecordsVehicleRoutesEntity>> execute(GetTripInfoUseCaseParams input) async {
-    return await _repository.getTripInfo(
+    return await _repository.getVehicleRoutesBetweenTwoTimes(
       tracCarDeviceId: input.tracCarDeviceId,
       tripParams: input.tripParams,
     );

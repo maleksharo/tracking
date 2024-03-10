@@ -13,7 +13,7 @@ class GetCarLocationUseCase extends BaseUseCase<int, Either<ErrorEntity, Records
 
   @override
   Future<Either<ErrorEntity, RecordsCarLocationEntity>> execute(int input) async {
-    return await _repository.getCarLocation(tracCarDeviceId: input);
+    return await _repository.getVehicleLastOneHourRoute(tracCarDeviceId: input);
   }
 
   @override

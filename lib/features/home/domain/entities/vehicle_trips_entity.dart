@@ -20,7 +20,7 @@ class VehicleTripsEntity extends Entity {
   final double duration;
   final double distance;
   final String startAddress;
-  final dynamic endAddress;
+  final String endAddress;
 
   VehicleTripsEntity(
       {required this.startTime,

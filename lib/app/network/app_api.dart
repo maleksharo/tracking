@@ -30,29 +30,25 @@ abstract class AppServiceClient {
   );
 
   @POST("/vehicles")
-  Future<Result<RecordsCarsDataModel>> getCarsData({
+  Future<Result<RecordsCarsDataModel>> getVehiclesData({
     @Body() required Params<NoParams> params,
   });
 
-  @POST("/company/vehicle")
-  Future<Result<List<CompanyVehiclesModel>>> getCompanyVehicles({
-    @Body() required Params<NoParams> params,
-  });
 
   @POST("/{tracCarDeviceId}/vehicle-routes/")
-  Future<Result<RecordsVehicleRoutesModel>> getTripInfo({
+  Future<Result<RecordsVehicleRoutesModel>> getVehicleRoutesBetweenTwoTimes({
     @Body() required Params<TripParams> params,
     @Path() required int tracCarDeviceId,
   });
 
   @POST("/{tracCarDeviceId}/last-route")
-  Future<Result<RecordsCarLocationModel>> getCarLocation({
+  Future<Result<RecordsCarLocationModel>> getVehicleLastOneHourRoute({
     @Body() required Params<NoParams> params,
     @Path() required int tracCarDeviceId,
   });
 
-  @POST("/{tracCarDeviceId}/vehicle-routes/")
-  Future<Result<RecordsVehicleTripsModel>> getCarTripRoute({
+  @POST("/{tracCarDeviceId}/vehicle-trips/")
+  Future<Result<RecordsVehicleTripsModel>> getVehicleTripsBetweenTwoTime({
     @Body() required Params<TripParams> params,
     @Path() required int tracCarDeviceId,
   });

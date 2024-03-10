@@ -25,7 +25,7 @@ class RecordsVehicleTripsModel {
   Map<String, dynamic> toJson() => _$RecordsVehicleTripsModelToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.none)
 class VehicleTripsModel {
   final String? startTime;
   final String? endTime;
@@ -36,7 +36,7 @@ class VehicleTripsModel {
   final double? endLon;
   final double? duration;
   final double? distance;
-  final String? startAddress;
+  final dynamic startAddress;
   final dynamic endAddress;
 
   VehicleTripsModel(
@@ -62,8 +62,8 @@ class VehicleTripsModel {
         endLon: endLon.orZero(),
         duration: duration.orZero(),
         distance: distance.orZero(),
-        startAddress: startAddress.orEmpty(),
-        endAddress: endAddress,
+        startAddress: startAddress ?? "",
+        endAddress: endAddress ?? "",
       );
 
   factory VehicleTripsModel.fromEntity(VehicleTripsEntity vehicleTripsEntity) {

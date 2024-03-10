@@ -13,7 +13,7 @@ class GetCarsDataUseCase extends BaseUseCase<void, Either<ErrorEntity, RecordsCa
 
   @override
   Future<Either<ErrorEntity, RecordsCarsDataEntity>> execute(void input) async {
-    return await _repository.getCarsData();
+    return await _repository.getVehiclesData();
   }
 
   @override

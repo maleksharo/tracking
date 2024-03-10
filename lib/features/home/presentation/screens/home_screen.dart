@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    homeCubit.getCarsData(firstTime: true);
+    homeCubit.getVehiclesData(firstTime: true);
   }
 
   @override
@@ -67,6 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
               }
               if(state is GetCarLocationSuccessState){
                 context.router.pop();
+                if (state.recordsCarLocationEntity.carLocations.isEmpty) {
+                  Fluttertoast.showToast(msg: LocaleKeys.noRouteFound.tr());
+                }
               }
               if (state is GetCarsDataSuccessState) {
                 carsList.clear();
@@ -91,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: ErrorView(
                     onRetry: () {
-                      homeCubit.getCarsData();
+                      homeCubit.getVehiclesData();
                     },
                     errorMsg: state.message,
                   ),

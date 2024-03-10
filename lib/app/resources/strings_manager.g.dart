@@ -54,5 +54,12 @@ abstract class  LocaleKeys {
   static const home = 'home';
   static const language = 'language';
   static const showLastRoute = 'showLastRoute';
+  static const startTime = 'startTime';
+  static const endTime = 'endTime';
+  static const tripReport = 'tripReport';
+  static const duration = 'duration';
+  static const distance = 'distance';
+  static const startAddress = 'startAddress';
+  static const endAddress = 'endAddress';
 
 }

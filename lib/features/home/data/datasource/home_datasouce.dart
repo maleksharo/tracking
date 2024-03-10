@@ -5,24 +5,21 @@ import 'package:tracking/app/core/models/api_response.dart';
 import 'package:tracking/app/network/app_api.dart';
 import 'package:tracking/features/home/data/models/car_location_model.dart';
 import 'package:tracking/features/home/data/models/cars_data_model.dart';
-import 'package:tracking/features/home/data/models/company_vehicles_model.dart';
 import 'package:tracking/features/home/data/models/vehicle_routes_model.dart';
 import 'package:tracking/features/home/data/models/vehicle_trips_model.dart';
 import 'package:tracking/features/home/presentation/trips_params.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<Result<RecordsCarsDataModel>> getCarsData();
+  Future<Result<RecordsCarsDataModel>> getVehiclesData();
 
-  Future<Result<List<CompanyVehiclesModel>>> getCompanyVehicles();
-
-  Future<Result<RecordsVehicleRoutesModel>> getTripInfo({
+  Future<Result<RecordsVehicleRoutesModel>> getVehicleRoutesBetweenTwoTimes({
     required TripParams tripParams,
     required int tracCarDeviceId,
   });
 
-  Future<Result<RecordsCarLocationModel>> getCarLocation({required int tracCarDeviceId});
+  Future<Result<RecordsCarLocationModel>> getVehicleLastOneHourRoute({required int tracCarDeviceId});
 
-  Future<Result<RecordsVehicleTripsModel>> getCarTripRoute({
+  Future<Result<RecordsVehicleTripsModel>> getVehicleTripsBetweenTwoTime({
     required int tracCarDeviceId,
     required TripParams tripParams,
   });
@@ -35,37 +32,33 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   HomeRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<Result<RecordsCarLocationModel>> getCarLocation({required int tracCarDeviceId}) async {
-    return await client.getCarLocation(params: const Params(params: NoParams()), tracCarDeviceId: tracCarDeviceId);
+  Future<Result<RecordsCarLocationModel>> getVehicleLastOneHourRoute({required int tracCarDeviceId}) async {
+    return await client.getVehicleLastOneHourRoute(
+        params: const Params(params: NoParams()), tracCarDeviceId: tracCarDeviceId);
   }
 
   @override
-  Future<Result<RecordsVehicleTripsModel>> getCarTripRoute({
+  Future<Result<RecordsVehicleTripsModel>> getVehicleTripsBetweenTwoTime({
     required int tracCarDeviceId,
     required TripParams tripParams,
   }) async {
-    return await client.getCarTripRoute(
+    return await client.getVehicleTripsBetweenTwoTime(
       params: Params(params: tripParams),
       tracCarDeviceId: tracCarDeviceId,
     );
   }
 
   @override
-  Future<Result<RecordsCarsDataModel>> getCarsData() async {
-    return await client.getCarsData(params: const Params(params: NoParams()));
+  Future<Result<RecordsCarsDataModel>> getVehiclesData() async {
+    return await client.getVehiclesData(params: const Params(params: NoParams()));
   }
 
   @override
-  Future<Result<List<CompanyVehiclesModel>>> getCompanyVehicles() async {
-    return await client.getCompanyVehicles(params: const Params(params: NoParams()));
-  }
-
-  @override
-  Future<Result<RecordsVehicleRoutesModel>> getTripInfo({
+  Future<Result<RecordsVehicleRoutesModel>> getVehicleRoutesBetweenTwoTimes({
     required TripParams tripParams,
     required int tracCarDeviceId,
   }) async {
-    return await client.getTripInfo(
+    return await client.getVehicleRoutesBetweenTwoTimes(
       params: Params(params: tripParams),
       tracCarDeviceId: tracCarDeviceId,
     );

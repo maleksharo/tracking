@@ -19,7 +19,6 @@ import 'package:tracking/features/home/domain/entities/vehicle_trips_entity.dart
 import 'package:tracking/features/home/domain/usecases/get_car_location_usecase.dart';
 import 'package:tracking/features/home/domain/usecases/get_car_trip_route_usecase.dart';
 import 'package:tracking/features/home/domain/usecases/get_cars_data_usecase.dart';
-import 'package:tracking/features/home/domain/usecases/get_company_vehicles_usecase.dart';
 import 'package:tracking/features/home/domain/usecases/get_trip_info_usecase.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/car_info_dialog.dart';
 import 'package:tracking/features/home/presentation/trips_params.dart';
@@ -32,20 +31,23 @@ class HomeCubit extends Cubit<HomeState> {
     this.getCarLocationUseCase,
     this.getCarTripRouteUseCase,
     this.getCarsDataUseCase,
-    this.getCompanyVehiclesUseCase,
     this.getTripInfoUseCase,
     this.appPreferences,
   ) : super(HomeInitial());
   final GetCarLocationUseCase getCarLocationUseCase;
   final GetCarTripRouteUseCase getCarTripRouteUseCase;
   final GetCarsDataUseCase getCarsDataUseCase;
-  final GetCompanyVehiclesUseCase getCompanyVehiclesUseCase;
   final GetTripInfoUseCase getTripInfoUseCase;
   final AppPreferences appPreferences;
 
   List<CarLocationEntity> carLocationsRoute = [];
-  /// This api is for giving last trip for a specific car
-  Future<void> getCarLocation({required int tracCarDeviceId}) async {
+  TextEditingController fromTimeController = TextEditingController();
+  TextEditingController toTimeController = TextEditingController();
+  String fromTimeServer = "";
+  String toTimeServer = "";
+  int tracCarDeviceId = -1;
+  /// This api is for giving last one hour trip for a specific car
+  Future<void> getVehicleLastOneHourRoute({required int tracCarDeviceId}) async {
     emit(GetCarLocationLoadingState());
     (await getCarLocationUseCase.execute(tracCarDeviceId)).fold(
       (l) {
@@ -59,10 +61,12 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  Future<void> getCarTripRoute({required int tracCarDeviceId, required TripParams tripParams}) async {
+  /// This api will give me all vehicle trips between 2 times
+  Future<void> getVehicleTripsBetweenTwoTime() async {
+
     emit(GetCarTripRouteLoadingState());
     (await getCarTripRouteUseCase.execute(
-      GetTripInfoUseCaseParams(tripParams: tripParams, tracCarDeviceId: tracCarDeviceId),
+      GetTripInfoUseCaseParams(tripParams: TripParams(from: fromTimeServer, to: toTimeServer), tracCarDeviceId: tracCarDeviceId),
     ))
         .fold(
       (l) {
@@ -74,8 +78,8 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  /// This api is giving me all cars data related to the company
-  Future<void> getCarsData({bool firstTime = false, bool homeSource = true}) async {
+  /// This api is giving me all vehicles data
+  Future<void> getVehiclesData({bool firstTime = false, bool homeSource = true}) async {
     emit(GetCarsDataLoadingState(firstTime: firstTime));
     (await getCarsDataUseCase.execute(Void)).fold(
       (l) {
@@ -90,24 +94,14 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
-  /// Useless api just giving me the cars without any additional information
-  Future<void> getCompanyVehicles() async {
-    emit(GetCompanyVehiclesLoadingState());
-    (await getCompanyVehiclesUseCase.execute(Void)).fold(
-      (l) {
-        emit(GetCompanyVehiclesFailedState(message: l.errorMessage ?? LocaleKeys.defaultError.tr()));
-      },
-      (responseEntity) async {
-        emit(GetCompanyVehiclesSuccessState(companyVehicles: responseEntity));
-      },
-    );
-  }
-  /// This api will give me
-  Future<void> getTripInfo({required int tracCarDeviceId, required TripParams tripParams}) async {
+
+  /// This api will give me all vehicle routes between 2 times
+  Future<void> getVehicleRoutesBetweenTwoTimes({required int tracCarDeviceId}) async {
+
     emit(GetTripInfoLoadingState());
     (await getTripInfoUseCase.execute(GetTripInfoUseCaseParams(
       tracCarDeviceId: tracCarDeviceId,
-      tripParams: tripParams,
+      tripParams:  TripParams(from: fromTimeServer, to: toTimeServer),
     )))
         .fold(
       (l) {
@@ -154,7 +148,7 @@ class HomeCubit extends Cubit<HomeState> {
               context: context,
               entity: entity,
               onShowRoutePressed: (entity) {
-                getCarLocation(tracCarDeviceId: entity.deviceId);
+                getVehicleLastOneHourRoute(tracCarDeviceId: entity.deviceId);
               });
         },
         child: Image.asset(
@@ -184,7 +178,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> updateData() async {
     await Future.delayed(const Duration(seconds: 10)).then(
-      (value) async => await getCarsData(),
+          (value) async => await getVehiclesData(),
     );
   }
 

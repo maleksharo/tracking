@@ -50,7 +50,7 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<Result<RecordsCarsDataModel>> getCarsData(
+  Future<Result<RecordsCarsDataModel>> getVehiclesData(
       {required Params<NoParams> params}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -82,44 +82,7 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<Result<List<CompanyVehiclesModel>>> getCompanyVehicles(
-      {required Params<NoParams> params}) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(params.toJson((value) => value.toJson()));
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Result<List<CompanyVehiclesModel>>>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/company/vehicle',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = Result<List<CompanyVehiclesModel>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<CompanyVehiclesModel>((i) =>
-                  CompanyVehiclesModel.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
-    return value;
-  }
-
-  @override
-  Future<Result<RecordsVehicleRoutesModel>> getTripInfo({
+  Future<Result<RecordsVehicleRoutesModel>> getVehicleRoutesBetweenTwoTimes({
     required Params<TripParams> params,
     required int tracCarDeviceId,
   }) async {
@@ -154,7 +117,7 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<Result<RecordsCarLocationModel>> getCarLocation({
+  Future<Result<RecordsCarLocationModel>> getVehicleLastOneHourRoute({
     required Params<NoParams> params,
     required int tracCarDeviceId,
   }) async {
@@ -188,7 +151,7 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<Result<RecordsVehicleTripsModel>> getCarTripRoute({
+  Future<Result<RecordsVehicleTripsModel>> getVehicleTripsBetweenTwoTime({
     required Params<TripParams> params,
     required int tracCarDeviceId,
   }) async {
@@ -205,7 +168,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '/${tracCarDeviceId}/vehicle-routes/',
+              '/${tracCarDeviceId}/vehicle-trips/',
               queryParameters: queryParameters,
               data: _data,
             )

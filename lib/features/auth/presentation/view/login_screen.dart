@@ -90,7 +90,6 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
                           autoValidateMode: AutovalidateMode.onUserInteraction,
                           textInputAction: TextInputAction.done,
                           validator: FormBuilderValidators.compose([
-                            /// todo: update
                             FormBuilderValidators.minLength(
                               8,
                               errorText: LocaleKeys.passwordMustBe8Chars.tr(),

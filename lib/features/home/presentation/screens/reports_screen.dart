@@ -1,49 +1,39 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking/app/core/widgets/error_view.dart';
-import 'package:tracking/app/core/widgets/primary_button.dart';
 import 'package:tracking/app/di/injection.dart';
 import 'package:tracking/app/resources/color_manager.dart';
 import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/features/home/domain/entities/cars_data_entity.dart';
 import 'package:tracking/features/home/presentation/cubit/home_cubit.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/car_info_card.dart';
-import 'package:tracking/features/home/presentation/screens/widgets/report_sheet.dart';
 
 @RoutePage()
-class VehiclesScreen extends StatefulWidget {
-  const VehiclesScreen({super.key});
+class ReportsScreen extends StatefulWidget {
+  const ReportsScreen({super.key});
 
   @override
-  State<VehiclesScreen> createState() => _VehiclesScreenState();
+  State<ReportsScreen> createState() => _ReportsScreenState();
 }
 
-class _VehiclesScreenState extends State<VehiclesScreen> with TickerProviderStateMixin {
+class _ReportsScreenState extends State<ReportsScreen> {
   final homeCubit = getIt<HomeCubit>();
   List<CarsDataEntity> carsList = [];
-  late AnimationController controller;
 
   @override
   void initState() {
-    homeCubit.getVehiclesData(firstTime: true, homeSource: false);
-
-    controller = BottomSheet.createAnimationController(this);
-    controller.duration = const Duration(seconds: 1);
-    controller.reverseDuration = const Duration(seconds: 1);
-    controller.drive(CurveTween(curve: Curves.easeIn));
     super.initState();
+    homeCubit.getVehiclesData(firstTime: true,homeSource: false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocaleKeys.vehicles.tr()),
+        title: Text(LocaleKeys.reports.tr()),
       ),
       body: BlocConsumer(
         bloc: homeCubit,
@@ -78,27 +68,11 @@ class _VehiclesScreenState extends State<VehiclesScreen> with TickerProviderStat
             itemBuilder: (context, index) {
               return Card(
                 elevation: 3,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(8.0.sp),
-                      child: CarInfoCard(
-                        entity: carsList[index],
-                      ),
-                    ),
-                    PrimaryButton(
-                      width: 0.5.sw,
-                      text: LocaleKeys.tripReport.tr(),
-                      onPressed: () {
-                        homeCubit.tracCarDeviceId = carsList[index].deviceId;
-                        ReportsSheet.show(
-                          context: context,
-                          animationController: controller,
-                        );
-                      },
-                    ),
-                    10.verticalSpace,
-                  ],
+                child: Padding(
+                  padding:  EdgeInsets.all(8.0.sp),
+                  child: CarInfoCard(
+                    entity: carsList[index],
+                  ),
                 ),
               );
             },
