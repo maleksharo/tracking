@@ -39,13 +39,13 @@ class HomeDrawer extends StatelessWidget {
                   },
                 ),
                 20.verticalSpace,
-                PrimaryButton(
-                  text: LocaleKeys.reports.tr(),
-                  onPressed: () {
-                    /// TODO: Go to reports page
-                  },
-                ),
-                20.verticalSpace,
+                // PrimaryButton(
+                //   text: LocaleKeys.reports.tr(),
+                //   onPressed: () {
+                //     /// TODO: Go to reports page
+                //   },
+                // ),
+                // 20.verticalSpace,
                 PrimaryButton(
                   text: LocaleKeys.setting.tr(),
                   onPressed: () {
