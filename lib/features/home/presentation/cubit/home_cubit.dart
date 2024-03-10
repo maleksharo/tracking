@@ -43,6 +43,8 @@ class HomeCubit extends Cubit<HomeState> {
   final GetTripInfoUseCase getTripInfoUseCase;
   final AppPreferences appPreferences;
 
+  List<CarLocationEntity> carLocationsRoute = [];
+  /// This api is for giving last trip for a specific car
   Future<void> getCarLocation({required int tracCarDeviceId}) async {
     emit(GetCarLocationLoadingState());
     (await getCarLocationUseCase.execute(tracCarDeviceId)).fold(
@@ -50,6 +52,8 @@ class HomeCubit extends Cubit<HomeState> {
         emit(GetCarLocationFailedState(message: l.errorMessage ?? LocaleKeys.defaultError.tr()));
       },
       (responseEntity) async {
+        carLocationsRoute.clear();
+        carLocationsRoute.addAll(responseEntity.carLocations);
         emit(GetCarLocationSuccessState(recordsCarLocationEntity: responseEntity));
       },
     );
@@ -70,6 +74,7 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
+  /// This api is giving me all cars data related to the company
   Future<void> getCarsData({bool firstTime = false, bool homeSource = true}) async {
     emit(GetCarsDataLoadingState(firstTime: firstTime));
     (await getCarsDataUseCase.execute(Void)).fold(
@@ -85,7 +90,7 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
-
+  /// Useless api just giving me the cars without any additional information
   Future<void> getCompanyVehicles() async {
     emit(GetCompanyVehiclesLoadingState());
     (await getCompanyVehiclesUseCase.execute(Void)).fold(
@@ -97,7 +102,7 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
-
+  /// This api will give me
   Future<void> getTripInfo({required int tracCarDeviceId, required TripParams tripParams}) async {
     emit(GetTripInfoLoadingState());
     (await getTripInfoUseCase.execute(GetTripInfoUseCaseParams(
@@ -145,7 +150,12 @@ class HomeCubit extends Cubit<HomeState> {
               entity.locationEntity.longitude,
             ),
           ));
-          carInfoDialog(context: context, entity: entity);
+          carInfoDialog(
+              context: context,
+              entity: entity,
+              onShowRoutePressed: (entity) {
+                getCarLocation(tracCarDeviceId: entity.deviceId);
+              });
         },
         child: Image.asset(
           detectCarColorPath(carStatus: entity.status),

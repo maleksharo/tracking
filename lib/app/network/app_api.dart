@@ -39,19 +39,19 @@ abstract class AppServiceClient {
     @Body() required Params<NoParams> params,
   });
 
-  @POST("{tracCarDeviceId}/vehicle-routes/")
+  @POST("/{tracCarDeviceId}/vehicle-routes/")
   Future<Result<RecordsVehicleRoutesModel>> getTripInfo({
     @Body() required Params<TripParams> params,
     @Path() required int tracCarDeviceId,
   });
 
-  @POST("{tracCarDeviceId}/last-route")
+  @POST("/{tracCarDeviceId}/last-route")
   Future<Result<RecordsCarLocationModel>> getCarLocation({
     @Body() required Params<NoParams> params,
     @Path() required int tracCarDeviceId,
   });
 
-  @POST("{tracCarDeviceId}/vehicle-routes/")
+  @POST("/{tracCarDeviceId}/vehicle-routes/")
   Future<Result<RecordsVehicleTripsModel>> getCarTripRoute({
     @Body() required Params<TripParams> params,
     @Path() required int tracCarDeviceId,

@@ -48,24 +48,31 @@ class _HomeScreenState extends State<HomeScreen> {
         options: const MapOptions(
           initialCenter: LatLng(51.5, -0.09),
           initialZoom: 5,
+          initialRotation: 0,
           // onTap: (_, p) => setState(() => customMarkers.add(buildPin(p))),
           interactionOptions: InteractionOptions(
-            flags: ~InteractiveFlag.doubleTapZoom,
+            flags: ~InteractiveFlag.doubleTapDragZoom,
           ),
         ),
         children: [
           openStreetMapTileLayer,
           BlocConsumer(
             bloc: homeCubit,
-            listener: (context, state) {
+            listener: (context,  state) {
               if (state is GetCarsDataFailedState) {
                 Fluttertoast.showToast(msg: state.message);
+              }
+              if(state is GetCarLocationFailedState){
+                Fluttertoast.showToast(msg: state.message);
+              }
+              if(state is GetCarLocationSuccessState){
+                context.router.pop();
               }
               if (state is GetCarsDataSuccessState) {
                 carsList.clear();
                 carsList.addAll(state.carsDataEntity.carsList);
                 if (state.firstTime) {
-                  mapController.move(homeCubit.initCamera(carsList: state.carsDataEntity.carsList), 7);
+                  mapController.move(homeCubit.initCamera(carsList: state.carsDataEntity.carsList), 2);
                 }
                 if (state.homeSource) {
                   homeCubit.updateData();
@@ -98,13 +105,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
 
-              return MarkerLayer(
-                markers: carsList
-                    .map((e) => homeCubit.buildPin(
-                          entity: e,
-                          context: context,
-                        ))
-                    .toList(),
+              return Stack(
+                children: [
+                  PolylineLayer(
+                    polylines: [
+                      Polyline(
+                          points: homeCubit.carLocationsRoute
+                              .map(
+                                (e) => LatLng(e.latitude, e.longitude),
+                              )
+                              .toList(),
+                          strokeWidth: 4,
+                          color: ColorManager.primary)
+                    ],
+                  ),
+                  MarkerLayer(
+                    markers: carsList
+                        .map((e) => homeCubit.buildPin(
+                              entity: e,
+                              context: context,
+                            ))
+                        .toList(),
+                  ),
+                ],
               );
             },
           ),

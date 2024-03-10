@@ -6,12 +6,10 @@ part 'trips_params.g.dart';
 class TripParams {
   final String from;
   final String to;
-  final int tracCarDeviceId;
 
   TripParams({
     required this.from,
     required this.to,
-    required this.tracCarDeviceId,
   });
 
   Map<String, dynamic> toJson() => _$TripParamsToJson(this);

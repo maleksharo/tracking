@@ -41,7 +41,6 @@ class AppPreferences {
     } else {
       await _sharedPreferences.setString(prefsLang, LanguageType.arabic.getValue());
     }
-    // await resetTheInjections();
   }
 
   Future<Locale> getLocale() async {

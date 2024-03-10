@@ -136,7 +136,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '${tracCarDeviceId}/vehicle-routes/',
+              '/${tracCarDeviceId}/vehicle-routes/',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -171,7 +171,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '${tracCarDeviceId}/last-route',
+              '/${tracCarDeviceId}/last-route',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -205,7 +205,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '${tracCarDeviceId}/vehicle-routes/',
+              '/${tracCarDeviceId}/vehicle-routes/',
               queryParameters: queryParameters,
               data: _data,
             )

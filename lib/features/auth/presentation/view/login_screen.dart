@@ -92,8 +92,8 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
                           validator: FormBuilderValidators.compose([
                             /// todo: update
                             FormBuilderValidators.minLength(
-                              3,
-                              errorText: LocaleKeys.passwordMustBeSixChars.tr(),
+                              8,
+                              errorText: LocaleKeys.passwordMustBe8Chars.tr(),
                               allowEmpty: false,
                             )
                           ]),

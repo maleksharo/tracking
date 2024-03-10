@@ -26,6 +26,7 @@ class SvgManager {
   static const copyRight = "${iconPath}copyright.svg";
   static const infoWarning = "${iconPath}info_warning.svg";
   static const xlcFile = "${iconPath}excel.svg";
+  static const language = "${iconPath}language_icon.svg";
 }
 
 class JsonManager {

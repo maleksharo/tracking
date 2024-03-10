@@ -48,7 +48,10 @@ class HomeDrawer extends StatelessWidget {
                 20.verticalSpace,
                 PrimaryButton(
                   text: LocaleKeys.setting.tr(),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.router.push(const SettingsRoute());
+
+                  },
                 ),
                 20.verticalSpace,
                 PrimaryButton(

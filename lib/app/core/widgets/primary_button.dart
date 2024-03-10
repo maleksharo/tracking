@@ -59,7 +59,7 @@ class PrimaryButton extends StatelessWidget {
             : text != null
                 ? Text(
                     text ?? "",
-                    style: FontUtils.bebasTextStyle.copyWith(color: textColor ?? ColorManager.white, fontSize: 22),
+                    style: FontUtils.bebasTextStyle.copyWith(color: textColor ?? ColorManager.white, fontSize: 18),
                   )
                 : icon,
       ),

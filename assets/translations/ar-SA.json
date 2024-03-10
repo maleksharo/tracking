@@ -28,7 +28,7 @@
   "password": "كلمة المرور",
   "emailAddress": "البريد الالكتروني",
   "yourEmail": "بريدك الالكتروني",
-  "passwordMustBeSixChars": "كلمة المرور يجب ان تكون 6 حروف",
+  "passwordMustBe8Chars": "كلمة المرور يجب ان تكون 8 حروف",
   "doNotHaveAccountYet": "لا يوجد لديك حساب؟",
   "register": "تسجيل",
   "forgetPassword": "هل نسيت كلمة المرور؟",
@@ -49,5 +49,7 @@
   "setting": "الاعدادات",
   "logout": "تسجيل خروج",
   "vehicles": "المركبات",
-  "home": "الصفحة الرئيسية"
+  "home": "الصفحة الرئيسية",
+  "language": "اللغة",
+  "showLastRoute": "عرض اخر مسار"
 }

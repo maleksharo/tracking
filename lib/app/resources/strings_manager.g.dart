@@ -30,7 +30,7 @@ abstract class  LocaleKeys {
   static const password = 'password';
   static const emailAddress = 'emailAddress';
   static const yourEmail = 'yourEmail';
-  static const passwordMustBeSixChars = 'passwordMustBeSixChars';
+  static const passwordMustBe8Chars = 'passwordMustBe8Chars';
   static const doNotHaveAccountYet = 'doNotHaveAccountYet';
   static const register = 'register';
   static const forgetPassword = 'forgetPassword';
@@ -52,5 +52,7 @@ abstract class  LocaleKeys {
   static const logout = 'logout';
   static const vehicles = 'vehicles';
   static const home = 'home';
+  static const language = 'language';
+  static const showLastRoute = 'showLastRoute';
 
 }

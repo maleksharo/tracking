@@ -28,7 +28,7 @@
   "password": "Password",
   "emailAddress": "Email Address",
   "yourEmail": "Your Email",
-  "passwordMustBeSixChars": "Password must be 6 chars",
+  "passwordMustBe8Chars": "Password must be 8 chars",
   "doNotHaveAccountYet": "Don't have account yet",
   "register": "Register",
   "forgetPassword": "Forget Password ?",
@@ -49,5 +49,8 @@
   "setting": "Settings",
   "logout": "Logout",
   "vehicles": "Vehicles",
-  "home": "Home"
+  "home": "Home",
+  "language": "Language",
+  "showLastRoute": "Show last route"
+
 }

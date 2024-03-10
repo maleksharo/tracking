@@ -16,8 +16,13 @@ class CarLocationEntity extends Entity {
   final double speed;
   final int deviceId;
 
-  CarLocationEntity(
-      {required this.id, required this.latitude, required this.longitude, required this.speed, required this.deviceId});
+  CarLocationEntity({
+    required this.id,
+    required this.latitude,
+    required this.longitude,
+    required this.speed,
+    required this.deviceId,
+  });
 
   @override
   List<Object?> get props => [id, deviceId];

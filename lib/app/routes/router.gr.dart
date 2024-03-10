@@ -15,7 +15,7 @@ import 'package:tracking/features/home/presentation/screens/home_screen.dart'
     as _i1;
 import 'package:tracking/features/home/presentation/screens/vehicles_screen.dart'
     as _i5;
-import 'package:tracking/features/settings/settings_screen.dart' as _i3;
+import 'package:tracking/features/settings/screens/settings_screen.dart' as _i3;
 import 'package:tracking/features/splash/splash_screen.dart' as _i4;
 
 abstract class $AppRouter extends _i6.RootStackRouter {
