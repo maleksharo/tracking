@@ -50,6 +50,38 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
+  Future<Result<BaseResponse>> forgotPassword(
+      Params<ForgotPasswordUseCaseParams> params) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(params.toJson((value) => value.toJson()));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Result<BaseResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/reset/password/',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Result<BaseResponse>.fromJson(
+      _result.data!,
+      (json) => BaseResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<Result<RecordsCarsDataModel>> getVehiclesData(
       {required Params<NoParams> params}) async {
     final _extra = <String, dynamic>{};

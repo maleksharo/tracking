@@ -1,7 +1,9 @@
 import 'package:tracking/app/app_prefs.dart';
+import 'package:tracking/app/core/bases/base_response.dart';
 import 'package:tracking/app/core/bases/base_usecase.dart';
 import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/features/auth/domain/entity/user_entity.dart';
+import 'package:tracking/features/auth/domain/usecase/forgot_password_usecase.dart';
 import 'package:tracking/features/auth/domain/usecase/get_user_info_usecase.dart';
 import 'package:tracking/features/auth/domain/usecase/login_usecase.dart';
 import 'package:tracking/features/auth/domain/usecase/set_user_info_usecase.dart';
@@ -15,6 +17,7 @@ part 'auth_state.dart';
 @injectable
 class AuthCubit extends Cubit<LoginState> {
   final LoginUseCase loginUseCase;
+  final ForgotPasswordUseCase forgotPasswordUseCase;
   final SetUserInfoUseCase setUserInfoUseCase;
   final GetUserInfoUseCase getUserInfoUseCase;
   final AppPreferences appPreferences;
@@ -23,6 +26,7 @@ class AuthCubit extends Cubit<LoginState> {
     required this.getUserInfoUseCase,
     required this.setUserInfoUseCase,
     required this.loginUseCase,
+    required this.forgotPasswordUseCase,
     required this.appPreferences,
   }) : super(LoginInitialState());
 
@@ -34,6 +38,17 @@ class AuthCubit extends Cubit<LoginState> {
       },
       (userEntity) async {
         emit(LoginSuccessState(userEntity: userEntity));
+      },
+    );
+  }
+  Future<void> forgotPassword({required String login}) async {
+    emit(ForgotPasswordLoadingState());
+    (await forgotPasswordUseCase.execute(ForgotPasswordUseCaseParams(login: login))).fold(
+      (l) {
+        emit(ForgotPasswordFailState(l.errorMessage ?? LocaleKeys.defaultError.tr()));
+      },
+      (userEntity) async {
+        emit(ForgotPasswordSuccessState(baseResponse: userEntity));
       },
     );
   }

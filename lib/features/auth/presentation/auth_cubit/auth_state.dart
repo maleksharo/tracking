@@ -19,3 +19,18 @@ class LoginSuccessState implements LoginState {
 
   LoginSuccessState({required this.userEntity});
 }
+
+/// forgot password
+class ForgotPasswordLoadingState implements LoginState {}
+
+class ForgotPasswordFailState implements LoginState {
+  final String message;
+
+  ForgotPasswordFailState(this.message);
+}
+
+class ForgotPasswordSuccessState implements LoginState {
+  final BaseResponse baseResponse;
+
+  ForgotPasswordSuccessState({required this.baseResponse});
+}

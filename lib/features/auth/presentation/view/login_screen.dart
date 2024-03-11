@@ -1,5 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:tracking/app/core/refresh_cubit/refresh_cubit.dart';
+import 'package:tracking/app/core/utils/font_utils.dart';
 import 'package:tracking/app/core/widgets/alert_dialog.dart';
 import 'package:tracking/app/core/widgets/custom_text_field.dart';
 import 'package:tracking/app/core/widgets/primary_button.dart';
@@ -10,13 +16,9 @@ import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/app/routes/router.gr.dart';
 import 'package:tracking/app/ui/form_state_mixin.dart';
 import 'package:tracking/app/ui/form_utils.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../auth_cubit/auth_cubit.dart';
+import 'forgot_password_dialog.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
@@ -97,17 +99,17 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
                             )
                           ]),
                         ),
-                        // SizedBox(height: 32.h),
-                        // GestureDetector(
-                        //   onTap: _onForgetPasswordTapped,
-                        //   child: Text(
-                        //     LocaleKeys.forgetPassword.tr(),
-                        //     style: FontUtils.nexaTextStyle.copyWith(
-                        //         fontWeight: FontWeight.w700,
-                        //         fontSize: 16,
-                        //         color: ColorManager.oilSwatch[13]),
-                        //   ),
-                        // ),
+                        SizedBox(height: 32.h),
+                        GestureDetector(
+                          onTap: (){
+                            forgotPasswordDialog(context: context);
+                          },
+                          child: Text(
+                            LocaleKeys.forgetPassword.tr(),
+                            style: FontUtils.nexaTextStyle
+                                   .copyWith(fontWeight: FontWeight.w700, fontSize: 16, color: ColorManager.greenSwatch),
+                          ),
+                        ),
                         SizedBox(height: 40.h),
                         PrimaryButton(
                           isLoading: state is LoginLoadingState,

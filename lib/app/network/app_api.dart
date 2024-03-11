@@ -4,8 +4,10 @@ import 'package:retrofit/http.dart';
 import 'package:tracking/app/config/configuration.dart';
 import 'package:tracking/app/core/bases/base_params/base_params.dart';
 import 'package:tracking/app/core/bases/base_params/no_params.dart';
+import 'package:tracking/app/core/bases/base_response.dart';
 import 'package:tracking/app/core/models/api_response.dart';
 import 'package:tracking/features/auth/data/models/user_model.dart';
+import 'package:tracking/features/auth/domain/usecase/forgot_password_usecase.dart';
 import 'package:tracking/features/auth/domain/usecase/login_usecase.dart';
 import 'package:tracking/features/home/data/models/car_location_model.dart';
 import 'package:tracking/features/home/data/models/cars_data_model.dart';
@@ -27,6 +29,11 @@ abstract class AppServiceClient {
   @POST("/login/")
   Future<Result<UserModel>> login(
     @Body() Params<LoginUseCaseParams> params,
+  );
+
+  @POST("/reset/password/")
+  Future<Result<BaseResponse>> forgotPassword(
+    @Body() Params<ForgotPasswordUseCaseParams> params,
   );
 
   @POST("/vehicles")
