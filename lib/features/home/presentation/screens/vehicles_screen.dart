@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +12,8 @@ import 'package:tracking/features/home/domain/entities/cars_data_entity.dart';
 import 'package:tracking/features/home/presentation/cubit/home_cubit.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/car_info_card.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/report_sheet.dart';
+
+import '../../../../app/core/utils/font_utils.dart';
 
 @RoutePage()
 class VehiclesScreen extends StatefulWidget {
@@ -78,7 +78,15 @@ class _VehiclesScreenState extends State<VehiclesScreen> with TickerProviderStat
             itemBuilder: (context, index) {
               return Card(
                 elevation: 3,
-                child: Column(
+                child: ExpansionTile(
+                  title: Text(
+                    carsList[index].deviceName,
+                    style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+                  ),
+                  shape: const Border(
+                    top: BorderSide.none,
+                    bottom: BorderSide.none,
+                  ),
                   children: [
                     Padding(
                       padding: EdgeInsets.all(8.0.sp),
@@ -87,7 +95,7 @@ class _VehiclesScreenState extends State<VehiclesScreen> with TickerProviderStat
                       ),
                     ),
                     PrimaryButton(
-                      width: 0.5.sw,
+                      width: 0.3.sw,
                       text: LocaleKeys.tripReport.tr(),
                       onPressed: () {
                         homeCubit.tracCarDeviceId = carsList[index].deviceId;

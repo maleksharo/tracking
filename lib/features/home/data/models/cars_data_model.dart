@@ -35,6 +35,7 @@ class CarsDataModel {
   final LocationModel? location;
   final DriverModel? driverId;
   final String? status;
+  @JsonKey(name: 'lastUpdate')
   final String? lastUpdate;
   final dynamic workingDaysFrom;
   final dynamic workingDaysTo;

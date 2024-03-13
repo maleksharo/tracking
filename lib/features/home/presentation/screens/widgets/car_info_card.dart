@@ -71,51 +71,51 @@ class CarInfoCard extends StatelessWidget {
             ),
           ],
         ),
-        10.verticalSpace,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              "${LocaleKeys.workTo.tr()}: ",
-              style: FontUtils.nexaTextStyle,
-            ),
-            10.horizontalSpace,
-            Text(
-              entity.workTo,
-              style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
-            ),
-          ],
-        ),
-        10.verticalSpace,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              "${LocaleKeys.workFrom.tr()}: ",
-              style: FontUtils.nexaTextStyle,
-            ),
-            10.horizontalSpace,
-            Text(
-              entity.workFrom,
-              style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
-            ),
-          ],
-        ),
-        10.verticalSpace,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              "${LocaleKeys.breakDuration.tr()}: ",
-              style: FontUtils.nexaTextStyle,
-            ),
-            10.horizontalSpace,
-            Text(
-              entity.breakDuration.toString(),
-              style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
-            ),
-          ],
-        ),
+        // 10.verticalSpace,
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   children: [
+        //     Text(
+        //       "${LocaleKeys.workTo.tr()}: ",
+        //       style: FontUtils.nexaTextStyle,
+        //     ),
+        //     10.horizontalSpace,
+        //     Text(
+        //       entity.workTo,
+        //       style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+        //     ),
+        //   ],
+        // ),
+        // 10.verticalSpace,
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   children: [
+        //     Text(
+        //       "${LocaleKeys.workFrom.tr()}: ",
+        //       style: FontUtils.nexaTextStyle,
+        //     ),
+        //     10.horizontalSpace,
+        //     Text(
+        //       entity.workFrom,
+        //       style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+        //     ),
+        //   ],
+        // ),
+        // 10.verticalSpace,
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   children: [
+        //     Text(
+        //       "${LocaleKeys.breakDuration.tr()}: ",
+        //       style: FontUtils.nexaTextStyle,
+        //     ),
+        //     10.horizontalSpace,
+        //     Text(
+        //       entity.breakDuration.toString(),
+        //       style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+        //     ),
+        //   ],
+        // ),
         10.verticalSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -126,12 +126,21 @@ class CarInfoCard extends StatelessWidget {
             ),
             10.horizontalSpace,
             Text(
-              entity.lastUpdate,
+              formatDateTime(entity.lastUpdate,),
+
               style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
             ),
           ],
         ),
       ],
     );
+  }
+  String formatDateTime(String inputString) {
+    if(inputString.isNotEmpty){
+      DateTime dateTime = DateTime.parse(inputString);
+      String formattedDateTime = DateFormat("yyyy-MM-dd HH:mm").format(dateTime);
+      return formattedDateTime;
+    }
+    return 'Not available';
   }
 }

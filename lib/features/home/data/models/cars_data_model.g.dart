@@ -32,7 +32,7 @@ CarsDataModel _$CarsDataModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DriverModel.fromJson(json['driver_id'] as Map<String, dynamic>),
       status: json['status'] as String?,
-      lastUpdate: json['last_update'] as String?,
+      lastUpdate: json['lastUpdate'] as String?,
       workingDaysFrom: json['working_days_from'],
       workingDaysTo: json['working_days_to'],
       workFrom: json['work_from'] as String?,
@@ -50,7 +50,7 @@ Map<String, dynamic> _$CarsDataModelToJson(CarsDataModel instance) =>
       'location': instance.location,
       'driver_id': instance.driverId,
       'status': instance.status,
-      'last_update': instance.lastUpdate,
+      'lastUpdate': instance.lastUpdate,
       'working_days_from': instance.workingDaysFrom,
       'working_days_to': instance.workingDaysTo,
       'work_from': instance.workFrom,

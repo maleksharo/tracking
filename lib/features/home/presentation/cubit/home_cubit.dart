@@ -20,7 +20,7 @@ import 'package:tracking/features/home/domain/usecases/get_car_location_usecase.
 import 'package:tracking/features/home/domain/usecases/get_car_trip_route_usecase.dart';
 import 'package:tracking/features/home/domain/usecases/get_cars_data_usecase.dart';
 import 'package:tracking/features/home/domain/usecases/get_trip_info_usecase.dart';
-import 'package:tracking/features/home/presentation/screens/widgets/car_info_dialog.dart';
+import 'package:tracking/features/home/presentation/screens/widgets/car_info_sheet.dart';
 import 'package:tracking/features/home/presentation/trips_params.dart';
 
 part 'home_state.dart';
@@ -128,7 +128,11 @@ class HomeCubit extends Cubit<HomeState> {
     return LatLng(lat, long);
   }
 
-  Marker buildPin({required CarsDataEntity entity, required BuildContext context}) {
+  Marker buildPin({
+    required CarsDataEntity entity,
+    required BuildContext context,
+    required AnimationController controller,
+  }) {
     return Marker(
       point: LatLng(
         entity.locationEntity.latitude,
@@ -144,12 +148,15 @@ class HomeCubit extends Cubit<HomeState> {
               entity.locationEntity.longitude,
             ),
           ));
-          carInfoDialog(
-              context: context,
-              entity: entity,
-              onShowRoutePressed: (entity) {
-                getVehicleLastOneHourRoute(tracCarDeviceId: entity.deviceId);
-              });
+
+          CarInfoSheet.show(
+            context: context,
+            animationController: controller,
+            entity: entity,
+            onShowRoutePressed: (entity) {
+              getVehicleLastOneHourRoute(tracCarDeviceId: entity.deviceId);
+            },
+          );
         },
         child: Image.asset(
           detectCarColorPath(carStatus: entity.status),

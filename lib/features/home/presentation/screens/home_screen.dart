@@ -24,17 +24,25 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
   final homeCubit = getIt<HomeCubit>();
   final refreshCubit = getIt<RefreshCubit>();
   final mapController = MapController();
   List<CarsDataEntity> carsList = [];
+  late AnimationController controller;
 
   @override
   void initState() {
-    super.initState();
+    homeCubit.getVehiclesData(firstTime: true, homeSource: false);
+
+    controller = BottomSheet.createAnimationController(this);
+    controller.duration = const Duration(seconds: 1);
+    controller.reverseDuration = const Duration(seconds: 1);
+    controller.drive(CurveTween(curve: Curves.easeIn));
     homeCubit.getVehiclesData(firstTime: true);
+    super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         .map((e) => homeCubit.buildPin(
                               entity: e,
                               context: context,
+                      controller:controller,
                             ))
                         .toList(),
                   ),

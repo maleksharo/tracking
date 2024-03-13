@@ -51,6 +51,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     svgIcon: SvgManager.language,
                     height: 28.h,
                   ),
+                  shape: const Border(
+                    top: BorderSide.none,
+                    bottom: BorderSide.none,
+                  ),
                   subtitle: Text(
                     appPreferences.getAppLanguage() == "en" ? "English" : "العربية",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: ColorManager.grey, fontSize: 10),
