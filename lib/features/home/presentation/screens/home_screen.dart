@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:tracking/app/core/refresh_cubit/refresh_cubit.dart';
+import 'package:tracking/app/core/widgets/custom_text_field.dart';
 import 'package:tracking/app/core/widgets/error_view.dart';
 import 'package:tracking/app/di/injection.dart';
 import 'package:tracking/app/resources/color_manager.dart';
@@ -28,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
   final homeCubit = getIt<HomeCubit>();
   final refreshCubit = getIt<RefreshCubit>();
   final mapController = MapController();
+  TextEditingController searchKeyController = TextEditingController();
   List<CarsDataEntity> carsList = [];
   late AnimationController controller;
 
@@ -124,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                           points: homeCubit.carLocationsRoute
                               .map(
                                 (e) => LatLng(e.latitude, e.longitude),
-                              )
+                          )
                               .toList(),
                           strokeWidth: 4,
                           color: ColorManager.primary)
@@ -135,15 +138,64 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                         .map((e) => homeCubit.buildPin(
                               entity: e,
                               context: context,
-                      controller:controller,
+                              controller: controller,
                             ))
                         .toList(),
                   ),
+                  searchField(),
                 ],
               );
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget searchField() {
+    return Padding(
+      padding: EdgeInsets.all(8.0.sp),
+      child: TypeAheadField<CarsDataEntity>(
+        controller: searchKeyController,
+        suggestionsCallback: (search) {
+          List<CarsDataEntity> temp = [];
+          if (search.isNotEmpty) {
+            for (var item in carsList) {
+              if (item.deviceName.toLowerCase().contains(search.toLowerCase()) ||
+                  item.driverEntity.name.toLowerCase().contains(search.toLowerCase())) {
+                temp.add(item);
+              }
+            }
+          }
+          return temp.isEmpty ? carsList : temp;
+        },
+        builder: (context, controller, focusNode) {
+          return CustomTextField(
+            controller: searchKeyController,
+            focusNode: focusNode,
+            hint: "Search for a car",
+          );
+        },
+        itemBuilder: (context, car) {
+          return Padding(
+            padding: EdgeInsets.all(8.0.sp),
+            child: ListTile(
+              title: Text(car.deviceName),
+              subtitle: Text(car.driverEntity.name),
+            ),
+          );
+        },
+        onSelected: (car) {
+          searchKeyController.text = car.deviceName;
+          mapController.move(
+            LatLng(
+              car.locationEntity.latitude,
+              car.locationEntity.longitude,
+            ),
+            12,
+          );
+          refreshCubit.refresh();
+        },
       ),
     );
   }

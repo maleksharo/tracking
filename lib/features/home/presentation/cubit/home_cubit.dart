@@ -46,6 +46,8 @@ class HomeCubit extends Cubit<HomeState> {
   String fromTimeServer = "";
   String toTimeServer = "";
   int tracCarDeviceId = -1;
+
+
   /// This api is for giving last one hour trip for a specific car
   Future<void> getVehicleLastOneHourRoute({required int tracCarDeviceId}) async {
     emit(GetCarLocationLoadingState());
@@ -192,4 +194,6 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> logout() async {
     await appPreferences.logout();
   }
+
+
 }

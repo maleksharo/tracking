@@ -21,6 +21,7 @@ class CustomTextField extends StatefulWidget {
     this.autoValidateMode,
     this.labelText,
     this.errorText,
+    this.focusNode,
     this.prefixIcon,this.onChanged,
     super.key,
   });
@@ -34,6 +35,7 @@ class CustomTextField extends StatefulWidget {
   final bool readOnly;
   final AutovalidateMode? autoValidateMode;
   final String? labelText;
+  final FocusNode? focusNode;
   final String? errorText;
   final Widget? prefixIcon;
   final void Function(String)? onChanged;
@@ -111,7 +113,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 bloc: _refreshCubit,
                 builder: (context, refreshState) {
                   return TextFormField(
-
+                    focusNode: widget.focusNode,
                     controller: widget.controller,
                     obscureText: _obscure,
                     expands: widget.expands,
