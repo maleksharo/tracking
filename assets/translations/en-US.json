@@ -58,7 +58,7 @@
   "duration": "Duration",
   "distance": "Distance",
   "startAddress": "Start address",
-  "endAddress": "End address"
-
-
+  "endAddress": "End address",
+  "lastLocation": "Last location",
+  "lastReportingTime": "Last reporting time"
 }

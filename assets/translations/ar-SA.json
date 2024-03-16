@@ -58,5 +58,7 @@
   "duration": "المدة الزمنية",
   "distance": "المسافة",
   "startAddress": "عنوان البداية",
-  "endAddress": "عنوان النهاي"
+  "endAddress": "عنوان النهاي",
+  "lastLocation": "آخر مكان",
+  "lastReportingTime": "آخر وقت ارسال"
 }

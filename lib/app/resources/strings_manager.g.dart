@@ -61,5 +61,7 @@ abstract class  LocaleKeys {
   static const distance = 'distance';
   static const startAddress = 'startAddress';
   static const endAddress = 'endAddress';
+  static const lastLocation = 'lastLocation';
+  static const lastReportingTime = 'lastReportingTime';
 
 }

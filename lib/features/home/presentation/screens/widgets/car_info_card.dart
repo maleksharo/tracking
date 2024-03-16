@@ -71,36 +71,36 @@ class CarInfoCard extends StatelessWidget {
             ),
           ],
         ),
-        // 10.verticalSpace,
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.start,
-        //   children: [
-        //     Text(
-        //       "${LocaleKeys.workTo.tr()}: ",
-        //       style: FontUtils.nexaTextStyle,
-        //     ),
-        //     10.horizontalSpace,
-        //     Text(
-        //       entity.workTo,
-        //       style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
-        //     ),
-        //   ],
-        // ),
-        // 10.verticalSpace,
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.start,
-        //   children: [
-        //     Text(
-        //       "${LocaleKeys.workFrom.tr()}: ",
-        //       style: FontUtils.nexaTextStyle,
-        //     ),
-        //     10.horizontalSpace,
-        //     Text(
-        //       entity.workFrom,
-        //       style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
-        //     ),
-        //   ],
-        // ),
+        10.verticalSpace,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              "${LocaleKeys.lastLocation.tr()}: ",
+              style: FontUtils.nexaTextStyle,
+            ),
+            10.horizontalSpace,
+            Text(
+              entity.lastAddress,
+              style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+            ),
+          ],
+        ),
+        10.verticalSpace,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              "${LocaleKeys.lastReportingTime.tr()}: ",
+              style: FontUtils.nexaTextStyle,
+            ),
+            10.horizontalSpace,
+            Text(
+              entity.dateLocalization,
+              style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+            ),
+          ],
+        ),
         // 10.verticalSpace,
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.start,

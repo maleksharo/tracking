@@ -22,6 +22,8 @@ Map<String, dynamic> _$RecordsCarsDataModelToJson(
 
 CarsDataModel _$CarsDataModelFromJson(Map<String, dynamic> json) =>
     CarsDataModel(
+      dateLocalization: json['date_localization'] as String?,
+      lastAddress: json['last_address'] as String?,
       deviceId: json['device_id'] as int?,
       deviceName: json['device_name'] as String?,
       licensePlate: json['license_plate'],
@@ -58,6 +60,8 @@ Map<String, dynamic> _$CarsDataModelToJson(CarsDataModel instance) =>
       'break_bet_from': instance.breakBetFrom,
       'break_bet_to': instance.breakBetTo,
       'break_duration': instance.breakDuration,
+      'date_localization': instance.dateLocalization,
+      'last_address': instance.lastAddress,
     };
 
 LocationModel _$LocationModelFromJson(Map<String, dynamic> json) =>

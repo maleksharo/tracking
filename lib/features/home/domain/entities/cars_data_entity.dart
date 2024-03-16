@@ -24,6 +24,8 @@ class CarsDataEntity extends Entity {
   final String breakBetFrom;
   final String breakBetTo;
   final int breakDuration;
+  final String dateLocalization;
+  final String lastAddress;
 
   CarsDataEntity({
     required this.deviceId,
@@ -40,6 +42,8 @@ class CarsDataEntity extends Entity {
     required this.breakBetFrom,
     required this.breakBetTo,
     required this.breakDuration,
+    required this.dateLocalization,
+    required this.lastAddress,
   });
 
   @override

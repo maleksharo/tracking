@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:tracking/app/extensions.dart';
 import 'package:tracking/features/home/domain/entities/cars_data_entity.dart';
@@ -44,8 +42,12 @@ class CarsDataModel {
   final String? breakBetFrom;
   final String? breakBetTo;
   final int? breakDuration;
+  final String? dateLocalization;
+  final String? lastAddress;
 
   CarsDataModel({
+    required this.dateLocalization,
+    required this.lastAddress,
     required this.deviceId,
     required this.deviceName,
     required this.licensePlate,
@@ -68,17 +70,19 @@ class CarsDataModel {
         deviceName: deviceName.orEmpty(),
         licensePlate: licensePlate,
         locationEntity: location!.toEntity(),
-        driverEntity: driverId!.toEntity(),
-        status: status.orEmpty(),
-        lastUpdate: lastUpdate.orEmpty(),
-        workingDaysFrom: workingDaysFrom,
-        workingDaysTo: workingDaysTo,
-        workFrom: workFrom.orEmpty(),
-        workTo: workTo.orEmpty(),
-        breakBetFrom: breakBetFrom.orEmpty(),
-        breakBetTo: breakBetTo.orEmpty(),
-        breakDuration: breakDuration.orZero(),
-      );
+      driverEntity: driverId!.toEntity(),
+      status: status.orEmpty(),
+      lastUpdate: lastUpdate.orEmpty(),
+      workingDaysFrom: workingDaysFrom,
+      workingDaysTo: workingDaysTo,
+      workFrom: workFrom.orEmpty(),
+      workTo: workTo.orEmpty(),
+      breakBetFrom: breakBetFrom.orEmpty(),
+      breakBetTo: breakBetTo.orEmpty(),
+      breakDuration: breakDuration.orZero(),
+      lastAddress: lastAddress.orEmpty(),
+      dateLocalization: dateLocalization.orEmpty(),
+    );
   }
 
   factory CarsDataModel.fromEntity(CarsDataEntity carsDataEntity) {
@@ -87,17 +91,18 @@ class CarsDataModel {
       deviceName: carsDataEntity.deviceName.orEmpty(),
       licensePlate: carsDataEntity.licensePlate,
       location: LocationModel.fromEntity(carsDataEntity.locationEntity),
-      driverId: DriverModel.fromEntity(carsDataEntity.driverEntity),
-      status: carsDataEntity.status.orEmpty(),
-      lastUpdate: carsDataEntity.lastUpdate.orEmpty(),
-      workingDaysFrom: carsDataEntity.workingDaysFrom,
-      workingDaysTo: carsDataEntity.workingDaysTo,
-      workFrom: carsDataEntity.workFrom.orEmpty(),
-      workTo: carsDataEntity.workTo.orEmpty(),
-      breakBetFrom: carsDataEntity.breakBetFrom.orEmpty(),
-      breakBetTo: carsDataEntity.breakBetTo.orEmpty(),
-      breakDuration: carsDataEntity.breakDuration.orZero(),
-    );
+        driverId: DriverModel.fromEntity(carsDataEntity.driverEntity),
+        status: carsDataEntity.status.orEmpty(),
+        lastUpdate: carsDataEntity.lastUpdate.orEmpty(),
+        workingDaysFrom: carsDataEntity.workingDaysFrom,
+        workingDaysTo: carsDataEntity.workingDaysTo,
+        workFrom: carsDataEntity.workFrom.orEmpty(),
+        workTo: carsDataEntity.workTo.orEmpty(),
+        breakBetFrom: carsDataEntity.breakBetFrom.orEmpty(),
+        breakBetTo: carsDataEntity.breakBetTo.orEmpty(),
+        breakDuration: carsDataEntity.breakDuration.orZero(),
+        dateLocalization: carsDataEntity.dateLocalization.orEmpty(),
+        lastAddress: carsDataEntity.lastAddress.orEmpty());
   }
 
   factory CarsDataModel.fromJson(Map<String, dynamic> json) => _$CarsDataModelFromJson(json);
