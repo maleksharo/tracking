@@ -37,3 +37,9 @@ extension ConvertFromSnackCaseToTitleCase on String {
   }
 
 }
+
+extension RemoveSecondsFromDateTime on String {
+  String removeSeconds(){
+    return substring(0, length-7);
+  }
+}

@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'dart:math';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:tracking/app/resources/strings_manager.g.dart';
 
 /// This function is for converting the url image to a file.
 Future<File> convertImageUrlToFile(String? imageUrl) async {
@@ -53,4 +54,26 @@ String convertFrom12To24HourTypes({required String currentTime}) {
   } else {
     return "";
   }
+}
+
+String? compareDateValidator({required String startDateTime, required String endDateTime}) {
+
+  DateTime startDate = DateTime.parse(startDateTime);
+  DateTime endDate = DateTime.parse(endDateTime);
+
+  if (endDate.isBefore(startDate)) {
+    return LocaleKeys.endDateValidator.tr();
+  }
+
+  return null;
+}
+String convertDoubleToTime({required String decimalHours}) {
+  int hours = double.parse(decimalHours).floor();
+  int minutes = ((double.parse(decimalHours) - hours) * 60).round();
+  String result = "";
+  if(hours != 0){
+    result = "$hours hour";
+  }
+  result += " ${minutes.toString().padLeft(2, '0')} minute";
+  return result;
 }

@@ -43,7 +43,7 @@ class PrimaryButton extends StatelessWidget {
         width: width ?? .9.sw,
         height: height ?? 54.h,
         decoration: BoxDecoration(
-          color: backgroundColor ?? (isLight ? ColorManager.primaryGreen : ColorManager.greenSwatch[500]),
+          color: backgroundColor ?? (isLight ? ColorManager.primaryBlue : ColorManager.greenSwatch[500]),
           borderRadius: BorderRadius.circular(borderRadius.r),
         ),
         alignment: Alignment.center,

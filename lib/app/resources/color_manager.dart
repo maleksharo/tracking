@@ -25,7 +25,7 @@ class ColorManager {
   static Color error = const Color(0xffff3333);
   static const primaryBlack = Color(0xFF252723);
   static const blue = Color(0xFF066CC9);
-  static const primaryGreen = Color(0xFF8CC640);
+  static const primaryBlue = Color(0xFF65d8ea);
   static const primaryOil = Color(0xFF046937);
   static const _blackSwatch = {
     2: Color(0xFFFDFDFD),
@@ -41,11 +41,11 @@ class ColorManager {
   };
 
   static const _greenSwatch = {
-    300: Color(0xFFB2D97F),
-    400: Color(0xFFA3D166),
-    500: Color(0xFF8CC640),
-    600: Color(0xFF7FB43A),
-    700: Color(0xFF638D2D),
+    300: Color(0xFF8cfcec),
+    400: Color(0xFF5bb3b0),
+    500: Color(0xFF34acf4),
+    600: Color(0xFF2e87b8),
+    700: Color(0xFF5dd1ee),
   };
 
   static const _oilSwatch = {
@@ -60,7 +60,7 @@ class ColorManager {
   /// The primary color can be used instead of the black primary color
   static final blackSwatch = ColorSwatch(primaryBlack.value, _blackSwatch);
   /// The primary color can be used instead of the green primary color
-  static final greenSwatch = ColorSwatch(primaryGreen.value, _greenSwatch);
+  static final greenSwatch = ColorSwatch(primaryBlue.value, _greenSwatch);
   /// The primary color can be used instead of the oil primary color
   static final oilSwatch = ColorSwatch(primaryOil.value, _oilSwatch);
 }

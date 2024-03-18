@@ -60,5 +60,12 @@
   "startAddress": "عنوان البداية",
   "endAddress": "عنوان النهاي",
   "lastLocation": "آخر مكان",
-  "lastReportingTime": "آخر وقت ارسال"
+  "lastReportingTime": "آخر وقت ارسال",
+  "allRightsReserved": "جميع الحقوق محفوظة",
+  "iTieTt": "ITieIt",
+
+
+  "poweredBy": "صمم بواسطة",
+
+  "endDateValidator": "تاريخ النهاية يجب ان يكون بعد تاريخ البداية"
 }

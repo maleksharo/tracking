@@ -60,5 +60,9 @@
   "startAddress": "Start address",
   "endAddress": "End address",
   "lastLocation": "Last location",
-  "lastReportingTime": "Last reporting time"
+  "lastReportingTime": "Last reporting time",
+  "allRightsReserved": "All rights reserved",
+  "iTieTt": "ITieIt",
+  "poweredBy": "Powered By",
+  "endDateValidator": "End date must be after start date"
 }

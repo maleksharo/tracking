@@ -31,7 +31,7 @@ class UserAvatar extends StatelessWidget {
     return Stack(
       children: [
         CircleAvatar(
-          backgroundColor: ColorManager.primaryGreen,
+          backgroundColor: ColorManager.primaryBlue,
           backgroundImage: !isInitials ? image : null,
           radius: radius,
           child: isInitials

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tracking/app/core/refresh_cubit/refresh_cubit.dart';
+import 'package:tracking/app/core/utils/string_extensions.dart';
 import 'package:tracking/app/core/widgets/custom_text_field.dart';
 import 'package:tracking/app/core/widgets/primary_button.dart';
 import 'package:tracking/app/di/injection.dart';
@@ -13,6 +14,7 @@ import 'package:tracking/features/home/presentation/cubit/home_cubit.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/trip_info_card.dart';
 
 import '../../../../../app/core/widgets/date_time_picker.dart';
+import '../../../../../app/functions.dart';
 
 class ReportsSheet extends StatefulWidget {
   const ReportsSheet({
@@ -56,6 +58,7 @@ class _ReportsSheetState extends State<ReportsSheet> {
   final HomeCubit homeCubit = getIt<HomeCubit>();
   final RefreshCubit refreshCubit = getIt<RefreshCubit>();
   List<VehicleTripsEntity> vehicleTrips = [];
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -74,118 +77,133 @@ class _ReportsSheetState extends State<ReportsSheet> {
         builder: (context, state) {
           return Padding(
             padding: EdgeInsets.all(8.0.sp),
-            child: Column(
-              children: [
-                Card(
-                  child: ExpansionTile(
-
-                    title: Text(LocaleKeys.duration.tr(),),
-                    shape: const Border(
-                      top: BorderSide.none,
-                      bottom: BorderSide.none,
-                    ),
-                    childrenPadding: EdgeInsets.all(8.0.sp),
-                    children: [
-                      CustomTextField(
-                        controller: homeCubit.fromTimeController,
-                        labelText: LocaleKeys.startTime.tr(),
-                        hint: LocaleKeys.startTime.tr(),
-                        isFieldObscure: false,
-                        autoValidateMode: AutovalidateMode.onUserInteraction,
-                        textInputAction: TextInputAction.next,
-                        readOnly: true,
-                        onTab: () async {
-                          selectDate(context).then((value) {
-                            if (value != null) {
-                              homeCubit.fromTimeController.text = value.toString();
-                              homeCubit.fromTimeServer = value.toUtc().toIso8601String();
-                            }
-                          });
-                          refreshCubit.refresh();
-                        },
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  Card(
+                    child: ExpansionTile(
+                      title: Text(
+                        LocaleKeys.tripReport.tr(),
                       ),
-                      10.verticalSpace,
-                      CustomTextField(
-                        controller: homeCubit.toTimeController,
-                        labelText: LocaleKeys.endTime.tr(),
-                        hint: LocaleKeys.endTime.tr(),
-                        isFieldObscure: false,
-                        autoValidateMode: AutovalidateMode.onUserInteraction,
-                        textInputAction: TextInputAction.next,
-                        readOnly: true,
-                        onTab: () {
-                          selectDate(context).then((value) {
-                            if (value != null) {
-                              homeCubit.toTimeController.text = value.toString();
-                              homeCubit.toTimeServer = value.toUtc().toIso8601String();
-                            }
-                          });
-                          refreshCubit.refresh();
-                        },
+                      initiallyExpanded: true,
+                      shape: const Border(
+                        top: BorderSide.none,
+                        bottom: BorderSide.none,
                       ),
-                      10.verticalSpace,
-                      BlocBuilder(
-                        bloc: homeCubit,
-                        builder: (context, state) {
-                          return PrimaryButton(
-                            width: 0.5.sw,
-                            text: LocaleKeys.ok.tr(),
-                            isLoading: state is GetCarTripRouteLoadingState,
-                            onPressed: () {
-                              if (homeCubit.fromTimeServer.isNotEmpty && homeCubit.toTimeServer.isNotEmpty) {
-                                homeCubit.getVehicleTripsBetweenTwoTime();
-                              } else {
-                                Fluttertoast.showToast(msg: LocaleKeys.fieldRequired.tr());
-                              }
-                            },
-                          );
-                        },
-                      ),
-                      10.verticalSpace,
-                    ],
-                  ),
-                ),
-                10.verticalSpace,
-                BlocConsumer(
-                  bloc: homeCubit,
-                  listener: (context, state) {
-                    if (state is GetCarTripRouteSuccessState) {
-                      vehicleTrips.clear();
-                      vehicleTrips.addAll(state.recordsVehicleTripsEntity.vehicleTrips);
-                      if (vehicleTrips.isEmpty) {
-                        Fluttertoast.showToast(msg: LocaleKeys.noContent.tr());
-                      }
-                    }
-                  },
-                  builder: (context, state) {
-                    return Column(
+                      childrenPadding: EdgeInsets.all(8.0.sp),
                       children: [
+                        CustomTextField(
+                          controller: homeCubit.fromTimeController,
+                          labelText: LocaleKeys.startTime.tr(),
+                          hint: LocaleKeys.startTime.tr(),
+                          isFieldObscure: false,
+                          autoValidateMode: AutovalidateMode.onUserInteraction,
+                          textInputAction: TextInputAction.next,
+                          readOnly: true,
+                          onTab: () async {
+                            DateTime? selectedDateTime = await selectDate(context);
+                            if (selectedDateTime != null) {
+                              DateTime combinedDateTime = combineDateAndTime(selectedDateTime, selectedTime);
+                              homeCubit.fromTimeController.text = combinedDateTime.toString().removeSeconds();
+                              homeCubit.fromTimeServer = combinedDateTime.toUtc().toIso8601String();
+                            }
 
-                        if(vehicleTrips.isNotEmpty)
-                          Scrollbar(
-                            child: SizedBox(
-                              height: 0.6.sh,
-                              child: ListView.builder(
-                                itemBuilder: (context, index) {
-                                  return TripInfoCard(
-                                    entity: vehicleTrips[index],
-                                  );
-                                },
-                                itemCount: vehicleTrips.length,
-                                shrinkWrap: true,
+                            refreshCubit.refresh();
+                          },
+                        ),
+                        10.verticalSpace,
+                        CustomTextField(
+                          controller: homeCubit.toTimeController,
+                          labelText: LocaleKeys.endTime.tr(),
+                          hint: LocaleKeys.endTime.tr(),
+                          isFieldObscure: false,
+                          validator: (value) {
+                            return compareDateValidator(
+                                endDateTime: homeCubit.toTimeController.text,
+                                startDateTime: homeCubit.fromTimeController.text);
+                          },
+                          autoValidateMode: AutovalidateMode.onUserInteraction,
+                          textInputAction: TextInputAction.next,
+                          readOnly: true,
+                          onTab: () async {
+                            DateTime? selectedDateTime = await selectDate(context);
+                            if (selectedDateTime != null) {
+                              DateTime combinedDateTime = combineDateAndTime(selectedDateTime, selectedTime);
+                              homeCubit.toTimeController.text = combinedDateTime.toString().removeSeconds();
+                              homeCubit.toTimeServer = combinedDateTime.toUtc().toIso8601String();
+                            }
+
+                            refreshCubit.refresh();
+                          },
+                        ),
+                        10.verticalSpace,
+                        BlocBuilder(
+                          bloc: homeCubit,
+                          builder: (context, state) {
+                            return PrimaryButton(
+                              width: 0.5.sw,
+                              text: LocaleKeys.ok.tr(),
+                              isLoading: state is GetCarTripRouteLoadingState,
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  if (homeCubit.fromTimeServer.isNotEmpty && homeCubit.toTimeServer.isNotEmpty) {
+                                    homeCubit.getVehicleTripsBetweenTwoTime();
+                                  } else {
+                                    Fluttertoast.showToast(msg: LocaleKeys.fieldRequired.tr());
+                                  }
+                                }
+                              },
+                            );
+                          },
+                        ),
+                        10.verticalSpace,
+                      ],
+                    ),
+                  ),
+                  10.verticalSpace,
+                  BlocConsumer(
+                    bloc: homeCubit,
+                    listener: (context, state) {
+                      if (state is GetCarTripRouteSuccessState) {
+                        vehicleTrips.clear();
+                        vehicleTrips.addAll(state.recordsVehicleTripsEntity.vehicleTrips);
+                        if (vehicleTrips.isEmpty) {
+                          Fluttertoast.showToast(msg: LocaleKeys.noContent.tr());
+                        }
+                      }
+                    },
+                    builder: (context, state) {
+                      return Column(
+                        children: [
+                          if (vehicleTrips.isNotEmpty)
+                            Scrollbar(
+                              child: SizedBox(
+                                height: 0.6.sh,
+                                child: ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    return TripInfoCard(
+                                      entity: vehicleTrips[index],
+                                    );
+                                  },
+                                  itemCount: vehicleTrips.length,
+                                  shrinkWrap: true,
+                                ),
                               ),
                             ),
-                          ),
-                      ],
-                    );
-                  },
-                ),
-                10.verticalSpace
-              ],
+                        ],
+                      );
+                    },
+                  ),
+                  10.verticalSpace
+                ],
+              ),
             ),
           );
         },
       ),
     );
   }
+
+
 }

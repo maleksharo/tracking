@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:tracking/app/app_prefs.dart';
 import 'package:tracking/app/di/injection.dart';
 import 'package:tracking/app/routes/router.dart';
@@ -22,7 +24,6 @@ class AuthInterceptor extends Interceptor {
       headers = {
         'user-token': appPreferences.getString(prefsKey: prefsToken),
       };
-      // print("I'm HERE ${appPreferences.getString(prefsKey: prefsToken)}");
       options.headers.addAll(headers);
     }
     if (!handler.isCompleted) {

@@ -5,6 +5,7 @@ import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/features/home/domain/entities/vehicle_trips_entity.dart';
 
 import '../../../../../app/core/utils/font_utils.dart';
+import '../../../../../app/functions.dart';
 import '../../../../../app/resources/color_manager.dart';
 
 class TripInfoCard extends StatelessWidget {
@@ -62,7 +63,7 @@ class TripInfoCard extends StatelessWidget {
                   ),
                   10.horizontalSpace,
                   Text(
-                    "${entity.duration}H",
+                    convertDoubleToTime(decimalHours: entity.duration.toString()),
                     style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
                   ),
                 ],
@@ -77,7 +78,7 @@ class TripInfoCard extends StatelessWidget {
                   ),
                   10.horizontalSpace,
                   Text(
-                    "${entity.distance}KM",
+                    "${entity.distance} KM",
                     style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
                   ),
                 ],

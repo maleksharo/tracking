@@ -1,42 +1,55 @@
-// // import 'package:tracking/app/core/utils/font_utils.dart';
-// import 'package:tracking/app/resources/assets_manager.dart';
-// import 'package:tracking/app/resources/strings_manager.g.dart';
-// import 'package:easy_localization/easy_localization.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
-//
-// class CopyRight extends StatelessWidget {
-//   const CopyRight({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final textStyle = FontUtils.nexaTextStyle.copyWith(
-//       color: ColorManager.blackSwatch[8],
-//       fontWeight: FontWeight.w400,
-//       fontSize: 10,
-//     );
-//     return Row(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         SvgPicture.asset(
-//           SvgManager.copyRight,
-//         ),
-//         SizedBox(width: 4.w),
-//         Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               LocaleKeys.allRightsReserved.tr(),
-//               style: textStyle,
-//             ),
-//             Text(
-//               LocaleKeys.termsAndConditionCookies.tr(),
-//               style: textStyle,
-//             ),
-//           ],
-//         )
-//       ],
-//     );
-//   }
-// }
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking/app/resources/strings_manager.g.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../resources/color_manager.dart';
+
+class CopyRight extends StatelessWidget {
+  const CopyRight({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Divider(
+          thickness: 1,
+          color: ColorManager.grey,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              LocaleKeys.poweredBy.tr(),
+              style: TextStyle(
+                color: ColorManager.grey,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            5.horizontalSpace,
+            InkWell(
+              onTap: () async {
+                Uri url = Uri.parse("http://www.itieit.com/");
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              },
+              child: const Text(
+                "ITieIt.com",
+                style: TextStyle(
+                  color: ColorManager.primaryBlue,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                  decorationColor: ColorManager.primaryBlue,
+                ),
+              ),
+            ),
+          ],
+        ),
+        10.verticalSpace,
+      ],
+    );
+  }
+}

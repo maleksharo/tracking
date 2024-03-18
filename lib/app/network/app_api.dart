@@ -59,4 +59,10 @@ abstract class AppServiceClient {
     @Body() required Params<TripParams> params,
     @Path() required int tracCarDeviceId,
   });
+
+
+  @POST("/get/databases/")
+  Future<Result<List<String>>> getServers({
+    @Body() required Params<NoParams> params,
+  });
 }

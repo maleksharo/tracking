@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:restart_app/restart_app.dart';
+import 'package:tracking/app/app_prefs.dart';
 import 'package:tracking/app/core/refresh_cubit/refresh_cubit.dart';
 import 'package:tracking/app/core/utils/font_utils.dart';
 import 'package:tracking/app/core/widgets/alert_dialog.dart';
@@ -17,9 +20,9 @@ import 'package:tracking/app/routes/router.gr.dart';
 import 'package:tracking/app/ui/form_state_mixin.dart';
 import 'package:tracking/app/ui/form_utils.dart';
 
+import '../../../../app/core/widgets/copyright.dart';
 import '../auth_cubit/auth_cubit.dart';
 import 'forgot_password_dialog.dart';
-
 @RoutePage()
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -30,17 +33,23 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerProviderStateMixin {
   final authCubit = getIt<AuthCubit>();
-
+  final AppPreferences appPreferences = getIt<AppPreferences>();
   final refreshCubit = getIt<RefreshCubit>();
+  List<String> servers = [];
 
-  // @override
-  // void initState() {
-  //   super.initState();
+  @override
+  void initState() {
+    super.initState();
     // authCubit.getUserInfo().then((value) {
     //   form.controllers[0].text = value.email;
     //   form.controllers[1].text = value.password;
     // });
-  // }
+    if (appPreferences
+        .getString(prefsKey: prefsBaseUrl)
+        .isEmpty) {
+      authCubit.getServers();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +75,10 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 32.h),
+                        SizedBox(height: 10.h),
+                        serverDropDownWidget(serversList: servers),
+
+                        SizedBox(height: 12.h),
                         CustomTextField(
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
@@ -99,54 +111,36 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
                             )
                           ]),
                         ),
-                        SizedBox(height: 32.h),
+                        SizedBox(height: 4.h),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             forgotPasswordDialog(context: context);
                           },
                           child: Text(
                             LocaleKeys.forgetPassword.tr(),
                             style: FontUtils.nexaTextStyle
-                                   .copyWith(fontWeight: FontWeight.w700, fontSize: 16, color: ColorManager.greenSwatch),
+                                .copyWith(fontWeight: FontWeight.w700, fontSize: 16, color: ColorManager.greenSwatch),
                           ),
                         ),
                         SizedBox(height: 40.h),
                         PrimaryButton(
                           isLoading: state is LoginLoadingState,
+                          backgroundColor: appPreferences
+                              .getString(prefsKey: prefsBaseUrl)
+                              .isEmpty ? ColorManager.grey: null,
                           text: LocaleKeys.login.tr(),
-                          onPressed: _onLoginTapped,
+                          onPressed: appPreferences
+                              .getString(prefsKey: prefsBaseUrl)
+                              .isEmpty ? null:_onLoginTapped ,
                         ),
-                        SizedBox(height: 40.h),
-                        // Row(
-                        //   children: [
-                        //     Text(
-                        //       LocaleKeys.dontHaveAccountYet.tr(),
-                        //       style: FontUtils.nexaTextStyle.copyWith(
-                        //         color: ColorManager.blackSwatch[9],
-                        //         fontSize: 16,
-                        //         fontWeight: FontWeight.w400,
-                        //       ),
-                        //     ),
-                        //     SizedBox(width: 8.w),
-                        //     GestureDetector(
-                        //       onTap: _onRegisterTapped,
-                        //       child: Text(
-                        //         LocaleKeys.register.tr(),
-                        //         style: FontUtils.nexaTextStyle.copyWith(
-                        //             fontWeight: FontWeight.w700,
-                        //             fontSize: 16,
-                        //             color: ColorManager.oilSwatch[13]),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
+                        SizedBox(height: 12.h),
                       ],
                     ),
                   );
                 },
               ),
-              // const Spacer(),
-              // const CopyRight(),
+              const Spacer(),
+              const CopyRight(),
             ],
           ),
         ),
@@ -176,6 +170,15 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
         onConfirm: _onLoginTapped,
       );
     }
+    if (state is GetServersFailState) {
+      alertDialog(
+        context: context,
+        image: SvgManager.infoWarning,
+        message: state.message,
+        approveButtonTitle: LocaleKeys.retry,
+        onConfirm: () {},
+      );
+    }
     if (state is LoginSuccessState) {
       authCubit.setUserInfo(
         token: state.userEntity.token,
@@ -184,6 +187,68 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
       );
       context.router.replace(const HomeRoute());
     }
+    if (state is GetServersSuccessState) {
+      servers.addAll(state.servers);
+    }
+  }
+
+  Widget serverDropDownWidget({required List<String> serversList}) {
+    return DropdownButtonHideUnderline(
+      key: GlobalKey(),
+      child: DropdownButton2(
+        style: TextStyle(color: ColorManager.darkGrey),
+        isExpanded: true,
+        dropdownStyleData: DropdownStyleData(
+          maxHeight: 250,
+          width: 250,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          offset: const Offset(20, 0),
+          scrollbarTheme: ScrollbarThemeData(
+            radius: const Radius.circular(40),
+            thickness: MaterialStateProperty.all<double>(6),
+            thumbVisibility: MaterialStateProperty.all<bool>(true),
+          ),
+        ),
+        buttonStyleData: ButtonStyleData(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: ColorManager.blackSwatch[5]!,
+            ),
+            color: ColorManager.white,
+          ),
+        ),
+        hint: Padding(
+          padding: const EdgeInsets.only(left: 10.0, right: 10),
+          child: Text(
+            appPreferences
+                .getString(prefsKey: prefsBaseUrl)
+                .isEmpty
+                ? 'Select server'
+                : appPreferences.getString(prefsKey: prefsBaseUrl),
+          ),
+        ),
+        items: serversList.map<DropdownMenuItem<String>>((item) {
+          return DropdownMenuItem<String>(
+            value: item,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+              child: Text(
+                item,
+                style: TextStyle(color: ColorManager.darkGrey),
+              ),
+            ),
+          );
+        }).toList(),
+        onChanged: (String? newValue) async {
+          await appPreferences.setString(prefsKey: prefsBaseUrl, value: "$newValue.").then(
+                (value) => Restart.restartApp(),
+          );
+        },
+      ),
+    );
   }
 
   @override

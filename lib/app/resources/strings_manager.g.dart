@@ -63,5 +63,9 @@ abstract class  LocaleKeys {
   static const endAddress = 'endAddress';
   static const lastLocation = 'lastLocation';
   static const lastReportingTime = 'lastReportingTime';
+  static const allRightsReserved = 'allRightsReserved';
+  static const iTieTt = 'iTieTt';
+  static const poweredBy = 'poweredBy';
+  static const endDateValidator = 'endDateValidator';
 
 }

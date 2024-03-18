@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 DateTime selectedDate = DateTime.now();
+TimeOfDay selectedTime = TimeOfDay.now();
 
 Future<DateTime?> selectDate(BuildContext context) async {
   DateTime? pickedDate = await showDatePicker(
@@ -32,5 +33,27 @@ Future<DateTime?> selectDate(BuildContext context) async {
     },
   );
 
+  if (pickedDate != null) {
+    selectedDate = pickedDate;
+    await selectTime(context);
+  }
+
   return pickedDate;
+}
+
+Future<TimeOfDay?> selectTime(BuildContext context) async {
+  TimeOfDay? pickedTime = await showTimePicker(
+    context: context,
+    initialTime: selectedTime,
+  );
+
+  if (pickedTime != null) {
+    selectedTime = pickedTime;
+  }
+
+  return pickedTime;
+}
+
+DateTime combineDateAndTime(DateTime date, TimeOfDay time) {
+  return DateTime(date.year, date.month, date.day, time.hour, time.minute);
 }

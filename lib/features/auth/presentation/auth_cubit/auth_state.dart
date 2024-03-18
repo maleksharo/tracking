@@ -34,3 +34,18 @@ class ForgotPasswordSuccessState implements LoginState {
 
   ForgotPasswordSuccessState({required this.baseResponse});
 }
+
+/// servers
+class GetServersLoadingState implements LoginState {}
+
+class GetServersFailState implements LoginState {
+  final String message;
+
+  GetServersFailState(this.message);
+}
+
+class GetServersSuccessState implements LoginState {
+  final List<String> servers;
+
+  GetServersSuccessState({required this.servers});
+}

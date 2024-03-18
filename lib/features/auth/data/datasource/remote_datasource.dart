@@ -6,11 +6,13 @@ import 'package:tracking/features/auth/domain/usecase/forgot_password_usecase.da
 import 'package:tracking/features/auth/domain/usecase/login_usecase.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../app/core/bases/base_params/no_params.dart';
 import '../../../../app/core/bases/base_response.dart';
 
 abstract class LoginRemoteDataSource {
   Future<Result<UserModel>> login(LoginUseCaseParams input);
   Future<Result<BaseResponse>> forgotPassword(ForgotPasswordUseCaseParams input);
+  Future<Result<List<String>>> getServers();
 }
 
 @Injectable(as: LoginRemoteDataSource)
@@ -27,5 +29,11 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
   @override
   Future<Result<BaseResponse>> forgotPassword(ForgotPasswordUseCaseParams input) async{
     return await client.forgotPassword(Params(params: input));
+  }
+
+
+  @override
+  Future<Result<List<String>>> getServers() async{
+    return await client.getServers(params:const Params(params: NoParams()));
   }
 }

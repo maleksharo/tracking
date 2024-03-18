@@ -1,7 +1,8 @@
-import 'package:tracking/features/auth/domain/usecase/set_user_info_usecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tracking/features/auth/domain/usecase/set_user_info_usecase.dart';
 
 import 'di/injection.dart';
 import 'resources/language_manager.dart';
@@ -12,6 +13,7 @@ const String prefsIsUserLoggedIn = "is_user_logged_in";
 const String prefsToken = "prefs_token";
 const String prefsEmail = "prefs_email";
 const String prefsPassword = "prefs_password";
+const String prefsBaseUrl = "prefs_base_url";
 
 @Injectable()
 class AppPreferences {
@@ -24,6 +26,10 @@ class AppPreferences {
     } else {
       return LanguageType.english.getValue();
     }
+  }
+
+  Future<void> setString({required String prefsKey, required String value}) async {
+    await _sharedPreferences.setString(prefsKey, value);
   }
 
   String getString({required String prefsKey}) {
@@ -66,5 +72,7 @@ class AppPreferences {
   Future<void> logout() async {
     await _sharedPreferences.remove(prefsIsUserLoggedIn);
     await _sharedPreferences.remove(prefsToken);
+    await _sharedPreferences.remove(prefsBaseUrl);
+    Restart.restartApp();
   }
 }

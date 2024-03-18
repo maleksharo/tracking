@@ -123,7 +123,7 @@ Future<void> alertDialog({
                             onConfirm();
                           },
                           style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                                backgroundColor: const MaterialStatePropertyAll(ColorManager.primaryGreen),
+                                backgroundColor: const MaterialStatePropertyAll(ColorManager.primaryBlue),
                                 elevation: const MaterialStatePropertyAll(AppSize.s0),
                               ),
                           child: Text(

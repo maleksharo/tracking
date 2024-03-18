@@ -61,4 +61,20 @@ class LoginRepositoryImpl implements LoginRepository {
       return Left(ErrorEntity.fromException(e.convertToAppException()));
     }
   }
+
+  @override
+  Future<Either<ErrorEntity, List<String>>> getServers()async {
+    try {
+      final response = await _remoteDataSource.getServers();
+      if (response.result?.success == true) {
+        return Right(response.result!.database!);
+      } else {
+        return Left(ErrorEntity(
+          errorMessage: response.result?.message,
+        ));
+      }
+    } on DioException catch (e) {
+      return Left(ErrorEntity.fromException(e.convertToAppException()));
+    }
+  }
 }

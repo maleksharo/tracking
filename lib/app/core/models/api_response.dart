@@ -27,6 +27,7 @@ class ApiResponse<T> extends Equatable {
   @JsonKey(defaultValue: null)
   final T? response;
 
+  final T? database;
   final String message;
   final bool status;
   final bool success;
@@ -35,6 +36,7 @@ class ApiResponse<T> extends Equatable {
     required this.message,
     this.status = false,
     required this.response,
+    required this.database,
     this.success = false,
   });
 
@@ -43,6 +45,7 @@ class ApiResponse<T> extends Equatable {
     required this.status,
     required this.success,
     required this.response,
+    required this.database,
   });
 
   factory ApiResponse.fromJson(

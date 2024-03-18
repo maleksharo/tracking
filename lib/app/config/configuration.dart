@@ -1,4 +1,7 @@
 import 'package:injectable/injectable.dart';
+import 'package:tracking/app/app_prefs.dart';
+
+import '../di/injection.dart';
 
 abstract class Configuration {
   String get getBaseUrl;
@@ -18,6 +21,7 @@ class StagingConfiguration extends Configuration {
 
 @LazySingleton(as: Configuration, env: [Environment.prod])
 class ProductionConfiguration extends Configuration {
+  final AppPreferences appPreferences = getIt<AppPreferences>();
   @override
-  String get getBaseUrl => 'https://test.itieit.com/api';
+  String get getBaseUrl => "https://${appPreferences.getString(prefsKey: prefsBaseUrl)}itieit.com/api/" ;
 }

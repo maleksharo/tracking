@@ -14,4 +14,6 @@ abstract class LoginRepository {
   void setUserInfo(SetUserInfoUseCaseParams input);
 
   Future<SetUserInfoUseCaseParams> getUserInfo();
+
+  Future<Either<ErrorEntity,List<String>>> getServers();
 }

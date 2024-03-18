@@ -74,31 +74,44 @@ class CarInfoCard extends StatelessWidget {
         10.verticalSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "${LocaleKeys.lastLocation.tr()}: ",
               style: FontUtils.nexaTextStyle,
             ),
             10.horizontalSpace,
-            Text(
-              entity.lastAddress,
-              style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+            SizedBox(
+              width: 0.45.sw,
+              child: Text(
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+                entity.lastAddress,
+                style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+              ),
             ),
           ],
         ),
         10.verticalSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "${LocaleKeys.lastReportingTime.tr()}: ",
               style: FontUtils.nexaTextStyle,
             ),
             10.horizontalSpace,
-            Text(
-              entity.dateLocalization,
-              style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+            SizedBox(
+              width: 0.3.sw,
+              child: Text(
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+                entity.dateLocalization,
+                style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+              ),
             ),
+
           ],
         ),
         // 10.verticalSpace,
@@ -117,21 +130,21 @@ class CarInfoCard extends StatelessWidget {
         //   ],
         // ),
         10.verticalSpace,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              "${LocaleKeys.lastUpdate.tr()}: ",
-              style: FontUtils.nexaTextStyle,
-            ),
-            10.horizontalSpace,
-            Text(
-              formatDateTime(entity.lastUpdate,),
-
-              style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
-            ),
-          ],
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   children: [
+        //     Text(
+        //       "${LocaleKeys.lastUpdate.tr()}: ",
+        //       style: FontUtils.nexaTextStyle,
+        //     ),
+        //     10.horizontalSpace,
+        //     Text(
+        //       formatDateTime(entity.lastUpdate,),
+        //
+        //       style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }
