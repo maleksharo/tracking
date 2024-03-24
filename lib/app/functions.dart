@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -57,16 +58,20 @@ String convertFrom12To24HourTypes({required String currentTime}) {
 }
 
 String? compareDateValidator({required String startDateTime, required String endDateTime}) {
+  if (endDateTime.isEmpty) {
+    return LocaleKeys.fieldRequired.tr();
+  } else {
+    DateTime startDate = DateTime.parse(startDateTime);
+    DateTime endDate = DateTime.parse(endDateTime);
 
-  DateTime startDate = DateTime.parse(startDateTime);
-  DateTime endDate = DateTime.parse(endDateTime);
-
-  if (endDate.isBefore(startDate)) {
-    return LocaleKeys.endDateValidator.tr();
+    if (endDate.isBefore(startDate)) {
+      return LocaleKeys.endDateValidator.tr();
+    }
   }
 
   return null;
 }
+
 String convertDoubleToTime({required String decimalHours}) {
   int hours = double.parse(decimalHours).floor();
   int minutes = ((double.parse(decimalHours) - hours) * 60).round();

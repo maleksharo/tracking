@@ -142,10 +142,10 @@ Future<void> alertDialog({
       });
 }
 
-Widget getAnimatedImage(String animationName, {double width = 50}) {
+Widget getAnimatedImage(String animationName) {
   return SizedBox(
-    width: width.w,
-    height: 50.h,
+    width: 100.w,
+    height: 100.w,
     child: Lottie.asset(animationName),
   );
 }
@@ -155,10 +155,8 @@ void progressDialog({required BuildContext context}) {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return WillPopScope(
-          onWillPop: () {
-            return Future.value(false);
-          },
+        return PopScope(
+          canPop: false,
           child: Center(
             child: getAnimatedImage(JsonManager.loading),
           ),

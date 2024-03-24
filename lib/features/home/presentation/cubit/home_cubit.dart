@@ -40,7 +40,8 @@ class HomeCubit extends Cubit<HomeState> {
   final GetTripInfoUseCase getTripInfoUseCase;
   final AppPreferences appPreferences;
 
-  List<CarLocationEntity> carLocationsRoute = [];
+  List<dynamic> carLocationsRoute = [];
+
   TextEditingController fromTimeController = TextEditingController();
   TextEditingController toTimeController = TextEditingController();
   String fromTimeServer = "";
@@ -98,7 +99,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   /// This api will give me all vehicle routes between 2 times
-  Future<void> getVehicleRoutesBetweenTwoTimes({required int tracCarDeviceId}) async {
+  Future<void> getVehicleRoutesBetweenTwoTimes() async {
 
     emit(GetTripInfoLoadingState());
     (await getTripInfoUseCase.execute(GetTripInfoUseCaseParams(
@@ -110,6 +111,8 @@ class HomeCubit extends Cubit<HomeState> {
         emit(GetTripInfoFailedState(message: l.errorMessage ?? LocaleKeys.defaultError.tr()));
       },
       (responseEntity) async {
+        carLocationsRoute.clear();
+        carLocationsRoute.addAll(responseEntity.vehicleRoutes);
         emit(GetTripInfoSuccessState(recordsVehicleRoutesEntity: responseEntity));
       },
     );
@@ -130,7 +133,7 @@ class HomeCubit extends Cubit<HomeState> {
     return LatLng(lat, long);
   }
 
-  Marker buildPin({
+  Marker buildCarMarker({
     required CarsDataEntity entity,
     required BuildContext context,
     required AnimationController controller,
@@ -168,6 +171,28 @@ class HomeCubit extends Cubit<HomeState> {
       ),
     );
   }
+
+  Marker buildFlagMarker({
+    required entity,
+    required BuildContext context,
+    required AnimationController controller,
+    required bool isStart,
+  }) {
+    return Marker(
+      point: LatLng(
+        entity.latitude,
+        entity.longitude,
+      ),
+      width: 35.w,
+      height: 35.w,
+      child: Image.asset(
+        isStart ? ImageManager.greenFlag : ImageManager.redFlag,
+        width: 15.w,
+        height: 15.w,
+      ),
+    );
+  }
+
 
   String detectCarColorPath({required String carStatus}) {
     String iconPath = "";

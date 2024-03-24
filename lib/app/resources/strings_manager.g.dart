@@ -67,5 +67,6 @@ abstract class  LocaleKeys {
   static const iTieTt = 'iTieTt';
   static const poweredBy = 'poweredBy';
   static const endDateValidator = 'endDateValidator';
+  static const vehicleRoutes = 'vehicleRoutes';
 
 }

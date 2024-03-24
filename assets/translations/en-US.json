@@ -64,5 +64,6 @@
   "allRightsReserved": "All rights reserved",
   "iTieTt": "ITieIt",
   "poweredBy": "Powered By",
-  "endDateValidator": "End date must be after start date"
+  "endDateValidator": "End date must be after start date",
+  "vehicleRoutes": "Vehicle routes"
 }

@@ -19,12 +19,12 @@ Future<DateTime?> selectDate(BuildContext context) async {
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData(
-          primaryColor: ColorManager.greenSwatch,
+          primaryColor: ColorManager.blueSwatch,
           buttonBarTheme: const ButtonBarThemeData(
             buttonTextTheme: ButtonTextTheme.primary,
           ),
           colorScheme: ColorScheme.light(
-            primary: ColorManager.greenSwatch,
+            primary: ColorManager.blueSwatch,
           ),
           dialogBackgroundColor: Colors.white,
         ),

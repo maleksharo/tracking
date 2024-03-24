@@ -4,7 +4,6 @@ part of 'auth_cubit.dart';
 abstract class LoginState {}
 
 /// login
-class LoginInitialState implements LoginState {}
 
 class LoginLoadingState implements LoginState {}
 

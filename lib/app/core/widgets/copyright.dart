@@ -12,11 +12,15 @@ class CopyRight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      // crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Divider(
           thickness: 1,
           color: ColorManager.grey,
+          endIndent: 30.w,
+          indent: 30.w,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

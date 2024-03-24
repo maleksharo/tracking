@@ -40,7 +40,7 @@ class ColorManager {
     13: Color(0xFF262724),
   };
 
-  static const _greenSwatch = {
+  static const _blueSwatch = {
     300: Color(0xFF8cfcec),
     400: Color(0xFF5bb3b0),
     500: Color(0xFF34acf4),
@@ -60,7 +60,7 @@ class ColorManager {
   /// The primary color can be used instead of the black primary color
   static final blackSwatch = ColorSwatch(primaryBlack.value, _blackSwatch);
   /// The primary color can be used instead of the green primary color
-  static final greenSwatch = ColorSwatch(primaryBlue.value, _greenSwatch);
+  static final blueSwatch = ColorSwatch(primaryBlue.value, _blueSwatch);
   /// The primary color can be used instead of the oil primary color
   static final oilSwatch = ColorSwatch(primaryOil.value, _oilSwatch);
 }

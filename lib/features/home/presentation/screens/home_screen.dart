@@ -26,12 +26,13 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final homeCubit = getIt<HomeCubit>();
   final refreshCubit = getIt<RefreshCubit>();
   final mapController = MapController();
   TextEditingController searchKeyController = TextEditingController();
   List<CarsDataEntity> carsList = [];
+  List<dynamic> flagList = [];
   late AnimationController controller;
 
   @override
@@ -70,21 +71,39 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
           BlocConsumer(
             bloc: homeCubit,
             listener: (context,  state) {
+              if (state is GetTripInfoSuccessState) {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                if (state.recordsVehicleRoutesEntity.vehicleRoutes.isNotEmpty) {
+                  flagList.addAll([
+                    state.recordsVehicleRoutesEntity.vehicleRoutes.first,
+                    state.recordsVehicleRoutesEntity.vehicleRoutes.last,
+                  ]);
+                } else {
+                  Fluttertoast.showToast(msg: LocaleKeys.noRouteFound.tr());
+                }
+              }
               if (state is GetCarsDataFailedState) {
                 Fluttertoast.showToast(msg: state.message);
               }
-              if(state is GetCarLocationFailedState){
+              if (state is GetCarLocationFailedState) {
                 Fluttertoast.showToast(msg: state.message);
               }
-              if(state is GetCarLocationSuccessState){
+              if (state is GetCarLocationSuccessState) {
                 context.router.pop();
-                if (state.recordsCarLocationEntity.carLocations.isEmpty) {
+                if (state.recordsCarLocationEntity.carLocations.isNotEmpty) {
+                  flagList.addAll([
+                    state.recordsCarLocationEntity.carLocations.first,
+                    state.recordsCarLocationEntity.carLocations.last,
+                  ]);
+                } else {
                   Fluttertoast.showToast(msg: LocaleKeys.noRouteFound.tr());
                 }
               }
               if (state is GetCarsDataSuccessState) {
                 carsList.clear();
                 carsList.addAll(state.carsDataEntity.carsList);
+
                 if (state.firstTime) {
                   mapController.move(homeCubit.initCamera(carsList: state.carsDataEntity.carsList), 2);
                 }
@@ -95,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
               if (state is MoveToCarLocation) {
                 mapController.move(
                   state.latLng,
-                  12,
+                  15,
                 );
               }
             },
@@ -124,24 +143,39 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                   PolylineLayer(
                     polylines: [
                       Polyline(
-                          points: homeCubit.carLocationsRoute
-                              .map(
-                                (e) => LatLng(e.latitude, e.longitude),
-                          )
-                              .toList(),
-                          strokeWidth: 4,
-                          color: ColorManager.primary)
+                        points: homeCubit.carLocationsRoute
+                            .map(
+                              (e) => LatLng(e.latitude, e.longitude),
+                            )
+                            .toList(),
+                        strokeWidth: 3,
+                        color: ColorManager.blueSwatch[700]!,
+                      ),
                     ],
                   ),
                   MarkerLayer(
                     markers: carsList
-                        .map((e) => homeCubit.buildPin(
+                        .map((e) => homeCubit.buildCarMarker(
                               entity: e,
                               context: context,
                               controller: controller,
                             ))
                         .toList(),
                   ),
+                  MarkerLayer(
+                    markers: flagList
+                        .map((e) => homeCubit.buildFlagMarker(
+                              entity: e,
+                              isStart: flagList.first.latitude == e.latitude && flagList.first.longitude == e.longitude,
+                              context: context,
+                              controller: controller,
+                            ))
+                        .toList(),
+                  ),
+                  //
+                  // MarkerLayer(
+                  //   markers: generateDirectionMarkers()
+                  // ),
                   searchField(),
                 ],
               );
@@ -199,4 +233,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
       ),
     );
   }
+// List<Marker> generateDirectionMarkers() {
+//   List<Marker> markers = [];
+//
+//   for (int i = 0; i < homeCubit.carLocationsRoute.length - 1; i++) {
+//     LatLng p1 = LatLng(homeCubit.carLocationsRoute[i].latitude, homeCubit.carLocationsRoute[i].longitude);
+//     LatLng p2 = LatLng(homeCubit.carLocationsRoute[i + 1].latitude, homeCubit.carLocationsRoute[i + 1].longitude);
+//
+//
+//     double angle = atan2(p2.latitude - p1.latitude, p2.longitude - p1.longitude);
+//
+//     markers.add(
+//       Marker(
+//         width: 40.0,
+//         height: 40.0,
+//         point: p1,
+//        child: Transform.rotate(
+//          angle: 0,
+//          child: const Icon(
+//            Icons.arrow_forward,
+//            color: Colors.red,
+//          ),
+//        ),
+//       ),
+//     );
+//   }
+//
+//   return markers;
+// }
 }

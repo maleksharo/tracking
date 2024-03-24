@@ -6,19 +6,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:tracking/app/core/refresh_cubit/refresh_cubit.dart';
 import 'package:tracking/app/core/utils/string_extensions.dart';
+import 'package:tracking/app/core/widgets/alert_dialog.dart';
 import 'package:tracking/app/core/widgets/custom_text_field.dart';
 import 'package:tracking/app/core/widgets/primary_button.dart';
 import 'package:tracking/app/di/injection.dart';
 import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/features/home/domain/entities/vehicle_trips_entity.dart';
 import 'package:tracking/features/home/presentation/cubit/home_cubit.dart';
-import 'package:tracking/features/home/presentation/screens/widgets/trip_info_card.dart';
 
 import '../../../../../app/core/widgets/date_time_picker.dart';
 import '../../../../../app/functions.dart';
+import '../../../../../app/resources/assets_manager.dart';
 
-class ReportsSheet extends StatefulWidget {
-  const ReportsSheet({
+class VehicleRoutesSheet extends StatefulWidget {
+  const VehicleRoutesSheet({
     super.key,
     required this.animationController,
   });
@@ -26,7 +27,7 @@ class ReportsSheet extends StatefulWidget {
   final AnimationController animationController;
 
   @override
-  State<ReportsSheet> createState() => _ReportsSheetState();
+  State<VehicleRoutesSheet> createState() => _VehicleRoutesSheetState();
 
   static void show({
     required BuildContext context,
@@ -45,17 +46,16 @@ class ReportsSheet extends StatefulWidget {
           topLeft: Radius.circular(10.sp),
         ),
       ),
-      builder: (_) =>
-          Wrap(children: [
-            ReportsSheet(
-              animationController: animationController,
-            ),
-          ]),
+      builder: (_) => Wrap(children: [
+        VehicleRoutesSheet(
+          animationController: animationController,
+        ),
+      ]),
     );
   }
 }
 
-class _ReportsSheetState extends State<ReportsSheet> {
+class _VehicleRoutesSheetState extends State<VehicleRoutesSheet> {
   final HomeCubit homeCubit = getIt<HomeCubit>();
   final RefreshCubit refreshCubit = getIt<RefreshCubit>();
   List<VehicleTripsEntity> vehicleTrips = [];
@@ -144,17 +144,37 @@ class _ReportsSheetState extends State<ReportsSheet> {
                           },
                         ),
                         10.verticalSpace,
-                        BlocBuilder(
+                        BlocConsumer(
                           bloc: homeCubit,
+                          listener: (context, state) {
+                            if (state is GetTripInfoFailedState) {
+                              alertDialog(
+                                context: context,
+                                image: SvgManager.infoWarning,
+                                message: state.message,
+                                approveButtonTitle: LocaleKeys.retry,
+                                onConfirm: () {
+                                  if (formKey.currentState!.validate()) {
+                                    if (homeCubit.fromTimeServer.isNotEmpty && homeCubit.toTimeServer.isNotEmpty) {
+                                      homeCubit.getVehicleRoutesBetweenTwoTimes();
+                                    } else {
+                                      Fluttertoast.showToast(msg: LocaleKeys.fieldRequired.tr());
+                                    }
+                                  }
+                                },
+                              );
+                            }
+
+                          },
                           builder: (context, state) {
                             return PrimaryButton(
                               width: 0.5.sw,
                               text: LocaleKeys.ok.tr(),
-                              isLoading: state is GetCarTripRouteLoadingState,
+                              isLoading: state is GetTripInfoLoadingState,
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
                                   if (homeCubit.fromTimeServer.isNotEmpty && homeCubit.toTimeServer.isNotEmpty) {
-                                    homeCubit.getVehicleTripsBetweenTwoTime();
+                                    homeCubit.getVehicleRoutesBetweenTwoTimes();
                                   } else {
                                     Fluttertoast.showToast(msg: LocaleKeys.fieldRequired.tr());
                                   }
@@ -168,40 +188,6 @@ class _ReportsSheetState extends State<ReportsSheet> {
                     ),
                   ),
                   10.verticalSpace,
-                  BlocConsumer(
-                    bloc: homeCubit,
-                    listener: (context, state) {
-                      if (state is GetCarTripRouteSuccessState) {
-                        vehicleTrips.clear();
-                        vehicleTrips.addAll(state.recordsVehicleTripsEntity.vehicleTrips);
-                        if (vehicleTrips.isEmpty) {
-                          Fluttertoast.showToast(msg: LocaleKeys.noContent.tr());
-                        }
-                      }
-                    },
-                    builder: (context, state) {
-                      return Column(
-                        children: [
-                          if (vehicleTrips.isNotEmpty)
-                            Scrollbar(
-                              child: SizedBox(
-                                height: 0.6.sh,
-                                child: ListView.builder(
-                                  itemBuilder: (context, index) {
-                                    return TripInfoCard(
-                                      entity: vehicleTrips[index],
-                                    );
-                                  },
-                                  itemCount: vehicleTrips.length,
-                                  shrinkWrap: true,
-                                ),
-                              ),
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                  10.verticalSpace
                 ],
               ),
             ),
@@ -210,6 +196,4 @@ class _ReportsSheetState extends State<ReportsSheet> {
       ),
     );
   }
-
-
 }

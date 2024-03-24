@@ -63,7 +63,8 @@ class TripInfoCard extends StatelessWidget {
                   ),
                   10.horizontalSpace,
                   Text(
-                    convertDoubleToTime(decimalHours: entity.duration.toString()),
+                      entity.duration.toString(),
+                    // convertDoubleToTime(decimalHours: entity.duration.toString()),
                     style: FontUtils.nexaTextStyle.copyWith(color: ColorManager.primaryOil),
                   ),
                 ],

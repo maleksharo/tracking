@@ -33,7 +33,7 @@ class AuthCubit extends Cubit<LoginState> {
     required this.forgotPasswordUseCase,
     required this.appPreferences,
     required this.getServerUseCase,
-  }) : super(LoginInitialState());
+  }) : super(GetServersLoadingState());
 
   Future<void> login({required String login, required String password}) async {
     emit(LoginLoadingState());
@@ -60,7 +60,8 @@ class AuthCubit extends Cubit<LoginState> {
   }
 
   Future<void> getServers() async {
-    emit(GetServersLoadingState());
+    await Future.delayed(const Duration(seconds: 1)).then((value) => emit(GetServersLoadingState()));
+
     (await getServerUseCase.execute(Void)).fold(
       (l) {
         emit(GetServersFailState(l.errorMessage ?? LocaleKeys.defaultError.tr()));

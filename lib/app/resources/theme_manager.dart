@@ -10,7 +10,7 @@ ThemeData getApplicationTheme() {
     useMaterial3: true,
 
     /// main colors
-    primaryColor: ColorManager.greenSwatch,
+    primaryColor: ColorManager.blueSwatch,
     primaryColorLight: ColorManager.lightPrimary,
     primaryColorDark: ColorManager.darkPrimary,
     disabledColor: ColorManager.lightGrey,
@@ -18,7 +18,7 @@ ThemeData getApplicationTheme() {
     // brightness: Brightness.dark,
     checkboxTheme: CheckboxThemeData(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      checkColor: MaterialStatePropertyAll(ColorManager.greenSwatch[500]),
+      checkColor: MaterialStatePropertyAll(ColorManager.blueSwatch[500]),
       fillColor: MaterialStatePropertyAll(ColorManager.offWhite),
 
       shape: RoundedRectangleBorder(

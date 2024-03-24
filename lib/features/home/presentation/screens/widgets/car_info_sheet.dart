@@ -9,6 +9,8 @@ import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/features/home/domain/entities/cars_data_entity.dart';
 import 'package:tracking/features/home/presentation/cubit/home_cubit.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/car_info_card.dart';
+import 'package:tracking/features/home/presentation/screens/widgets/report_sheet.dart';
+import 'package:tracking/features/home/presentation/screens/widgets/vehicle_routes_sheet.dart';
 
 class CarInfoSheet extends StatefulWidget {
   const CarInfoSheet({
@@ -79,11 +81,46 @@ class _CarInfoSheetState extends State<CarInfoSheet> {
                 BlocBuilder(
                   bloc: homeCubit,
                   builder: (context, state) {
-                    return PrimaryButton(
-                      width: 0.4.sw,
-                      text: LocaleKeys.showLastRoute.tr(),
-                      isLoading: state is GetCarLocationLoadingState,
-                      onPressed: () => widget.onShowRoutePressed(widget.entity),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            PrimaryButton(
+                              width: 0.35.sw,
+                              text: LocaleKeys.showLastRoute.tr(),
+                              isLoading: state is GetCarLocationLoadingState,
+                              onPressed: () => widget.onShowRoutePressed(widget.entity),
+                            ),
+                            PrimaryButton(
+                              width: 0.3.sw,
+                              text: LocaleKeys.tripReport.tr(),
+                              onPressed: () {
+                                homeCubit.tracCarDeviceId = widget.entity.deviceId;
+                                ReportsSheet.show(
+                                  context: context,
+                                  animationController: widget.animationController,
+                                );
+                              },
+                            ),
+
+
+                          ],
+                        ),
+                        10.verticalSpace,
+                        PrimaryButton(
+                          width: 0.3.sw,
+                          text: LocaleKeys.vehicleRoutes.tr(),
+                          onPressed: () {
+                            homeCubit.tracCarDeviceId = widget.entity.deviceId;
+                            VehicleRoutesSheet.show(
+                              context: context,
+                              animationController: widget.animationController,
+                            );
+                          },
+                        ),
+                      ],
                     );
                   },
                 ),
