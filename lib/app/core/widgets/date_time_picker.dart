@@ -1,7 +1,7 @@
-import 'package:tracking/app/resources/color_manager.dart';
-import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tracking/app/resources/color_manager.dart';
+import 'package:tracking/app/resources/strings_manager.g.dart';
 
 DateTime selectedDate = DateTime.now();
 TimeOfDay selectedTime = TimeOfDay.now();
@@ -11,8 +11,8 @@ Future<DateTime?> selectDate(BuildContext context) async {
     context: context,
     initialDate: selectedDate,
     locale: const Locale('en', 'US'),
-    firstDate: DateTime(1950),
-    lastDate: DateTime.now().add(const Duration(days: 365)),
+    firstDate: DateTime(DateTime.now().year - 1),
+    lastDate: DateTime.now(),
     confirmText: LocaleKeys.ok.tr(),
     cancelText: LocaleKeys.cancel.tr(),
     helpText: LocaleKeys.selectDate.tr(),
@@ -44,7 +44,7 @@ Future<DateTime?> selectDate(BuildContext context) async {
 Future<TimeOfDay?> selectTime(BuildContext context) async {
   TimeOfDay? pickedTime = await showTimePicker(
     context: context,
-    initialTime: selectedTime,
+    initialTime: const TimeOfDay(hour: 00, minute: 00),
   );
 
   if (pickedTime != null) {

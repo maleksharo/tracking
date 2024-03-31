@@ -57,15 +57,17 @@ String convertFrom12To24HourTypes({required String currentTime}) {
   }
 }
 
-String? compareDateValidator({required String startDateTime, required String endDateTime}) {
+String? compareDateValidator({required String startDateTime, required String endDateTime, required bool checkTimeGap}) {
   if (endDateTime.isEmpty) {
     return LocaleKeys.fieldRequired.tr();
   } else {
     DateTime startDate = DateTime.parse(startDateTime);
     DateTime endDate = DateTime.parse(endDateTime);
-
     if (endDate.isBefore(startDate)) {
       return LocaleKeys.endDateValidator.tr();
+    }
+    if (endDate.difference(startDate) > const Duration(hours: 6) && checkTimeGap) {
+      return LocaleKeys.timeGap.tr();
     }
   }
 

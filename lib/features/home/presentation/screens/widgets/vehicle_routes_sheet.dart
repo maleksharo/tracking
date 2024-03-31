@@ -19,22 +19,15 @@ import '../../../../../app/functions.dart';
 import '../../../../../app/resources/assets_manager.dart';
 
 class VehicleRoutesSheet extends StatefulWidget {
-  const VehicleRoutesSheet({
-    super.key,
-    required this.animationController,
-  });
-
-  final AnimationController animationController;
+  const VehicleRoutesSheet({super.key});
 
   @override
   State<VehicleRoutesSheet> createState() => _VehicleRoutesSheetState();
 
   static void show({
     required BuildContext context,
-    required AnimationController animationController,
   }) {
     showModalBottomSheet(
-      transitionAnimationController: animationController,
       isDismissible: true,
       isScrollControlled: true,
       enableDrag: true,
@@ -48,7 +41,6 @@ class VehicleRoutesSheet extends StatefulWidget {
       ),
       builder: (_) => Wrap(children: [
         VehicleRoutesSheet(
-          animationController: animationController,
         ),
       ]),
     );
@@ -126,8 +118,10 @@ class _VehicleRoutesSheetState extends State<VehicleRoutesSheet> {
                           isFieldObscure: false,
                           validator: (value) {
                             return compareDateValidator(
-                                endDateTime: homeCubit.toTimeController.text,
-                                startDateTime: homeCubit.fromTimeController.text);
+                              endDateTime: homeCubit.toTimeController.text,
+                              startDateTime: homeCubit.fromTimeController.text,
+                              checkTimeGap: true,
+                            );
                           },
                           autoValidateMode: AutovalidateMode.onUserInteraction,
                           textInputAction: TextInputAction.next,
@@ -139,7 +133,6 @@ class _VehicleRoutesSheetState extends State<VehicleRoutesSheet> {
                               homeCubit.toTimeController.text = combinedDateTime.toString().removeSeconds();
                               homeCubit.toTimeServer = combinedDateTime.toUtc().toIso8601String();
                             }
-
                             refreshCubit.refresh();
                           },
                         ),
@@ -164,7 +157,6 @@ class _VehicleRoutesSheetState extends State<VehicleRoutesSheet> {
                                 },
                               );
                             }
-
                           },
                           builder: (context, state) {
                             return PrimaryButton(

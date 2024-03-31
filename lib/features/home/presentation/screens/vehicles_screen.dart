@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,14 +7,12 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:tracking/app/core/refresh_cubit/refresh_cubit.dart';
 import 'package:tracking/app/core/widgets/custom_text_field.dart';
 import 'package:tracking/app/core/widgets/error_view.dart';
-import 'package:tracking/app/core/widgets/primary_button.dart';
 import 'package:tracking/app/di/injection.dart';
 import 'package:tracking/app/resources/color_manager.dart';
 import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/features/home/domain/entities/cars_data_entity.dart';
 import 'package:tracking/features/home/presentation/cubit/home_cubit.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/car_info_card.dart';
-import 'package:tracking/features/home/presentation/screens/widgets/report_sheet.dart';
 
 import '../../../../app/core/utils/font_utils.dart';
 
@@ -32,17 +29,12 @@ class _VehiclesScreenState extends State<VehiclesScreen> with TickerProviderStat
   final refresh = getIt<RefreshCubit>();
   List<CarsDataEntity> carsList = [];
   List<CarsDataEntity> searchedList = [];
-  late AnimationController controller;
   TextEditingController searchKeyController = TextEditingController();
 
   @override
   void initState() {
     homeCubit.getVehiclesData(firstTime: true, homeSource: false);
 
-    controller = BottomSheet.createAnimationController(this);
-    controller.duration = const Duration(seconds: 1);
-    controller.reverseDuration = const Duration(seconds: 1);
-    controller.drive(CurveTween(curve: Curves.easeIn));
     super.initState();
   }
 
@@ -111,18 +103,17 @@ class _VehiclesScreenState extends State<VehiclesScreen> with TickerProviderStat
                                   entity: searchedList[index],
                                 ),
                               ),
-                              PrimaryButton(
-                                width: 0.3.sw,
-                                text: LocaleKeys.tripReport.tr(),
-                                onPressed: () {
-                                  homeCubit.tracCarDeviceId = searchedList[index].deviceId;
-                                  ReportsSheet.show(
-                                    context: context,
-                                    animationController: controller,
-                                  );
-                                },
-                              ),
-                              10.verticalSpace,
+                              // PrimaryButton(
+                              //   width: 0.3.sw,
+                              //   text: LocaleKeys.tripReport.tr(),
+                              //   onPressed: () {
+                              //     homeCubit.tracCarDeviceId = searchedList[index].deviceId;
+                              //     ReportsSheet.show(
+                              //       context: context,
+                              //     );
+                              //   },
+                              // ),
+                              // 10.verticalSpace,
                             ],
                           ),
                         );

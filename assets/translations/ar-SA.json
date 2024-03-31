@@ -63,10 +63,13 @@
   "lastReportingTime": "آخر وقت ارسال",
   "allRightsReserved": "جميع الحقوق محفوظة",
   "iTieTt": "ITieIt",
-
-
   "poweredBy": "صمم بواسطة",
-
   "endDateValidator": "تاريخ النهاية يجب ان يكون بعد تاريخ البداية",
-  "vehicleRoutes": "مسارات المركبة"
+  "vehicleRoutes": "مسارات المركبة",
+  "enterYourServer": "ادخل اسم المخدم",
+  "apply": "موافقة",
+  "serverSelectedSuccessfully": "تم اختيار السيرفر بنجاخ",
+  "serverIsWrong": "الرجاء ادخال مخدم صحيح",
+  "timeGap": "الفارق الزمني بين تاريخ النهاية وتاريخ البداية\nيجب ألا يتجاوز ٦ ساعات",
+  "showOnMap": "عرض على الخريطة"
 }

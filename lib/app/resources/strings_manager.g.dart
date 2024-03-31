@@ -68,5 +68,10 @@ abstract class  LocaleKeys {
   static const poweredBy = 'poweredBy';
   static const endDateValidator = 'endDateValidator';
   static const vehicleRoutes = 'vehicleRoutes';
-
+  static const enterYourServer = 'enterYourServer';
+  static const apply = 'apply';
+  static const serverSelectedSuccessfully = 'serverSelectedSuccessfully';
+  static const serverIsWrong = 'serverIsWrong';
+  static const timeGap = 'timeGap';
+  static const showOnMap = 'showOnMap';
 }

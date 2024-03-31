@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking/app/app_prefs.dart';
 import 'package:tracking/app/core/widgets/svg_icon_widget.dart';
@@ -12,9 +11,7 @@ import 'package:tracking/app/resources/language_manager.dart';
 import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/app/routes/router.gr.dart';
 
-import '../../../app/core/widgets/alert_dialog.dart';
 import '../../auth/presentation/auth_cubit/auth_cubit.dart';
-import '../../auth/presentation/view/widgets/change_server_widget.dart';
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
@@ -28,7 +25,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final AppPreferences appPreferences = getIt<AppPreferences>();
   final authCubit = getIt<AuthCubit>();
 
-  List<String> servers = [];
   String? groupValue;
 
   @override
@@ -80,14 +76,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               10.verticalSpace,
-              BlocConsumer(
-                bloc: authCubit,
-                listener: _onGettingServersStateChanged,
-                builder: (context, state) {
-                  return ServersDropDownWidget(serversList: servers,isLogout: true,);
-                },
-              ),
-              10.verticalSpace,
             ],
           ),
         ),
@@ -119,31 +107,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
         language,
       ),
     );
-  }
-
-  void _onGettingServersStateChanged(
-    BuildContext context,
-    LoginState state,
-  ) {
-    if(state is GetServersLoadingState){
-      progressDialog(context: context);
-    }
-    if (state is GetServersFailState) {
-      Navigator.pop(context);
-      alertDialog(
-        context: context,
-        image: SvgManager.infoWarning,
-        message: state.message,
-        approveButtonTitle: LocaleKeys.retry,
-        onConfirm: () {
-          authCubit.getServers();
-        },
-      );
-    }
-
-    if (state is GetServersSuccessState) {
-      Navigator.pop(context);
-      servers.addAll(state.servers);
-    }
   }
 }

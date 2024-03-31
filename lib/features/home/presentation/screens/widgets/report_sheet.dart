@@ -20,20 +20,15 @@ import '../../../../../app/functions.dart';
 class ReportsSheet extends StatefulWidget {
   const ReportsSheet({
     super.key,
-    required this.animationController,
   });
-
-  final AnimationController animationController;
 
   @override
   State<ReportsSheet> createState() => _ReportsSheetState();
 
   static void show({
     required BuildContext context,
-    required AnimationController animationController,
   }) {
     showModalBottomSheet(
-      transitionAnimationController: animationController,
       isDismissible: true,
       isScrollControlled: true,
       enableDrag: true,
@@ -45,12 +40,7 @@ class ReportsSheet extends StatefulWidget {
           topLeft: Radius.circular(10.sp),
         ),
       ),
-      builder: (_) =>
-          Wrap(children: [
-            ReportsSheet(
-              animationController: animationController,
-            ),
-          ]),
+      builder: (_) => const Wrap(children: [ReportsSheet()]),
     );
   }
 }
@@ -126,8 +116,10 @@ class _ReportsSheetState extends State<ReportsSheet> {
                           isFieldObscure: false,
                           validator: (value) {
                             return compareDateValidator(
-                                endDateTime: homeCubit.toTimeController.text,
-                                startDateTime: homeCubit.fromTimeController.text);
+                              endDateTime: homeCubit.toTimeController.text,
+                              startDateTime: homeCubit.fromTimeController.text,
+                              checkTimeGap: false,
+                            );
                           },
                           autoValidateMode: AutovalidateMode.onUserInteraction,
                           textInputAction: TextInputAction.next,

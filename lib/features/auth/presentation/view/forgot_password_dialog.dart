@@ -77,7 +77,7 @@ Future<void> forgotPasswordDialog({
                         autoValidateMode: AutovalidateMode.onUserInteraction,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(
-                            errorText: LocaleKeys.invalidEmailAddress.tr(),
+                            errorText: LocaleKeys.fieldRequired.tr(),
                           ),
                           FormBuilderValidators.email(
                             errorText: LocaleKeys.invalidEmailAddress.tr(),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +17,7 @@ import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/app/routes/router.gr.dart';
 import 'package:tracking/app/ui/form_state_mixin.dart';
 import 'package:tracking/app/ui/form_utils.dart';
-import 'package:tracking/features/auth/presentation/view/widgets/change_server_widget.dart';
+import 'package:tracking/features/auth/presentation/view/widgets/login_drawer.dart';
 
 import '../../../../app/core/widgets/copyright.dart';
 import '../auth_cubit/auth_cubit.dart';
@@ -37,14 +35,11 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
   final AppPreferences appPreferences = getIt<AppPreferences>();
   final refreshCubit = getIt<RefreshCubit>();
   List<String> servers = [];
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    // authCubit.getUserInfo().then((value) {
-    //   form.controllers[0].text = value.email;
-    //   form.controllers[1].text = value.password;
-    // });
 
     authCubit.getServers();
   }
@@ -52,16 +47,30 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       bottomNavigationBar: const CopyRight(),
       backgroundColor: ColorManager.white,
+      drawer: LoginDrawer(
+        servers: servers,
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.w),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                IconButton(
+                  onPressed: () {
+                    _scaffoldKey.currentState!.openDrawer();
+                  },
+                  icon: Icon(
+                    Icons.menu,
+                    color: ColorManager.darkPrimary,
+                  ),
+                ),
+                SizedBox(height: 10.h),
                 Hero(
                   tag: ImageManager.splashLogo,
                   child: Image.asset(ImageManager.appLogo),
@@ -76,18 +85,15 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: 10.h),
-                          ServersDropDownWidget(serversList: servers,isLogout: false,),
-                          SizedBox(height: 12.h),
                           CustomTextField(
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
                             controller: form.controllers[0],
-                            labelText: LocaleKeys.emailAddress.tr(),
                             hint: LocaleKeys.yourEmail.tr(),
                             autoValidateMode: AutovalidateMode.onUserInteraction,
                             validator: FormBuilderValidators.compose([
                               FormBuilderValidators.required(
-                                errorText: LocaleKeys.invalidEmailAddress.tr(),
+                                errorText: LocaleKeys.fieldRequired.tr(),
                               ),
                               FormBuilderValidators.email(
                                 errorText: LocaleKeys.invalidEmailAddress.tr(),
@@ -97,7 +103,6 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
                           SizedBox(height: 24.h),
                           CustomTextField(
                             controller: form.controllers[1],
-                            labelText: LocaleKeys.password.tr(),
                             hint: LocaleKeys.password.tr(),
                             isFieldObscure: true,
                             autoValidateMode: AutovalidateMode.onUserInteraction,
@@ -110,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
                               )
                             ]),
                           ),
-                          SizedBox(height: 4.h),
+                          SizedBox(height: 8.h),
                           GestureDetector(
                             onTap: () {
                               forgotPasswordDialog(context: context);
@@ -125,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
                           PrimaryButton(
                             isLoading: state is LoginLoadingState,
                             backgroundColor:
-                                appPreferences.getString(prefsKey: prefsBaseUrl).isEmpty ? ColorManager.grey : null,
+                            appPreferences.getString(prefsKey: prefsBaseUrl).isEmpty ? ColorManager.grey : null,
                             text: LocaleKeys.login.tr(),
                             onPressed: appPreferences.getString(prefsKey: prefsBaseUrl).isEmpty ? null : _onLoginTapped,
                           ),

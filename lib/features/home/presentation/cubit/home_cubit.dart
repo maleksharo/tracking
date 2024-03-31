@@ -118,14 +118,23 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  LatLng initCamera({required List<CarsDataEntity> carsList}) {
+  LatLng initCamera({required List<dynamic> carsList}) {
     double long = 0.0, lat = 0.0;
     int carsNumber = 0;
-    for (var car in carsList) {
-      carsNumber++;
-      long += car.locationEntity.longitude;
-      lat += car.locationEntity.latitude;
+    if (carsList.first.runtimeType.toString() == "CarsDataEntity") {
+      for (var car in carsList) {
+        carsNumber++;
+        long += car.locationEntity.longitude;
+        lat += car.locationEntity.latitude;
+      }
+    } else if (carsList.first.runtimeType.toString() == "CarLocationEntity") {
+      for (var car in carsList) {
+        carsNumber++;
+        long += car.longitude;
+        lat += car.latitude;
+      }
     }
+
     if (lat != 0 && long != 0 && carsNumber != 0) {
       lat = lat / carsNumber;
       long = long / carsNumber;
@@ -134,9 +143,8 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Marker buildCarMarker({
-    required CarsDataEntity entity,
     required BuildContext context,
-    required AnimationController controller,
+    required CarsDataEntity entity,
   }) {
     return Marker(
       point: LatLng(
@@ -156,11 +164,7 @@ class HomeCubit extends Cubit<HomeState> {
 
           CarInfoSheet.show(
             context: context,
-            animationController: controller,
             entity: entity,
-            onShowRoutePressed: (entity) {
-              getVehicleLastOneHourRoute(tracCarDeviceId: entity.deviceId);
-            },
           );
         },
         child: Image.asset(
@@ -175,7 +179,6 @@ class HomeCubit extends Cubit<HomeState> {
   Marker buildFlagMarker({
     required entity,
     required BuildContext context,
-    required AnimationController controller,
     required bool isStart,
   }) {
     return Marker(
