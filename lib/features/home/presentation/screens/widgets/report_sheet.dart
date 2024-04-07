@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +11,7 @@ import 'package:tracking/app/core/utils/string_extensions.dart';
 import 'package:tracking/app/core/widgets/custom_text_field.dart';
 import 'package:tracking/app/core/widgets/primary_button.dart';
 import 'package:tracking/app/di/injection.dart';
+import 'package:tracking/app/resources/color_manager.dart';
 import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/features/home/domain/entities/vehicle_trips_entity.dart';
 import 'package:tracking/features/home/presentation/cubit/home_cubit.dart';
@@ -50,7 +53,7 @@ class _ReportsSheetState extends State<ReportsSheet> {
   final RefreshCubit refreshCubit = getIt<RefreshCubit>();
   List<VehicleTripsEntity> vehicleTrips = [];
   final formKey = GlobalKey<FormState>();
-
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -92,13 +95,16 @@ class _ReportsSheetState extends State<ReportsSheet> {
                           autoValidateMode: AutovalidateMode.onUserInteraction,
                           textInputAction: TextInputAction.next,
                           readOnly: true,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(
-                              errorText: LocaleKeys.fieldRequired.tr(),
-                            ),
-                          ]),
+                          validator: (val){
+                            if (val!.isEmpty) {
+                              return LocaleKeys.fieldRequired.tr();
+                            }
+                            else {
+                              return null;
+                            }
+                          },
                           onTab: () async {
-                            DateTime? selectedDateTime = await selectDate(context);
+                            DateTime? selectedDateTime = await selectDate(context: context,hours: 00,min: 00);
                             if (selectedDateTime != null) {
                               DateTime combinedDateTime = combineDateAndTime(selectedDateTime, selectedTime);
                               homeCubit.fromTimeController.text = combinedDateTime.toString().removeSeconds();
@@ -125,7 +131,7 @@ class _ReportsSheetState extends State<ReportsSheet> {
                           textInputAction: TextInputAction.next,
                           readOnly: true,
                           onTab: () async {
-                            DateTime? selectedDateTime = await selectDate(context);
+                            DateTime? selectedDateTime = await selectDate(context: context,hours: 23,min: 59);
                             if (selectedDateTime != null) {
                               DateTime combinedDateTime = combineDateAndTime(selectedDateTime, selectedTime);
                               homeCubit.toTimeController.text = combinedDateTime.toString().removeSeconds();
@@ -142,7 +148,9 @@ class _ReportsSheetState extends State<ReportsSheet> {
                             return PrimaryButton(
                               width: 0.5.sw,
                               text: LocaleKeys.ok.tr(),
-                              isLoading: state is GetCarTripRouteLoadingState,
+                              backgroundColor: checkButtonAvailability() ? null : ColorManager.grey ,
+
+                              isLoading: isLoading,
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
                                   if (homeCubit.fromTimeServer.isNotEmpty && homeCubit.toTimeServer.isNotEmpty) {
@@ -169,6 +177,13 @@ class _ReportsSheetState extends State<ReportsSheet> {
                         if (vehicleTrips.isEmpty) {
                           Fluttertoast.showToast(msg: LocaleKeys.noContent.tr());
                         }
+                        isLoading = false;
+                        log(isLoading.toString(),name: "isExpanded");
+                        refreshCubit.refresh();
+                      }
+                      if(state is GetCarTripRouteLoadingState){
+                        isLoading = true;
+                        refreshCubit.refresh();
                       }
                     },
                     builder: (context, state) {
@@ -202,6 +217,8 @@ class _ReportsSheetState extends State<ReportsSheet> {
       ),
     );
   }
-
+  bool checkButtonAvailability(){
+    return homeCubit.fromTimeController.text.isNotEmpty && homeCubit.toTimeController.text.isNotEmpty;
+  }
 
 }

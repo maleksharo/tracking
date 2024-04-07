@@ -15,5 +15,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: HomeRoute.page, guards: [getIt<AuthGuard>()]),
         AutoRoute(page: VehiclesRoute.page),
         AutoRoute(page: SettingsRoute.page),
+        AutoRoute(page: TripOnMapRoute.page),
       ];
 }

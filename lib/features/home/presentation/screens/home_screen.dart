@@ -28,10 +28,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final homeCubit = getIt<HomeCubit>();
+  List<dynamic> flagList = [];
   TextEditingController searchKeyController = TextEditingController();
   final mapController = MapController();
   List<CarsDataEntity> carsList = [];
-  List<dynamic> flagList = [];
 
   @override
   void initState() {
@@ -51,6 +51,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           mapController.move(latLang, 18);
         },
         onShowRoutePressed: (entity) {
+
+          flagList.clear();
           homeCubit.getVehicleLastOneHourRoute(tracCarDeviceId: entity.deviceId);
         },
       ),
@@ -75,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             bloc: homeCubit,
             listener: (context,  state) {
               if (state is GetTripInfoSuccessState) {
-                Navigator.pop(context);
+                // Navigator.pop(context);
                 if (state.recordsVehicleRoutesEntity.vehicleRoutes.isNotEmpty) {
                   flagList.addAll([
                     state.recordsVehicleRoutesEntity.vehicleRoutes.first,
@@ -105,11 +107,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     state.recordsCarLocationEntity.carLocations.first,
                     state.recordsCarLocationEntity.carLocations.last,
                   ]);
-                  mapController.move(homeCubit.initCamera(carsList: state.recordsCarLocationEntity.carLocations), 13);
-                  mapController.move(
-                      LatLng(state.recordsCarLocationEntity.carLocations.first.latitude,
-                          state.recordsCarLocationEntity.carLocations.first.longitude),
-                      13);
+                  mapController.move(homeCubit.initCamera(carsList: state.recordsCarLocationEntity.carLocations), 9);
+                  // mapController.move(
+                  //     LatLng(state.recordsCarLocationEntity.carLocations.first.latitude,
+                  //         state.recordsCarLocationEntity.carLocations.first.longitude),
+                  //     18);
                 } else {
                   Fluttertoast.showToast(msg: LocaleKeys.noRouteFound.tr());
                 }
@@ -184,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ))
                         .toList(),
                   ),
-                  MarkerLayer(markers: generateDirectionMarkers()),
+                  MarkerLayer(markers: homeCubit.generateDirectionMarkers()),
                 ],
               );
             },
@@ -194,35 +196,5 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  List<Marker> generateDirectionMarkers() {
-    List<Marker> markers = [];
 
-    int stepSize = (homeCubit.carLocationsRoute.length / 5).ceil();
-
-    for (int i = 0; i < homeCubit.carLocationsRoute.length - 1; i += stepSize) {
-      LatLng p1 = LatLng(homeCubit.carLocationsRoute[i].latitude, homeCubit.carLocationsRoute[i].longitude);
-      LatLng p2 = LatLng(
-          homeCubit.carLocationsRoute[min(i + stepSize, homeCubit.carLocationsRoute.length - 1)].latitude,
-          homeCubit.carLocationsRoute[min(i + stepSize, homeCubit.carLocationsRoute.length - 1)].longitude);
-
-      double angle = atan2(p2.latitude - p1.latitude, p2.longitude - p1.longitude);
-
-      markers.add(
-        Marker(
-          width: 40.0.w,
-          height: 40.0.w,
-          point: p1,
-          child: Transform.rotate(
-            angle: -angle,
-            child: const Icon(
-              Icons.arrow_forward,
-              color: ColorManager.primaryOil,
-            ),
-          ),
-        ),
-      );
-    }
-
-    return markers;
-  }
 }

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +13,6 @@ import '../../../../../app/core/refresh_cubit/refresh_cubit.dart';
 import '../../../../../app/core/widgets/custom_text_field.dart';
 import '../../../../../app/core/widgets/primary_button.dart';
 import '../../../../../app/di/injection.dart';
-import '../../../../../app/resources/strings_manager.g.dart';
 import '../../../domain/entities/cars_data_entity.dart';
 import '../../cubit/home_cubit.dart';
 
@@ -48,12 +46,12 @@ class _VehiclesActionsSheetState extends State<VehiclesActionsSheet> {
         topLeft: Radius.circular(8.sp),
       ),
       child: DraggableScrollableSheet(
-        initialChildSize: 0.35,
+        initialChildSize: 0.26,
         minChildSize: 0.04,
         maxChildSize: 1,
         snap: true,
         expand: false,
-        snapSizes: const [0.04, 0.35, 0.5, 0.7, 1],
+        snapSizes: const [0.04, 0.26, 0.5, 0.7, 1],
         builder: (context, scrollController) {
           return Scaffold(
               backgroundColor: ColorManager.lightGreyCalendar2,
@@ -71,45 +69,43 @@ class _VehiclesActionsSheetState extends State<VehiclesActionsSheet> {
                     BlocBuilder(
                       bloc: homeCubit,
                       builder: (context, state) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                PrimaryButton(
-                                  width: 0.35.sw,
-                                  text: LocaleKeys.showLastRoute.tr(),
-                                  isLoading: state is GetCarLocationLoadingState,
-                                  onPressed: () {
-                                    if (entity != null) {
-                                      widget.onShowRoutePressed(entity!);
-                                    } else {
-                                      Fluttertoast.showToast(msg: "Select vehicle first");
-                                    }
-                                  },
-                                ),
-                                PrimaryButton(
-                                  width: 0.3.sw,
-                                  text: LocaleKeys.tripReport.tr(),
-                                  onPressed: () {
-                                    if (entity != null) {
-                                      homeCubit.tracCarDeviceId = entity!.deviceId;
-                                      ReportsSheet.show(
-                                        context: context,
-                                      );
-                                    } else {
-                                      Fluttertoast.showToast(msg: "Select vehicle first");
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                            10.verticalSpace,
                             PrimaryButton(
-                              width: 0.3.sw,
-                              text: LocaleKeys.vehicleRoutes.tr(),
+                              width: 0.2.sw,
+                              icon: const Icon(Icons.flag),
+                              isLoading: state is GetCarLocationLoadingState,
                               onPressed: () {
+                                if (entity != null) {
+                                  widget.onShowRoutePressed(entity!);
+                                } else {
+                                  Fluttertoast.showToast(msg: "Select vehicle first");
+                                }
+                              },
+                            ),
+                            PrimaryButton(
+                              width: 0.2.sw,
+                              icon: const Icon(Icons.description),
+                              // text: LocaleKeys.tripReport.tr(),
+                              onPressed: () {
+                                homeCubit.clearTimes();
+                                if (entity != null) {
+                                  homeCubit.tracCarDeviceId = entity!.deviceId;
+                                  ReportsSheet.show(
+                                    context: context,
+                                  );
+                                } else {
+                                  Fluttertoast.showToast(msg: "Select vehicle first");
+                                }
+                              },
+                            ),
+                            PrimaryButton(
+                              width: 0.2.sw,
+                              icon: const Icon(Icons.route_sharp),
+                              onPressed: () {
+                                homeCubit.clearTimes();
+
                                 if (entity != null) {
                                   homeCubit.tracCarDeviceId = entity!.deviceId;
                                   VehicleRoutesSheet.show(

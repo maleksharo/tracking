@@ -6,7 +6,7 @@ import 'package:tracking/app/resources/strings_manager.g.dart';
 DateTime selectedDate = DateTime.now();
 TimeOfDay selectedTime = TimeOfDay.now();
 
-Future<DateTime?> selectDate(BuildContext context) async {
+Future<DateTime?> selectDate({required BuildContext context, required int hours, required int min}) async {
   DateTime? pickedDate = await showDatePicker(
     context: context,
     initialDate: selectedDate,
@@ -35,16 +35,16 @@ Future<DateTime?> selectDate(BuildContext context) async {
 
   if (pickedDate != null) {
     selectedDate = pickedDate;
-    await selectTime(context);
+    await selectTime(context, hours: hours,min: min);
   }
 
   return pickedDate;
 }
 
-Future<TimeOfDay?> selectTime(BuildContext context) async {
+Future<TimeOfDay?> selectTime(BuildContext context, {required int hours, required int min}) async {
   TimeOfDay? pickedTime = await showTimePicker(
     context: context,
-    initialTime: const TimeOfDay(hour: 00, minute: 00),
+    initialTime: TimeOfDay(hour: hours, minute: min),
   );
 
   if (pickedTime != null) {

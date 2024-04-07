@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,6 +23,8 @@ import 'package:tracking/features/home/domain/usecases/get_cars_data_usecase.dar
 import 'package:tracking/features/home/domain/usecases/get_trip_info_usecase.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/car_info_sheet.dart';
 import 'package:tracking/features/home/presentation/trips_params.dart';
+
+import '../../../../app/resources/color_manager.dart';
 
 part 'home_state.dart';
 
@@ -222,6 +225,47 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> logout() async {
     await appPreferences.logout();
   }
+  List<Marker> generateDirectionMarkers() {
+    List<Marker> markers = [];
 
+    int stepSize = (carLocationsRoute.length / 10).ceil();
+
+    for (int i = 0; i < carLocationsRoute.length - 1; i += stepSize) {
+      LatLng p1 = LatLng(carLocationsRoute[i].latitude, carLocationsRoute[i].longitude);
+      LatLng p2 = LatLng(
+          carLocationsRoute[min(i + stepSize, carLocationsRoute.length - 1)].latitude,
+          carLocationsRoute[min(i + stepSize, carLocationsRoute.length - 1)].longitude);
+
+      double angle = atan2(p2.latitude - p1.latitude, p2.longitude - p1.longitude);
+
+      markers.add(
+        Marker(
+          width: 30.0.w,
+          height: 30.0.w,
+          point: p1,
+          child: Transform.rotate(
+            angle: -angle,
+            child:  Icon(
+
+              Icons.arrow_forward_ios,
+              size: 20.sp,
+              color: ColorManager.primaryOil,
+
+            ),
+          ),
+        ),
+      );
+    }
+
+    return markers;
+  }
+
+
+  clearTimes(){
+    fromTimeController.text = "";
+    toTimeController.text = "";
+    fromTimeServer = "";
+    toTimeServer = "";
+  }
 
 }

@@ -83,12 +83,12 @@ extension GetItInjectableX on _i1.GetIt {
       registerFor: {_prod},
     );
     gh.lazySingleton<_i7.Configuration>(
-      () => _i7.DevConfiguration(),
-      registerFor: {_dev},
-    );
-    gh.lazySingleton<_i7.Configuration>(
       () => _i7.StagingConfiguration(),
       registerFor: {_test},
+    );
+    gh.lazySingleton<_i7.Configuration>(
+      () => _i7.DevConfiguration(),
+      registerFor: {_dev},
     );
     gh.lazySingleton<_i8.Dio>(() => injectableModule.dioInstance);
     gh.factory<_i9.LoginLocalDataSource>(() =>

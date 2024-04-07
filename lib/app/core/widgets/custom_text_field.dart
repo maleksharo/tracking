@@ -167,6 +167,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           : state.hasError && state.errorText != null
                           ? Text(
                         state.errorText ?? '',
+                        maxLines: 2,
                         style: FontUtils.nexaTextStyle.copyWith(
                           fontSize: 14,
                           color: ColorManager.red,
