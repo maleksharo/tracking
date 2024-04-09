@@ -109,7 +109,7 @@ class _VehicleRoutesSheetState extends State<VehicleRoutesSheet> {
                             }
                           },
                           onTab: () async {
-                            DateTime? selectedDateTime = await selectDate(context: context, hours: 09, min: 00);
+                            DateTime? selectedDateTime = await selectDate(context: context, hours: 07, min: 00);
                             if (selectedDateTime != null) {
                               DateTime combinedDateTime = combineDateAndTime(selectedDateTime, selectedTime);
                               homeCubit.fromTimeController.text = combinedDateTime.toString().removeSeconds();

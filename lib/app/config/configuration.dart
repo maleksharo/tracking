@@ -23,5 +23,5 @@ class StagingConfiguration extends Configuration {
 class ProductionConfiguration extends Configuration {
   final AppPreferences appPreferences = getIt<AppPreferences>();
   @override
-  String get getBaseUrl => "https://${appPreferences.getString(prefsKey: prefsBaseUrl)}itieit.com/api/" ;
+  String get getBaseUrl => "${appPreferences.getString(prefsKey: prefsBaseUrl)}/api/" ;
 }

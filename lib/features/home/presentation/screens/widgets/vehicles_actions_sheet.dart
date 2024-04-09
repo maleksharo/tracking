@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:tracking/app/resources/assets_manager.dart';
 import 'package:tracking/app/resources/color_manager.dart';
+import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/report_sheet.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/vehicle_routes_sheet.dart';
 
@@ -72,49 +74,64 @@ class _VehiclesActionsSheetState extends State<VehiclesActionsSheet> {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            PrimaryButton(
-                              width: 0.2.sw,
-                              icon: const Icon(Icons.flag),
-                              isLoading: state is GetCarLocationLoadingState,
-                              onPressed: () {
-                                if (entity != null) {
-                                  widget.onShowRoutePressed(entity!);
-                                } else {
-                                  Fluttertoast.showToast(msg: "Select vehicle first");
-                                }
-                              },
+                            Column(
+                              children: [
+                                PrimaryButton(
+                                  width: 0.2.sw,
+                                  icon: const Icon(Icons.flag),
+                                  isLoading: state is GetCarLocationLoadingState,
+                                  onPressed: () {
+                                    if (entity != null) {
+                                      widget.onShowRoutePressed(entity!);
+                                    } else {
+                                      Fluttertoast.showToast(msg: "Select vehicle first");
+                                    }
+                                  },
+                                ),
+                                Text(LocaleKeys.lastTrip.tr()),
+                              ],
                             ),
-                            PrimaryButton(
-                              width: 0.2.sw,
-                              icon: const Icon(Icons.description),
-                              // text: LocaleKeys.tripReport.tr(),
-                              onPressed: () {
-                                homeCubit.clearTimes();
-                                if (entity != null) {
-                                  homeCubit.tracCarDeviceId = entity!.deviceId;
-                                  ReportsSheet.show(
-                                    context: context,
-                                  );
-                                } else {
-                                  Fluttertoast.showToast(msg: "Select vehicle first");
-                                }
-                              },
+                            Column(
+                              children: [
+                                PrimaryButton(
+                                  width: 0.2.sw,
+                                  icon: const Icon(Icons.description),
+                                  // text: LocaleKeys.tripReport.tr(),
+                                  onPressed: () {
+                                    homeCubit.clearTimes();
+                                    if (entity != null) {
+                                      homeCubit.tracCarDeviceId = entity!.deviceId;
+                                      ReportsSheet.show(
+                                        context: context,
+                                      );
+                                    } else {
+                                      Fluttertoast.showToast(msg: "Select vehicle first");
+                                    }
+                                  },
+                                ),
+                                Text(LocaleKeys.tripReport.tr()),
+                              ],
                             ),
-                            PrimaryButton(
-                              width: 0.2.sw,
-                              icon: const Icon(Icons.route_sharp),
-                              onPressed: () {
-                                homeCubit.clearTimes();
+                            Column(
+                              children: [
+                                PrimaryButton(
+                                  width: 0.2.sw,
+                                  icon: const Icon(Icons.route_sharp),
+                                  onPressed: () {
+                                    homeCubit.clearTimes();
 
-                                if (entity != null) {
-                                  homeCubit.tracCarDeviceId = entity!.deviceId;
-                                  VehicleRoutesSheet.show(
-                                    context: context,
-                                  );
-                                } else {
-                                  Fluttertoast.showToast(msg: "Select vehicle first");
-                                }
-                              },
+                                    if (entity != null) {
+                                      homeCubit.tracCarDeviceId = entity!.deviceId;
+                                      VehicleRoutesSheet.show(
+                                        context: context,
+                                      );
+                                    } else {
+                                      Fluttertoast.showToast(msg: "Select vehicle first");
+                                    }
+                                  },
+                                ),
+                                Text(LocaleKeys.vehicleRoutes.tr()),
+                              ],
                             ),
                           ],
                         );

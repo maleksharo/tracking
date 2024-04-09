@@ -66,10 +66,11 @@
   "poweredBy": "Powered By",
   "endDateValidator": "End date must be after start date",
   "vehicleRoutes": "Vehicle routes",
-  "enterYourServer": "Enter your server domain",
+  "enterYourServer": "Enter your server",
   "apply": "Apply",
   "serverSelectedSuccessfully": "Server selected successfully",
   "serverIsWrong": "Please enter a valid server",
   "timeGap": "Time gap between end date and start date\nshould be max 6 hours",
-  "showOnMap": "Show on map"
+  "showOnMap": "Show on map",
+  "lastTrip": "Last trip"
 }

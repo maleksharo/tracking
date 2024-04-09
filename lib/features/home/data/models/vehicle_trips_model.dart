@@ -34,7 +34,7 @@ class VehicleTripsModel {
   final double? startLon;
   final double? endLat;
   final double? endLon;
-  final double? duration;
+  final String? duration;
   final double? distance;
   final dynamic startAddress;
   final dynamic endAddress;
@@ -60,7 +60,7 @@ class VehicleTripsModel {
         startLon: startLon.orZero(),
         endLat: endLat.orZero(),
         endLon: endLon.orZero(),
-        duration: duration.orZero(),
+        duration: duration.orEmpty(),
         distance: distance.orZero(),
         startAddress: startAddress ?? "",
         endAddress: endAddress ?? "",

@@ -67,7 +67,7 @@ class _TripOnMapScreenState extends State<TripOnMapScreen> {
                         state.recordsVehicleRoutesEntity.vehicleRoutes.first.latitude,
                         state.recordsVehicleRoutesEntity.vehicleRoutes.first.longitude,
                       ),
-                      18);
+                      11);
                 } else {
                   Fluttertoast.showToast(msg: LocaleKeys.noRouteFound.tr());
                 }
@@ -76,7 +76,7 @@ class _TripOnMapScreenState extends State<TripOnMapScreen> {
               if (state is MoveToCarLocation) {
                 mapController.move(
                   state.latLng,
-                  18,
+                  11,
                 );
               }
             },

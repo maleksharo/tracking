@@ -11,8 +11,6 @@ import 'package:tracking/app/resources/language_manager.dart';
 import 'package:tracking/app/resources/strings_manager.g.dart';
 import 'package:tracking/app/routes/router.gr.dart';
 
-import '../../auth/presentation/auth_cubit/auth_cubit.dart';
-
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -23,7 +21,6 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final AppPreferences appPreferences = getIt<AppPreferences>();
-  final authCubit = getIt<AuthCubit>();
 
   String? groupValue;
 
@@ -31,9 +28,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     groupValue = appPreferences.getAppLanguage();
-    // if (appPreferences.getString(prefsKey: prefsBaseUrl).isEmpty) {
-      authCubit.getServers();
-    // }
   }
 
   @override

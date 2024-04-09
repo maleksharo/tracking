@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:tracking/app/core/refresh_cubit/refresh_cubit.dart';
 import 'package:tracking/app/core/utils/string_extensions.dart';
 import 'package:tracking/app/core/widgets/custom_text_field.dart';
@@ -75,97 +74,111 @@ class _ReportsSheetState extends State<ReportsSheet> {
               key: formKey,
               child: Column(
                 children: [
-                  Card(
-                    child: ExpansionTile(
-                      title: Text(
-                        LocaleKeys.tripReport.tr(),
-                      ),
-                      initiallyExpanded: true,
-                      shape: const Border(
-                        top: BorderSide.none,
-                        bottom: BorderSide.none,
-                      ),
-                      childrenPadding: EdgeInsets.all(8.0.sp),
-                      children: [
-                        CustomTextField(
-                          controller: homeCubit.fromTimeController,
-                          labelText: LocaleKeys.startTime.tr(),
-                          hint: LocaleKeys.startTime.tr(),
-                          isFieldObscure: false,
-                          autoValidateMode: AutovalidateMode.onUserInteraction,
-                          textInputAction: TextInputAction.next,
-                          readOnly: true,
-                          validator: (val){
-                            if (val!.isEmpty) {
-                              return LocaleKeys.fieldRequired.tr();
-                            }
-                            else {
-                              return null;
-                            }
-                          },
-                          onTab: () async {
-                            DateTime? selectedDateTime = await selectDate(context: context,hours: 00,min: 00);
-                            if (selectedDateTime != null) {
-                              DateTime combinedDateTime = combineDateAndTime(selectedDateTime, selectedTime);
-                              homeCubit.fromTimeController.text = combinedDateTime.toString().removeSeconds();
-                              homeCubit.fromTimeServer = combinedDateTime.toUtc().toIso8601String();
-                            }
-
-                            refreshCubit.refresh();
-                          },
-                        ),
-                        10.verticalSpace,
-                        CustomTextField(
-                          controller: homeCubit.toTimeController,
-                          labelText: LocaleKeys.endTime.tr(),
-                          hint: LocaleKeys.endTime.tr(),
-                          isFieldObscure: false,
-                          validator: (value) {
-                            return compareDateValidator(
-                              endDateTime: homeCubit.toTimeController.text,
-                              startDateTime: homeCubit.fromTimeController.text,
-                              checkTimeGap: false,
-                            );
-                          },
-                          autoValidateMode: AutovalidateMode.onUserInteraction,
-                          textInputAction: TextInputAction.next,
-                          readOnly: true,
-                          onTab: () async {
-                            DateTime? selectedDateTime = await selectDate(context: context,hours: 23,min: 59);
-                            if (selectedDateTime != null) {
-                              DateTime combinedDateTime = combineDateAndTime(selectedDateTime, selectedTime);
-                              homeCubit.toTimeController.text = combinedDateTime.toString().removeSeconds();
-                              homeCubit.toTimeServer = combinedDateTime.toUtc().toIso8601String();
-                            }
-
-                            refreshCubit.refresh();
-                          },
-                        ),
-                        10.verticalSpace,
-                        BlocBuilder(
-                          bloc: homeCubit,
-                          builder: (context, state) {
-                            return PrimaryButton(
-                              width: 0.5.sw,
-                              text: LocaleKeys.ok.tr(),
-                              backgroundColor: checkButtonAvailability() ? null : ColorManager.grey ,
-
-                              isLoading: isLoading,
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  if (homeCubit.fromTimeServer.isNotEmpty && homeCubit.toTimeServer.isNotEmpty) {
-                                    homeCubit.getVehicleTripsBetweenTwoTime();
-                                  } else {
-                                    Fluttertoast.showToast(msg: LocaleKeys.fieldRequired.tr());
-                                  }
+                  Stack(
+                    children: [
+                      Card(
+                        child: ExpansionTile(
+                          title: Text(
+                            LocaleKeys.tripReport.tr(),
+                          ),
+                          initiallyExpanded: true,
+                          shape: const Border(
+                            top: BorderSide.none,
+                            bottom: BorderSide.none,
+                          ),
+                          childrenPadding: EdgeInsets.all(8.0.sp),
+                          children: [
+                            CustomTextField(
+                              controller: homeCubit.fromTimeController,
+                              labelText: LocaleKeys.startTime.tr(),
+                              hint: LocaleKeys.startTime.tr(),
+                              isFieldObscure: false,
+                              autoValidateMode: AutovalidateMode.onUserInteraction,
+                              textInputAction: TextInputAction.next,
+                              readOnly: true,
+                              validator: (val) {
+                                if (val!.isEmpty) {
+                                  return LocaleKeys.fieldRequired.tr();
+                                } else {
+                                  return null;
                                 }
                               },
-                            );
-                          },
+                              onTab: () async {
+                                DateTime? selectedDateTime = await selectDate(context: context, hours: 07, min: 00);
+                                if (selectedDateTime != null) {
+                                  DateTime combinedDateTime = combineDateAndTime(selectedDateTime, selectedTime);
+                                  homeCubit.fromTimeController.text = combinedDateTime.toString().removeSeconds();
+                                  homeCubit.fromTimeServer = combinedDateTime.toUtc().toIso8601String();
+                                }
+
+                                refreshCubit.refresh();
+                              },
+                            ),
+                            10.verticalSpace,
+                            CustomTextField(
+                              controller: homeCubit.toTimeController,
+                              labelText: LocaleKeys.endTime.tr(),
+                              hint: LocaleKeys.endTime.tr(),
+                              isFieldObscure: false,
+                              validator: (value) {
+                                return compareDateValidator(
+                                  endDateTime: homeCubit.toTimeController.text,
+                                  startDateTime: homeCubit.fromTimeController.text,
+                                  checkTimeGap: false,
+                                );
+                              },
+                              autoValidateMode: AutovalidateMode.onUserInteraction,
+                              textInputAction: TextInputAction.next,
+                              readOnly: true,
+                              onTab: () async {
+                                DateTime? selectedDateTime = await selectDate(context: context, hours: 23, min: 59);
+                                if (selectedDateTime != null) {
+                                  DateTime combinedDateTime = combineDateAndTime(selectedDateTime, selectedTime);
+                                  homeCubit.toTimeController.text = combinedDateTime.toString().removeSeconds();
+                                  homeCubit.toTimeServer = combinedDateTime.toUtc().toIso8601String();
+                                }
+
+                                refreshCubit.refresh();
+                              },
+                            ),
+                            10.verticalSpace,
+                            BlocBuilder(
+                              bloc: homeCubit,
+                              builder: (context, state) {
+                                return PrimaryButton(
+                                  width: 0.5.sw,
+                                  text: LocaleKeys.ok.tr(),
+                                  backgroundColor: checkButtonAvailability() ? null : ColorManager.grey,
+                                  isLoading: isLoading,
+                                  onPressed: () {
+                                    if (formKey.currentState!.validate()) {
+                                      if (homeCubit.fromTimeServer.isNotEmpty && homeCubit.toTimeServer.isNotEmpty) {
+                                        homeCubit.getVehicleTripsBetweenTwoTime();
+                                      } else {
+                                        Fluttertoast.showToast(msg: LocaleKeys.fieldRequired.tr());
+                                      }
+                                    }
+                                  },
+                                );
+                              },
+                            ),
+                            10.verticalSpace,
+                          ],
                         ),
-                        10.verticalSpace,
-                      ],
-                    ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.clear,
+                            color: ColorManager.grey,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   10.verticalSpace,
                   BlocConsumer(

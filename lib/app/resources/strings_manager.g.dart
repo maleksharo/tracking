@@ -74,4 +74,6 @@ abstract class  LocaleKeys {
   static const serverIsWrong = 'serverIsWrong';
   static const timeGap = 'timeGap';
   static const showOnMap = 'showOnMap';
+  static const lastTrip = 'lastTrip';
+
 }

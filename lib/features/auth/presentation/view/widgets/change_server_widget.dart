@@ -30,9 +30,15 @@ class _ServersDropDownWidgetState extends State<ServersDropDownWidget> {
   @override
   void initState() {
     super.initState();
-    serverController = TextEditingController(
-      text: appPreferences.getString(prefsKey: prefsBaseUrl),
+    if(appPreferences.getString(prefsKey: prefsBaseUrl).isEmpty) {
+      serverController = TextEditingController(
+      text: "https://${appPreferences.getString(prefsKey: prefsBaseUrl)}",
     );
+    } else {
+      serverController = TextEditingController(
+        text: appPreferences.getString(prefsKey: prefsBaseUrl),
+      );
+    }
   }
 
   @override
@@ -58,10 +64,10 @@ class _ServersDropDownWidgetState extends State<ServersDropDownWidget> {
               text: LocaleKeys.apply.tr(),
               onPressed: () async {
                 if (formKey.currentState?.validate() ?? true) {
-                  if (widget.serversList.contains(serverController.text.toLowerCase())) {
+                  // if (widget.serversList.contains(serverController.text.toLowerCase())) {
                     Fluttertoast.showToast(msg: LocaleKeys.serverSelectedSuccessfully.tr()).then(
                       (value) async => await appPreferences
-                          .setString(prefsKey: prefsBaseUrl, value: "${serverController.text}.")
+                          .setString(prefsKey: prefsBaseUrl, value: "${serverController.text}")
                           .then(
                         (value) async {
                           if (widget.isLogout) await appPreferences.logout();
@@ -69,9 +75,9 @@ class _ServersDropDownWidgetState extends State<ServersDropDownWidget> {
                         },
                       ),
                     );
-                  } else {
-                    Fluttertoast.showToast(msg: LocaleKeys.serverIsWrong.tr());
-                  }
+                  // } else {
+                  //   Fluttertoast.showToast(msg: LocaleKeys.serverIsWrong.tr());
+                  // }
                 }
               }),
         ],

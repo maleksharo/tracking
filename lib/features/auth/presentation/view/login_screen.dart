@@ -40,8 +40,8 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
   @override
   void initState() {
     super.initState();
-
-    authCubit.getServers();
+    form.controllers[0].text = appPreferences.getString(prefsKey: prefsEmail);
+    form.controllers[1].text = appPreferences.getString(prefsKey: prefsPassword);
   }
 
   @override
@@ -179,26 +179,26 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
         onConfirm: _onLoginTapped,
       );
     }
-    if(state is GetServersLoadingState){
-      progressDialog(context: context);
-    }
-    if (state is GetServersFailState) {
-      Navigator.pop(context);
-      alertDialog(
-        context: context,
-        image: SvgManager.infoWarning,
-        message: state.message,
-        approveButtonTitle: LocaleKeys.retry,
-        onConfirm: () {
-          authCubit.getServers();
-        },
-      );
-    }
+    // if(state is GetServersLoadingState){
+    //   progressDialog(context: context);
+    // }
+    // if (state is GetServersFailState) {
+    //   Navigator.pop(context);
+    //   alertDialog(
+    //     context: context,
+    //     image: SvgManager.infoWarning,
+    //     message: state.message,
+    //     approveButtonTitle: LocaleKeys.retry,
+    //     onConfirm: () {
+    //       authCubit.getServers();
+    //     },
+    //   );
+    // }
 
-    if (state is GetServersSuccessState) {
-      Navigator.pop(context);
-      servers.addAll(state.servers);
-    }
+    // if (state is GetServersSuccessState) {
+    //   Navigator.pop(context);
+    //   servers.addAll(state.servers);
+    // }
   }
 
   @override

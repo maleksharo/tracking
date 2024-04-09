@@ -29,7 +29,7 @@ VehicleTripsModel _$VehicleTripsModelFromJson(Map<String, dynamic> json) =>
       startLon: (json['startLon'] as num?)?.toDouble(),
       endLat: (json['endLat'] as num?)?.toDouble(),
       endLon: (json['endLon'] as num?)?.toDouble(),
-      duration: (json['duration'] as num?)?.toDouble(),
+      duration: json['duration'] as String?,
       distance: (json['distance'] as num?)?.toDouble(),
       startAddress: json['startAddress'],
       endAddress: json['endAddress'],

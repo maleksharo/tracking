@@ -17,7 +17,7 @@ class VehicleTripsEntity extends Entity {
   final double startLon;
   final double endLat;
   final double endLon;
-  final double duration;
+  final String duration;
   final double distance;
   final String startAddress;
   final String endAddress;
