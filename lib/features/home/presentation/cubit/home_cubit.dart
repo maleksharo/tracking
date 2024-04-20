@@ -228,7 +228,7 @@ class HomeCubit extends Cubit<HomeState> {
   List<Marker> generateDirectionMarkers() {
     List<Marker> markers = [];
 
-    int stepSize = (carLocationsRoute.length / 10).ceil();
+    int stepSize = (carLocationsRoute.length / 5).ceil();
 
     for (int i = 0; i < carLocationsRoute.length - 1; i += stepSize) {
       LatLng p1 = LatLng(carLocationsRoute[i].latitude, carLocationsRoute[i].longitude);
@@ -236,7 +236,7 @@ class HomeCubit extends Cubit<HomeState> {
           carLocationsRoute[min(i + stepSize, carLocationsRoute.length - 1)].latitude,
           carLocationsRoute[min(i + stepSize, carLocationsRoute.length - 1)].longitude);
 
-      double angle = atan2(p2.latitude - p1.latitude, p2.longitude - p1.longitude);
+      double angle = atan2(p1.latitude - p2.latitude, p1.longitude - p2.longitude);
 
       markers.add(
         Marker(
@@ -250,7 +250,6 @@ class HomeCubit extends Cubit<HomeState> {
               Icons.arrow_forward_ios,
               size: 20.sp,
               color: ColorManager.primaryOil,
-
             ),
           ),
         ),
@@ -259,7 +258,6 @@ class HomeCubit extends Cubit<HomeState> {
 
     return markers;
   }
-
 
   clearTimes(){
     fromTimeController.text = "";

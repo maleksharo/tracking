@@ -39,109 +39,99 @@ class _VehiclesActionsSheetState extends State<VehiclesActionsSheet> {
   final refreshCubit = getIt<RefreshCubit>();
   TextEditingController searchKeyController = TextEditingController();
   CarsDataEntity? entity;
-
+  bool isGetCarLastRouteLoading = false;
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topRight: Radius.circular(8.sp),
-        topLeft: Radius.circular(8.sp),
-      ),
-      child: DraggableScrollableSheet(
-        initialChildSize: 0.26,
-        minChildSize: 0.04,
-        maxChildSize: 1,
-        snap: true,
-        expand: false,
-        snapSizes: const [0.04, 0.26, 0.5, 0.7, 1],
-        builder: (context, scrollController) {
-          return Scaffold(
-              backgroundColor: ColorManager.lightGreyCalendar2,
-              body: SingleChildScrollView(
-                controller: scrollController,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      ImageManager.sheetHolder,
-                      width: 40.w,
-                      height: 20.h,
-                    ),
-                    searchField(),
-                    BlocBuilder(
-                      bloc: homeCubit,
-                      builder: (context, state) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return SizedBox(
+      height: 0.21.sh,
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(8.sp),
+          topLeft: Radius.circular(8.sp),
+        ),
+        child: Scaffold(
+            backgroundColor: ColorManager.lightGreyCalendar2,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                searchField(),
+                BlocConsumer(
+                  bloc: homeCubit,
+                  listener: (context,state){
+                    if(state is GetCarLocationLoadingState){isGetCarLastRouteLoading = true;}
+                    if(state is GetCarLocationSuccessState){isGetCarLastRouteLoading = false;}
+                    if(state is GetCarLocationFailedState){isGetCarLastRouteLoading = false;}
+                  },
+                  builder: (context, state) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
                           children: [
-                            Column(
-                              children: [
-                                PrimaryButton(
-                                  width: 0.2.sw,
-                                  icon: const Icon(Icons.flag),
-                                  isLoading: state is GetCarLocationLoadingState,
-                                  onPressed: () {
-                                    if (entity != null) {
-                                      widget.onShowRoutePressed(entity!);
-                                    } else {
-                                      Fluttertoast.showToast(msg: "Select vehicle first");
-                                    }
-                                  },
-                                ),
-                                Text(LocaleKeys.lastTrip.tr()),
-                              ],
+                            PrimaryButton(
+                              width: 0.2.sw,
+                              icon: const Icon(Icons.flag),
+                              isLoading: isGetCarLastRouteLoading,
+                              onPressed: () {
+                                if (entity != null) {
+                                  widget.onShowRoutePressed(entity!);
+                                } else {
+                                  Fluttertoast.showToast(msg: "Select vehicle first");
+                                }
+                              },
                             ),
-                            Column(
-                              children: [
-                                PrimaryButton(
-                                  width: 0.2.sw,
-                                  icon: const Icon(Icons.description),
-                                  // text: LocaleKeys.tripReport.tr(),
-                                  onPressed: () {
-                                    homeCubit.clearTimes();
-                                    if (entity != null) {
-                                      homeCubit.tracCarDeviceId = entity!.deviceId;
-                                      ReportsSheet.show(
-                                        context: context,
-                                      );
-                                    } else {
-                                      Fluttertoast.showToast(msg: "Select vehicle first");
-                                    }
-                                  },
-                                ),
-                                Text(LocaleKeys.tripReport.tr()),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                PrimaryButton(
-                                  width: 0.2.sw,
-                                  icon: const Icon(Icons.route_sharp),
-                                  onPressed: () {
-                                    homeCubit.clearTimes();
-
-                                    if (entity != null) {
-                                      homeCubit.tracCarDeviceId = entity!.deviceId;
-                                      VehicleRoutesSheet.show(
-                                        context: context,
-                                      );
-                                    } else {
-                                      Fluttertoast.showToast(msg: "Select vehicle first");
-                                    }
-                                  },
-                                ),
-                                Text(LocaleKeys.vehicleRoutes.tr()),
-                              ],
-                            ),
+                            Text(LocaleKeys.lastTrip.tr()),
                           ],
-                        );
-                      },
-                    ),
-                    10.verticalSpace,
-                  ],
+                        ),
+                        Column(
+                          children: [
+                            PrimaryButton(
+                              width: 0.2.sw,
+                              icon: const Icon(Icons.description),
+                              // text: LocaleKeys.tripReport.tr(),
+                              onPressed: () {
+                                homeCubit.clearTimes();
+                                if (entity != null) {
+                                  homeCubit.tracCarDeviceId = entity!.deviceId;
+                                  ReportsSheet.show(
+                                    context: context,
+                                  );
+                                } else {
+                                  Fluttertoast.showToast(msg: "Select vehicle first");
+                                }
+                              },
+                            ),
+                            Text(LocaleKeys.tripReport.tr()),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            PrimaryButton(
+                              width: 0.2.sw,
+                              icon: const Icon(Icons.route_sharp),
+                              onPressed: () {
+                                homeCubit.clearTimes();
+
+                                if (entity != null) {
+                                  homeCubit.tracCarDeviceId = entity!.deviceId;
+                                  VehicleRoutesSheet.show(
+                                    context: context,
+                                  );
+                                } else {
+                                  Fluttertoast.showToast(msg: "Select vehicle first");
+                                }
+                              },
+                            ),
+                            Text(LocaleKeys.vehicleRoutes.tr()),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
                 ),
-              ));
-        },
+                10.verticalSpace,
+              ],
+            )),
       ),
     );
   }

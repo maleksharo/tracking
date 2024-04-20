@@ -72,7 +72,7 @@ class AppPreferences {
   Future<void> logout() async {
     await _sharedPreferences.remove(prefsIsUserLoggedIn);
     await _sharedPreferences.remove(prefsToken);
-    await _sharedPreferences.remove(prefsBaseUrl);
+    // await _sharedPreferences.remove(prefsBaseUrl);
     Restart.restartApp();
   }
 }
