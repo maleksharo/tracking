@@ -45,7 +45,6 @@ class _VehiclesActionsSheetState extends State<VehiclesActionsSheet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     checkIfTheListContainsOneVehicle();
   }
@@ -53,7 +52,6 @@ class _VehiclesActionsSheetState extends State<VehiclesActionsSheet> {
   checkIfTheListContainsOneVehicle() async {
     Timer.periodic(const Duration(seconds: 2), (timer) {
       if (widget.carsList.length == 1) {
-        print(widget.carsList.length);
         searchKeyController = TextEditingController(text: widget.carsList.first.deviceName);
         entity = widget.carsList.first;
         widget.onCarSelected(
