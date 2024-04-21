@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +42,34 @@ class _VehiclesActionsSheetState extends State<VehiclesActionsSheet> {
   TextEditingController searchKeyController = TextEditingController();
   CarsDataEntity? entity;
   bool isGetCarLastRouteLoading = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkIfTheListContainsOneVehicle();
+  }
+
+  checkIfTheListContainsOneVehicle() async {
+    Timer.periodic(const Duration(seconds: 2), (timer) {
+      if (widget.carsList.length == 1) {
+        print(widget.carsList.length);
+        searchKeyController = TextEditingController(text: widget.carsList.first.deviceName);
+        entity = widget.carsList.first;
+        widget.onCarSelected(
+          LatLng(
+            widget.carsList.first.locationEntity.latitude,
+            widget.carsList.first.locationEntity.longitude,
+          ),
+        );
+        refreshCubit.refresh();
+        timer.cancel();
+      } else if (widget.carsList.isNotEmpty){
+        timer.cancel();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -54,13 +84,24 @@ class _VehiclesActionsSheetState extends State<VehiclesActionsSheet> {
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                searchField(),
+                BlocBuilder(
+                  bloc: refreshCubit,
+                  builder: (context, state) {
+                    return searchField();
+                  },
+                ),
                 BlocConsumer(
                   bloc: homeCubit,
-                  listener: (context,state){
-                    if(state is GetCarLocationLoadingState){isGetCarLastRouteLoading = true;}
-                    if(state is GetCarLocationSuccessState){isGetCarLastRouteLoading = false;}
-                    if(state is GetCarLocationFailedState){isGetCarLastRouteLoading = false;}
+                  listener: (context, state) {
+                    if (state is GetCarLocationLoadingState) {
+                      isGetCarLastRouteLoading = true;
+                    }
+                    if (state is GetCarLocationSuccessState) {
+                      isGetCarLastRouteLoading = false;
+                    }
+                    if (state is GetCarLocationFailedState) {
+                      isGetCarLastRouteLoading = false;
+                    }
                   },
                   builder: (context, state) {
                     return Row(
