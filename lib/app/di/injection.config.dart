@@ -57,9 +57,9 @@ import 'package:tracking/features/home/presentation/cubit/home_cubit.dart'
     as _i28;
 import 'package:tracking/features/settings/cubit/settings_cubit.dart' as _i10;
 
-const String _prod = 'prod';
-const String _test = 'test';
 const String _dev = 'dev';
+const String _test = 'test';
+const String _prod = 'prod';
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -79,16 +79,16 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i6.AuthInterceptor>(
         () => _i6.AuthInterceptor(gh<_i3.AppPreferences>()));
     gh.lazySingleton<_i7.Configuration>(
-      () => _i7.ProductionConfiguration(),
-      registerFor: {_prod},
+      () => _i7.DevConfiguration(),
+      registerFor: {_dev},
     );
     gh.lazySingleton<_i7.Configuration>(
       () => _i7.StagingConfiguration(),
       registerFor: {_test},
     );
     gh.lazySingleton<_i7.Configuration>(
-      () => _i7.DevConfiguration(),
-      registerFor: {_dev},
+      () => _i7.ProductionConfiguration(),
+      registerFor: {_prod},
     );
     gh.lazySingleton<_i8.Dio>(() => injectableModule.dioInstance);
     gh.factory<_i9.LoginLocalDataSource>(() =>
