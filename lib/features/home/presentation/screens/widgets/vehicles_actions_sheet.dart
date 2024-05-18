@@ -168,7 +168,7 @@ class _VehiclesActionsSheetState extends State<VehiclesActionsSheet> {
                     );
                   },
                 ),
-                10.verticalSpace,
+                7.verticalSpace,
               ],
             )),
       ),
