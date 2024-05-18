@@ -55,5 +55,8 @@ rename setAppName --targets ios,android --value "Itieit Tracking"
 ```shell
 rename setBundleId --targets ios,android --value "com.itieit.tracking"
 ```
+```shell
+pod deintegrate && sudo gem install cocoapods-clean && pod clean && pod setup && pod install 
+```
 test1@itieit.com
 P@ssw0rd
