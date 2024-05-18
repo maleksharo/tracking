@@ -58,5 +58,11 @@
         </array>
       </dict>
     </array>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs to use the camera</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app needs to use the location</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs to use the location</string>
 </dict>
 </plist>
