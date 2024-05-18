@@ -66,9 +66,7 @@ class _ServersDropDownWidgetState extends State<ServersDropDownWidget> {
                 if (formKey.currentState?.validate() ?? true) {
                   // if (widget.serversList.contains(serverController.text.toLowerCase())) {
                     Fluttertoast.showToast(msg: LocaleKeys.serverSelectedSuccessfully.tr()).then(
-                      (value) async => await appPreferences
-                          .setString(prefsKey: prefsBaseUrl, value: "${serverController.text}")
-                          .then(
+                      (value) async => await appPreferences.setString(prefsKey: prefsBaseUrl, value: serverController.text).then(
                         (value) async {
                           if (widget.isLogout) await appPreferences.logout();
                           return Restart.restartApp();
@@ -83,5 +81,13 @@ class _ServersDropDownWidgetState extends State<ServersDropDownWidget> {
         ],
       ),
     );
+  }
+}
+
+extension AddBaseUrl on String {
+  String addBaseUrl() {
+    AppPreferences appPreferences = AppPreferences();
+
+    return appPreferences.getString(prefsKey: prefsBaseUrl) + this;
   }
 }
