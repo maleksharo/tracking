@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -17,6 +17,9 @@ import 'package:tracking/features/home/presentation/screens/widgets/home_drawer.
 import 'package:tracking/features/home/presentation/screens/widgets/tile_providers.dart';
 import 'package:tracking/features/home/presentation/screens/widgets/vehicles_actions_sheet.dart';
 
+import '../../../../app/app_prefs.dart';
+import '../../../../app/core/interceptors/auth_interceptor.dart';
+
 @RoutePage()
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -31,10 +34,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   TextEditingController searchKeyController = TextEditingController();
   final mapController = MapController();
   List<CarsDataEntity> carsList = [];
+  final _appPreferences = getIt<AppPreferences>();
+
+  @override
+  void didChangeDependencies() {
+    _appPreferences.getLocale().then((locale) => {context.setLocale(locale)});
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
     super.initState();
+    getIt<Dio>().interceptors.add(getIt<AuthInterceptor>());
+
     homeCubit.getVehiclesData(firstTime: true, homeSource: false);
 
     homeCubit.getVehiclesData(firstTime: true);

@@ -36,7 +36,6 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
   final refreshCubit = getIt<RefreshCubit>();
   List<String> servers = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   void initState() {
     super.initState();
@@ -48,6 +47,15 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      onDrawerChanged: (value) {
+        if(value == false) {
+          Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()),
+          ModalRoute.withName(LoginRoute.name),
+        );
+        }
+      },
       bottomNavigationBar: const CopyRight(),
       backgroundColor: ColorManager.white,
       drawer: LoginDrawer(

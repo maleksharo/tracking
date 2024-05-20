@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:restart_app/restart_app.dart';
+import 'package:injectable/injectable.dart';
 import 'package:tracking/app/core/widgets/custom_text_field.dart';
 
 import '../../../../../app/app_prefs.dart';
@@ -68,9 +68,9 @@ class _ServersDropDownWidgetState extends State<ServersDropDownWidget> {
                     Fluttertoast.showToast(msg: LocaleKeys.serverSelectedSuccessfully.tr()).then(
                       (value) async => await appPreferences.setString(prefsKey: prefsBaseUrl, value: serverController.text).then(
                         (value) async {
-                          if (widget.isLogout) await appPreferences.logout();
-                          return Restart.restartApp();
-                        },
+                        if (widget.isLogout) await appPreferences.logout();
+                        await configureInjection(Environment.prod);
+                      },
                       ),
                     );
                   // } else {
