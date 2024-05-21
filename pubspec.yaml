@@ -19,13 +19,11 @@ dependencies:
   dio: ^5.4.1
   logger: ^2.0.2+1
   easy_localization: ^3.0.5
-#  geolocator: ^11.0.0
   get_it: ^7.6.7
   flutter_svg: ^2.0.10+1
   dartz: ^0.10.1
   awesome_dio_interceptor: ^1.1.0
   shared_preferences: ^2.2.2
-#  permission_handler: ^11.3.0
   form_builder_validators: ^9.1.0
   url_launcher: ^6.2.5
   connectivity_plus: ^5.0.2
@@ -33,14 +31,8 @@ dependencies:
   path_provider: ^2.1.2
   lottie: ^2.7.0
   cached_network_image: ^3.3.1
-#  freezed_annotation: ^2.4.1
   equatable: ^2.0.5
-#  infinite_scroll_pagination: ^4.0.0
-#  dropdown_button2: ^2.3.9
-#  image_picker: ^1.0.7
-#  getwidget: ^4.0.0
   flutter_polyline_points: ^2.0.0
-#  linked_scroll_controller: ^0.2.0
   flutter_map: ^6.1.0
   latlong2: ^0.9.0
   flutter_map_cancellable_tile_provider: ^2.0.0

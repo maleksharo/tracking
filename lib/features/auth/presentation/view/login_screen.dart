@@ -60,6 +60,9 @@ class _LoginScreenState extends State<LoginScreen> with FormStateMixin, TickerPr
       backgroundColor: ColorManager.white,
       drawer: LoginDrawer(
         servers: servers,
+        onApplyPressed: () {
+          _scaffoldKey.currentState!.closeDrawer();
+        },
       ),
       body: SafeArea(
         child: Padding(
