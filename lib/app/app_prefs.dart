@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
-import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tracking/features/auth/domain/usecase/set_user_info_usecase.dart';
 
@@ -73,6 +72,6 @@ class AppPreferences {
     await _sharedPreferences.remove(prefsIsUserLoggedIn);
     await _sharedPreferences.remove(prefsToken);
     // await _sharedPreferences.remove(prefsBaseUrl);
-    Restart.restartApp();
+    await configureInjection(Environment.prod);
   }
 }

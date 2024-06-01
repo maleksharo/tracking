@@ -18,6 +18,7 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
+    log(appPreferences.getString(prefsKey: prefsToken),name: "TOKEN");
     final token = appPreferences.getString(prefsKey: prefsToken);
     if (token.isNotEmpty) {
       Map<String, String> headers;
